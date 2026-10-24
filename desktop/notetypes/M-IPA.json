@@ -1,0 +1,27 @@
+{
+  "name": "M-IPA",
+  "kind": "standard",
+  "css": "shared.css",
+  "fields": [
+    "Symbol",
+    "SoundAudio",
+    "Description",
+    "ExampleWord",
+    "ExampleAudio",
+    "Source",
+    "SourceLink",
+    "MnemosyneID"
+  ],
+  "templates": [
+    {
+      "name": "Symbol to sound",
+      "front": "M-IPA/symbol-to-sound.front.html",
+      "back": "M-IPA/symbol-to-sound.back.html"
+    },
+    {
+      "name": "Sound to symbol",
+      "front": "M-IPA/sound-to-symbol.front.html",
+      "back": "M-IPA/sound-to-symbol.back.html"
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+# The topic vocabulary (canon 22). Generation prompts include this file; cards pick their topic:: tags from it.
+#
+# - A card's FIRST topic:: tag is its home: the discipline that defines the idea and owns its notation, even when a
+#   statics or circuits lecture is where it came up. Tag = "topic::" + path, e.g. topic::physics::em::capacitance.
+# - Then one topic:: tag for each other discipline that uses it, and principle:: tags for what's underneath.
+# - Use the deepest node that fits. A new leaf is fine under an existing branch (say so in the card's `why`);
+#   a new branch is Aman's call.
+# - Where two paths used to mean the same thing, `aliases` says which one wins (see docs/runs for the retag).
+
+domains:
+  math:
+    arithmetic: [multiplication, squares, cubes, square-roots, fractions-and-decimals, divisibility-rules, logs, exponentials]
+    algebra: [logs-and-exponents, polynomials, inequalities]
+    trigonometry: [unit-circle, identities]
+    calculus: [limits, derivatives, integrals, series, multivariable, vector-calculus, differential-forms]
+    linear-algebra: [vectors, matrices, systems, row-reduction, determinants, subspaces, rank, bases, change-of-basis,
+                     transformations, eigen, invertibility, orthogonality, positive-definite, graphs]
+                     # graphs: incidence matrices and graph Laplacians (Strang, Grady; 2026-10-14)
+    differential-equations: [first-order, second-order, systems, laplace, pde]
+    complex-numbers: []
+    fourier: []
+    approximations: []
+    statistics: [probability, distributions, counting]
+  physics:
+    classical-mechanics: [kinematics, newton, energy, momentum, rotation, gravity, oscillations, waves, center-of-mass,
+                          fluids, central-forces, least-action, lagrangian, hamiltonian, phase-space, poisson-brackets,
+                          noether]   # waves: mechanical waves on strings and in media (2026-10-07, PHYS 221 L05)
+    em: [charge, electrostatics, field, field-lines, gauss, potential, conductors, capacitance, dielectrics, energy,
+         current, circuits, magnetism, induction, waves, motion-in-field, constants, inductance, ac-circuits,
+         laplace-and-images, multipoles, magnetic-materials, maxwell, conservation-laws, gauges, radiation, relativistic]
+    thermo: [temperature, heat, heat-transfer, expansion, ideal-gas, real-gas, kinetic-theory, processes, laws,
+             potentials, heat-capacity, phase-change, phases, radiation, statistical]
+    relativity: [lorentz, four-vectors, kinematics, dynamics]
+    quantum: [blackbody, photoelectric, atomic-structure, wave-particle, uncertainty, schrodinger, formalism,
+              measurement, harmonic-oscillator, angular-momentum, spin, hydrogen, identical-particles, symmetries,
+              perturbation, variational, wkb, scattering, time-dependent, entanglement]
+    particle: [standard-model, leptons, quarks, hadrons, conservation-laws, symmetries, bound-states, feynman-diagrams,
+               decays-and-cross-sections, qed, qcd, weak, neutrinos, gauge-theory]
+    optics: [geometric, wave]
+    constants: []
+  nuclear: [structure, mass-energy, decay, fission, fusion, reactor-physics, cross-sections, dosimetry, detection]
+  plasma: [fundamentals, magnetic-confinement, fusion, units]
+  mechanics:               # engineering mechanics: the MEEN framing (FBDs, supports, trusses)
+    statics: [equilibrium, supports, moments, trusses, frames, friction, distributed-loads, centroids]
+    dynamics: []
+    materials: []
+  chemistry: [moles, gas-laws, bonding, vsepr, colligative-properties, polyatomic-ions, fundamentals, atomic-structure,
+              periodic-trends]   # atomic-structure, periodic-trends: CHEM 107's legacy cards (2026-10-21 legacy audit)
+  metrology: [si-units, si-symbols-and-prefixes, unit-conversions, fps-and-engineering-units, orders-of-magnitude,
+              temperature, energy]
+  computing:               # metis, his computational apprenticeship (approved 2026-10-02, metis D-002)
+    shell: [filesystem, permissions, pipes, text-processing, processes, ssh, scripting]
+    git: [commits, branches, merging, rebase, history, collaboration]
+    environments: [venv, uv, conda, lockfiles]
+    python: [data-model, functions, closures, iterators, classes, exceptions, context-managers, typing, idioms,
+             packaging, datetimes]
+    testing: [pytest, fixtures, golden-master, round-trip, property-based]
+    debugging: [isolation, outliers, signatures, root-cause, safe-repair]
+    numpy: [arrays, shapes, broadcasting, indexing, views, dtypes, floating-point, nan]
+    plotting: [matplotlib]
+    data: [pandas, xarray, units, serialization, formats, sql]
+    numerics: [finite-differences, convergence, ode, root-finding, linear-systems, eigen, pde, fft, monte-carlo,
+               finite-elements, optimization]   # finite-elements: Strang ch 3, Bossavit's edge elements (2026-10-14)
+    signals: [spectral, filters, correlation, iq, detection, sampling]   # detection, sampling: study mode (2026-10-24)
+    estimation: [least-squares, kalman, bayesian]
+    manim: [scenes, mobjects, animations, design]   # design: composition, colour, motion craft (TASTE.md, 2026-10-24)
+    oop: [composition, inheritance, protocols, design]
+    cpp: [types, raii, memory, templates, build, bindings]
+    hpc: [slurm, parallelism]
+    ml: [fundamentals, pytorch, jax, gaussian-processes, uq]
+    tooling: [editor, debugger, linting, ci, latex]
+    ops: [scheduling, monitoring, deployment, sync]
+
+# Most fundamental first (canon 22; Aman, 2026-10-21). When two courses card one idea, the card homed earliest here
+# gives the wording: a dot product is linear algebra's, whether Calc III, statics, or MATH 309 met it first. A topic
+# takes the first entry it falls under, so a branch listed before its parent outranks the rest of that parent. Ties go
+# to the course that is the topic's home (`homes` in courses.yaml), then to the card already in Anki. merge.py reads it.
+foundations:
+  - math::linear-algebra
+  - math::calculus
+  - math::differential-equations
+  - math
+  - physics::classical-mechanics
+  - physics::em
+  - physics::thermo
+  - physics::optics
+  - physics::quantum
+  - physics::relativity
+  - physics
+  - chemistry
+  - nuclear
+  - plasma
+  - mechanics
+  - metrology
+  - computing
+
+# What's underneath: tag every card whose idea rests on one of these, whatever its domain. They're the threads that
+# run across courses: the tutor and Aman's searches follow them (tag:principle::superposition).
+principles:
+  - conservation-of-energy
+  - conservation-of-charge
+  - conservation-of-momentum
+  - conservation-of-mass-energy
+  - equilibrium                # net force and net torque zero; detailed balance
+  - superposition              # linear systems add: fields, forces, ODE solutions, circuits
+  - linearity                  # operators, row reduction, linear ODEs, small-signal approximations
+  - symmetry                   # Gauss's law, invariance, choosing coordinates
+  - flux-and-divergence        # Gauss, continuity, divergence theorem
+  - inverse-square
+  - potential-and-gradient     # a force or field as the gradient of a potential; level sets
+  - exponential-growth-and-decay   # RC circuits, radioactive decay, Boltzmann factors
+  - harmonic-oscillation
+  - energy-storage             # fields, springs, capacitors, inductors
+  - quantization
+  - relativity-of-frames       # Galilean and Lorentz invariance
+  - least-action               # Lagrangian mechanics, Fermat's principle, path integrals
+  - gauge-invariance           # potentials in E&M, phases in QM, the forces of the standard model
+  - entropy-and-irreversibility
+  - equipartition
+  - dimensional-analysis
+  - limits-and-approximation   # small-angle, binomial, first order, asymptotes (canon 17)
+
+# Old path → the one that wins. Applied to new cards by the prompt; existing notes by a reviewed retag.
+aliases:
+  mechanics::vectors: math::linear-algebra::vectors
+  math::vectors: math::linear-algebra::vectors
+  physics::mechanics::energy: physics::classical-mechanics::energy
+  physics::mechanics::gravity: physics::classical-mechanics::gravity
+  physics::mechanics::center-of-mass: physics::classical-mechanics::center-of-mass
+  mechanics::newton: physics::classical-mechanics::newton
+  mechanics::units: metrology::si-units
+  physics::classical-mechanics::fundamentals: physics::classical-mechanics
+  physics::thermal-radiation: physics::thermo::radiation
+  physics::em::constants: physics::constants
+  math::calculus::integration: math::calculus::integrals
+  physics::modern-physics::quantum-and-atomic-physics: physics::quantum::atomic-structure
+  math::calculus::series::taylor-and-maclaurin-series: math::calculus::series
+  math::calculus::multivariable::3d-conics: math::calculus::multivariable
+  math::calculus::integrals::common-integrals: math::calculus::integrals
+  math::arithmetic::exponentials::powers-of-2: math::arithmetic::exponentials
+  math::arithmetic::exponentials::powers-of-3: math::arithmetic::exponentials
+  chemistry::chemical-bonding-and-molecular-structure: chemistry::bonding
+  chemistry::chemical-bonding-and-molecular-structure::vsepr-theory: chemistry::vsepr
+  physics::classical-mechanics::motion-in-two-or-three-dimensions: physics::classical-mechanics::kinematics

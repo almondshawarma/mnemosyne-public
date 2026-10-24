@@ -1,0 +1,14 @@
+{
+  "name": "mnemosyne",
+  "description": "Aman's mnemosyne plugins. Private: installs only for accounts that can read this repository.",
+  "owner": {
+    "name": "Aman Sharma"
+  },
+  "plugins": [
+    {
+      "name": "mnemosyne",
+      "source": "./.claude",
+      "description": "The mnemosyne-cards skill (card canon, golden set, review page workflow), the mnemosyne-tutor skill (tutoring from what Aman's Anki shows he knows), the mnemosyne-books skill (quoting, citing, and practice problems from his own textbooks), the mnemosyne-clips skill (Manim clips for /watch in his house style, rendered on the Obelisk), the mnemosyne-exam skill (exam prep from his lectures, practice exams, and memory: probes, cram sheet, worked solutions, review guide, his own formula sheet or the provided one explained), and the mnemosyne-weekly skill (the weekly audit: what the week's cards show, and changes he approves)."
+    }
+  ]
+}

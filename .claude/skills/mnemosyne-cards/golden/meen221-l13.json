@@ -1,0 +1,462 @@
+{
+ "status": "reviewed",
+ "reviewed_by": "aman",
+ "source": {
+  "kind": "slides",
+  "course": "MEEN221",
+  "lecture": 13,
+  "ref": "MEEN 221 L13 - Distributed Load (annotated)",
+  "link": "http://<obelisk>:8000/documents/440/details"
+ },
+ "signals": [
+  "red star + 'on exam' next to 'Two Force Members (5.4)' on the agenda (slide 2)",
+  "handwritten general rules for support reactions (slide 10)",
+  "handwritten FBD contents: applied loads, support reactions, weight; label knowns and unknowns (slide 9)"
+ ],
+ "cards": [
+  {
+   "key": "800a0f6056",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Magnitude of the resultant of a distributed load \\(w(x)\\)",
+    "Back": "\\(F_R=\\displaystyle\\int_L w(x)\\,dx\\): the area under the load curve",
+    "SpeakFront": "magnitude of the resultant of a distributed load w of x",
+    "SpeakBack": "the integral of w of x over the length; the area under the load curve",
+    "Elaboration": "Units: w in N/m, so the area is in N.",
+    "Source": "MEEN221 L13 slides 3–4",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     1,
+     6
+    ],
+    "from": "slide 4",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:37:23.275Z"
+   }
+  },
+  {
+   "key": "5ead2129ab",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Where does the resultant of a distributed load act?",
+    "Back": "At \\(\\bar x=\\dfrac{\\int x\\,w\\,dx}{\\int w\\,dx}\\): through the centroid of the load area",
+    "SpeakFront": "where does the resultant of a distributed load act?",
+    "SpeakBack": "at x bar equals the integral of x w d x over the integral of w d x; through the centroid of the load area",
+    "Elaboration": "Comes from matching moments: \\(\\bar xF_R=\\int xw\\,dx\\). Uniform load: midpoint. Triangular: 1/3 from the heavy end.",
+    "Source": "MEEN221 L13 slide 5",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     6
+    ],
+    "from": "slide 5",
+    "note": "The uniform and triangular cases in Elaboration are derivable checks, not new facts."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:37:35.658Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Back": "\\(\\sum\\vec F=0\\) and \\(\\sum\\vec M_O=0\\)",
+    "Elaboration": "A particle needs only \\(\\sum\\vec F=0\\): concurrent forces produce no moment.",
+    "Front": "Equilibrium conditions for a rigid body",
+    "Source": "MEEN221 L13 slide 7",
+    "SourceLink": "",
+    "SpeakBack": "the sum of forces and the sum of moments about any point are both zero",
+    "SpeakFront": "equilibrium conditions for a rigid body"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the particle comparison moves to Elaboration. A contrast card only earns its place when both sides are already known on their own."
+   },
+   "key": "5a9bd7c044",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:03:02+00:00"
+   }
+  },
+  {
+   "key": "3055c6ae0b",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "How many independent scalar equilibrium equations does a 2D rigid body give, and which?",
+    "Back": "3: \\(\\sum F_x=0,\\ \\sum F_y=0,\\ \\sum M_O=0\\)",
+    "SpeakFront": "how many independent scalar equilibrium equations does a two D rigid body give, and which?",
+    "SpeakBack": "three: sum of F x, sum of F y, and sum of moments about a point, each zero",
+    "Elaboration": "So one FBD can solve at most 3 unknowns. Taking moments about a point where unknowns meet removes them.",
+    "Source": "MEEN221 L13 slide 8",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     2
+    ],
+    "from": "slide 8",
+    "note": "The count is the recall target. The equations are a three-item list, but they're one coherent statement, not a set to memorize."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:38:53.115Z"
+   }
+  },
+  {
+   "key": "80d6d812a6",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Reactions at a roller support (2D)",
+    "Back": "One force, normal to the surface the roller sits on",
+    "SpeakFront": "reactions at a roller support, in two D",
+    "SpeakBack": "one force, normal to the surface the roller sits on",
+    "Elaboration": "It only prevents motion into the surface.",
+    "Source": "MEEN221 L13 slide 10",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics::supports",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     13
+    ],
+    "from": "slide 10",
+    "note": "One card per support type instead of 'list the support types' (canon 13)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:39:15.879Z"
+   }
+  },
+  {
+   "key": "0ca1432931",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Reactions at a smooth pin or hinge (2D)",
+    "Back": "Two force components, \\(F_x\\) and \\(F_y\\); no moment",
+    "SpeakFront": "reactions at a smooth pin or hinge, in two D",
+    "SpeakBack": "two force components, F x and F y, and no moment",
+    "Elaboration": "It stops translation in both directions but lets the member rotate.",
+    "Source": "MEEN221 L13 slide 10",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics::supports",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     13
+    ],
+    "from": "slide 10",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:39:53.205Z"
+   }
+  },
+  {
+   "key": "85254bd1e2",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Reactions at a fixed support (2D)",
+    "Back": "\\(F_x\\), \\(F_y\\), and a couple moment \\(M\\)",
+    "SpeakFront": "reactions at a fixed support, in two D",
+    "SpeakBack": "F x, F y, and a couple moment M",
+    "Elaboration": "It stops both translation and rotation.",
+    "Source": "MEEN221 L13 slides 10, 13",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics::supports",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     13,
+     14
+    ],
+    "from": "slide 10",
+    "note": "The three support cards interfere by design. The type name in each prompt is the distinguishing cue."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:39:44.793Z"
+   }
+  },
+  {
+   "key": "2948f29db8",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "Why does a fixed support develop a moment reaction while a pin doesn't?",
+    "Back": "A support develops a couple moment only where it prevents rotation. A pin lets the member rotate; a fixed support doesn't.",
+    "SpeakFront": "why does a fixed support develop a moment reaction, while a pin does not?",
+    "SpeakBack": "a support only develops a couple moment where it prevents rotation; a pin lets the member rotate, a fixed support does not",
+    "Elaboration": "The general rule (slide 10 notes): a reaction force wherever translation is prevented, a couple moment wherever rotation is prevented, each in the opposite direction.",
+    "Source": "MEEN221 L13 slide 10 (notes)",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics::supports",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.85,
+   "golden": {
+    "canon": [
+     15
+    ],
+    "from": "annotation",
+    "note": "The handwritten general rule becomes a why-card. The support cards become consequences of one principle, not three facts to memorize."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:41:06.467Z"
+   }
+  },
+  {
+   "key": "d8a0d5ea3a",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "Two-force member (definition)",
+    "Back": "A member loaded at only two points, with its weight neglected, e.g. a link pinned at both ends",
+    "SpeakFront": "definition of a two force member",
+    "SpeakBack": "a member loaded at only two points, with its weight neglected, such as a link pinned at both ends",
+    "Elaboration": "Flagged 'on exam' in class.",
+    "Source": "MEEN221 L13 slides 17–18",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics",
+    "type::definition",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     10
+    ],
+    "from": "annotation",
+    "note": "The 'on exam' mark raises priority (canon 10: exam-flagged). One of three angles on this concept."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:41:18.419Z"
+   }
+  },
+  {
+   "key": "4c797b7fd0",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "Direction of the forces in a two-force member",
+    "Back": "Equal, opposite, and along the line joining the two load points A and B",
+    "SpeakFront": "direction of the forces in a two force member",
+    "SpeakBack": "equal and opposite, and along the line joining the two load points",
+    "Elaboration": "\\(\\sum\\vec F=0\\) makes them equal and opposite. \\(\\sum M_A=0\\) then puts the line of action through B. It works even for a curved member.",
+    "Source": "MEEN221 L13 slide 17",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     6,
+     15
+    ],
+    "from": "slide 17",
+    "note": "'Even curved' is the trap the slide's curved figure is testing."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:41:28.499Z"
+   }
+  }
+ ],
+ "skipped": [
+  {
+   "what": "Example 2 numbers (w = 60x² N/m over 2 m: F_R = 160 N, x̄ = 1.5 m)",
+   "why": "Worked practice problem, with blanks filled in class. Verified: ∫60x² = 160 N, ∫60x³/160 = 1.5 m. Practice, not recall."
+  },
+  {
+   "what": "'Forces a complete FBD must show'",
+   "why": "An enumeration (canon 13), and a procedure you drill by drawing FBDs, not by recall."
+  },
+  {
+   "what": "Truck ramp / oil-rig / pipes photos, Example 1 numbers",
+   "why": "Motivation and practice."
+  }
+ ],
+ "rejected": [
+  {
+   "key": "afe38e361f",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "Why does spotting a two-force member simplify an equilibrium problem?",
+    "Back": "Its force direction is already known (along AB), so it adds one unknown, the magnitude, instead of two",
+    "SpeakFront": "why does spotting a two force member simplify an equilibrium problem?",
+    "SpeakBack": "its force direction is known, along the line between its pins, so it adds one unknown instead of two",
+    "Elaboration": "Example 2: link CD carries a single force along CD, so taking moments about A solves \\(F_{CD}\\) directly.",
+    "Source": "MEEN221 L13 slides 18–20",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     15
+    ],
+    "from": "slide 18",
+    "note": "Angle 3: why it matters, tied to the worked example without carding its numbers."
+   },
+   "review": {
+    "verdict": "reject",
+    "reason": "this seems pretty self-explanatory?",
+    "at": "2026-09-25T04:41:51.193Z"
+   }
+  }
+ ],
+ "superseded": [
+  {
+   "key": "2b139d2e70",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Equilibrium conditions for a rigid body, compared with a particle",
+    "Back": "Rigid body: \\(\\sum\\vec F=0\\) and \\(\\sum\\vec M_O=0\\). Particle: \\(\\sum\\vec F=0\\) only.",
+    "SpeakFront": "equilibrium conditions for a rigid body, compared with a particle",
+    "SpeakBack": "a rigid body needs the sum of forces and the sum of moments both zero; a particle needs only the sum of forces",
+    "Elaboration": "Concurrent forces on a particle produce no moment, so no rotation is possible.",
+    "Source": "MEEN221 L13 slide 7",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::meen221::l13-distributed-load",
+    "topic::mechanics::statics",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "slide 7",
+    "note": "A contrast card is allowed because the contrast is the point (canon 1)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "this still feels a little too elaborative, when i'm not memorizing the conditions of both individually?",
+    "at": "2026-09-25T04:38:35.370Z"
+   },
+   "replaced_by": [
+    "5a9bd7c044"
+   ]
+  }
+ ]
+}

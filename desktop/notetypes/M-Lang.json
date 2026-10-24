@@ -1,0 +1,36 @@
+{
+  "name": "M-Lang",
+  "kind": "standard",
+  "css": "shared.css",
+  "fields": [
+    "Lang",
+    "Target",
+    "TargetAudio",
+    "Meaning",
+    "SpeakMeaning",
+    "IPA",
+    "Notes",
+    "Produce",
+    "Read",
+    "Source",
+    "SourceLink",
+    "MnemosyneID"
+  ],
+  "templates": [
+    {
+      "name": "Listen",
+      "front": "M-Lang/listen.front.html",
+      "back": "M-Lang/listen.back.html"
+    },
+    {
+      "name": "Produce",
+      "front": "M-Lang/produce.front.html",
+      "back": "M-Lang/produce.back.html"
+    },
+    {
+      "name": "Read",
+      "front": "M-Lang/read.front.html",
+      "back": "M-Lang/read.back.html"
+    }
+  ]
+}

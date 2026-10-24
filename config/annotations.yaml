@@ -1,0 +1,28 @@
+# How Aman marks lecture slides while taking notes. The lecture prompt reads this file, so change the convention here.
+# Built on what he already does (read off PHYS 207 L07 and PHYS 217 L06, 2026-09-29): he writes questions as
+# questions, stars what matters in red, and writes "card ideas:" next to things to card. No new pen colors needed.
+question:
+  color: any                 # no special color: a handwritten line that asks something is a question
+  symbol: "?"                # ending it with "?" is what makes it unmistakable
+  starred: a starred question is one he especially wants answered; say so at the start of its `about`
+  meaning: a question Aman wants to come back to
+must_card:
+  color: red                 # his existing habit: a red star next to what matters
+  symbol: "★"                # also the words "card", "card idea", "card:" next to something
+  meaning: this must become a card
+# Everything else he writes, in any color, is still emphasis: the strongest signal for what to card (canon 16).
+
+graded:
+  # Paper he marks himself against the answer key (read off PHYS 207 Exam I, 2026-10-06). Gradescope and Canvas
+  # returns come with the grader's rubric and comments instead.
+  his_answer: circled in pencil, the way he answered on the exam
+  key_answer: circled in red = the right answer, from the key
+  points: red "(1 pt)" or "(2 pts)" next to a question = the partial credit he got; no mark = full credit
+  correction: red writing = the key's working and his own diagnosis ("Don't drop sheet 1!!!"), the strongest evidence
+  online_returns: for Canvas or Gradescope, his diagnosis is a Paperless note on the document, one line per miss
+
+hyperion:
+  # Questions the model marks beyond_course (research, history, engineering practice) are queued as Hyperion
+  # investigations, at most this many per lecture. The rest wait for "Ask Hyperion" on the review page.
+  auto_beyond_course: true
+  max_per_lecture: 2

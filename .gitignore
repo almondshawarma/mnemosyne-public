@@ -1,0 +1,27 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.env
+# Real collections never enter the repo; fixtures are built from tests/fixtures/ at test time.
+*.colpkg
+*.apkg
+*.anki2
+*.anki21
+*.anki21b
+mnemosyne-cards.zip
+
+# Per-machine Claude Code settings (e.g. disabling the plugin copy of the skill inside this repo)
+.claude/settings.local.json
+
+# Obelisk deployment: secrets and settings stay on the server
+/secrets/
+/media/
+/.env
+
+# Manim renders copied back for checking (scripts/render.py); the clips live on the Obelisk
+/.render/
+/.watch/
+
+# Aman's design tokens, generated from helios_tokens.yaml (generate_tokens.py); never committed
+/scenes/brand.py

@@ -1,0 +1,194 @@
+# IPA symbols for M-IPA cards (PLAN §7). Each one's audio is the recording on its Wikipedia article (Wikimedia
+# Commons), fetched once by scripts/ipa_audio.py into data/audio/ipa/ with its author and license, and attached to
+# the card when it's written. `commons:` names the file directly where the article's choice isn't the right one.
+# Tags: ipa::voicing / ipa::place / ipa::manner for consonants (place names as on the IPA chart), ipa::height /
+# ipa::backness / ipa::rounding for vowels. Examples favor English, Spanish, Hindi, and French (the languages ahead),
+# and use another language only where those lack the sound. Rare sounds may have no example.
+consonants:
+  - {symbol: p, article: Voiceless bilabial plosive, voicing: voiceless, place: bilabial, manner: plosive,
+     examples: ["English <i>spin</i> [spɪn]", "Spanish <i>pan</i> [pan]", "Hindi पल [pəl]"]}
+  - {symbol: b, article: Voiced bilabial plosive, voicing: voiced, place: bilabial, manner: plosive,
+     examples: ["English <i>bed</i> [bɛd]", "Hindi बस [bəs]"]}
+  - {symbol: t, article: Voiceless dental and alveolar plosives, voicing: voiceless, place: alveolar, manner: plosive,
+     examples: ["English <i>stop</i> [stɑp]", "Spanish <i>tú</i> [t̪u] (dental)", "Hindi तब [t̪əb] (dental)"]}
+  - {symbol: d, article: Voiced dental and alveolar plosives, voicing: voiced, place: alveolar, manner: plosive,
+     examples: ["English <i>dog</i> [dɔɡ]", "Spanish <i>dos</i> [d̪os] (dental)"]}
+  - {symbol: ʈ, article: Voiceless retroflex plosive, voicing: voiceless, place: retroflex, manner: plosive,
+     examples: ["Hindi टमाटर [ʈəmaːʈəɾ] 'tomato'"]}
+  - {symbol: ɖ, article: Voiced retroflex plosive, voicing: voiced, place: retroflex, manner: plosive,
+     examples: ["Hindi डर [ɖəɾ] 'fear'"]}
+  - {symbol: c, article: Voiceless palatal plosive, voicing: voiceless, place: palatal, manner: plosive,
+     examples: ["Hungarian <i>kutya</i> [kucɒ] 'dog'"]}
+  - {symbol: ɟ, article: Voiced palatal plosive, voicing: voiced, place: palatal, manner: plosive,
+     examples: ["Hungarian <i>magyar</i> [mɒɟɒr]"]}
+  - {symbol: k, article: Voiceless velar plosive, voicing: voiceless, place: velar, manner: plosive,
+     examples: ["English <i>skin</i> [skɪn]", "Spanish <i>casa</i> [ˈkasa]", "Hindi कल [kəl]"]}
+  - {symbol: ɡ, article: Voiced velar plosive, voicing: voiced, place: velar, manner: plosive,
+     examples: ["English <i>go</i> [ɡoʊ]", "Hindi गम [ɡəm]"]}
+  - {symbol: q, article: Voiceless uvular plosive, voicing: voiceless, place: uvular, manner: plosive,
+     examples: ["Arabic قلب [qalb] 'heart'"]}
+  - {symbol: ɢ, commons: "Voiced uvular plosive.ogg", article: Voiced uvular plosive, voicing: voiced, place: uvular, manner: plosive,
+     examples: ["Persian قرمز [ɢærˈmez] 'red' (many speakers)"]}
+  - {symbol: ʔ, article: Glottal stop, voicing: voiceless, place: glottal, manner: plosive,
+     examples: ["English <i>uh-oh</i> [ˈʔʌʔoʊ]", "Arabic سأل [saʔala] 'he asked'"]}
+  - {symbol: m, article: Voiced bilabial nasal, voicing: voiced, place: bilabial, manner: nasal,
+     examples: ["English <i>man</i> [mæn]", "Hindi मन [mən]"]}
+  - {symbol: ɱ, article: Voiced labiodental nasal, voicing: voiced, place: labiodental, manner: nasal,
+     examples: ["English <i>comfort</i> [ˈkʌɱfɚt]", "Spanish <i>enfermo</i> [eɱˈfeɾmo]"]}
+  - {symbol: n, commons: "Alveolar nasal.ogg", article: Voiced dental, alveolar and postalveolar nasals, voicing: voiced, place: alveolar, manner: nasal,
+     examples: ["English <i>no</i> [noʊ]", "Spanish <i>nada</i> [ˈnaða]"]}
+  - {symbol: ɳ, article: Voiced retroflex nasal, voicing: voiced, place: retroflex, manner: nasal,
+     examples: ["Hindi गणेश [ɡəɳeːʃ]"]}
+  - {symbol: ɲ, article: Voiced palatal nasal, voicing: voiced, place: palatal, manner: nasal,
+     examples: ["Spanish <i>año</i> [ˈaɲo]", "French <i>gagner</i> [ɡaɲe]"]}
+  - {symbol: ŋ, article: Voiced velar nasal, voicing: voiced, place: velar, manner: nasal,
+     examples: ["English <i>sing</i> [sɪŋ]", "Hindi रंग [ɾəŋɡ]"]}
+  - {symbol: ɴ, article: Voiced uvular nasal, voicing: voiced, place: uvular, manner: nasal,
+     examples: ["Japanese 本 <i>hon</i> [hoɴ], at the end of an utterance"]}
+  - {symbol: ʙ, article: Voiced bilabial trill, voicing: voiced, place: bilabial, manner: trill,
+     examples: ["the lip trill of a shivered 'brrr'"]}
+  - {symbol: r, commons: "Alveolar trill.ogg", article: Voiced dental, alveolar and postalveolar trills, voicing: voiced, place: alveolar, manner: trill,
+     examples: ["Spanish <i>perro</i> [ˈpero]"]}
+  - {symbol: ʀ, commons: "Uvular trill.ogg", article: Voiced uvular trill, voicing: voiced, place: uvular, manner: trill,
+     examples: ["older stage French and German <i>r</i>"]}
+  - {symbol: ⱱ, article: Voiced labiodental flap, voicing: voiced, place: labiodental, manner: tap,
+     examples: []}
+  - {symbol: ɾ, article: Voiced dental and alveolar taps and flaps, voicing: voiced, place: alveolar, manner: tap,
+     examples: ["Spanish <i>pero</i> [ˈpeɾo]", "American English <i>water</i> [ˈwɔɾɚ]", "Hindi राम [ɾaːm]"]}
+  - {symbol: ɽ, article: Voiced retroflex flap, voicing: voiced, place: retroflex, manner: tap,
+     examples: ["Hindi सड़क [səɽək] 'road'"]}
+  - {symbol: ɸ, article: Voiceless bilabial fricative, voicing: voiceless, place: bilabial, manner: fricative,
+     examples: ["Japanese ふじ <i>Fuji</i> [ɸɯdʑi]"]}
+  - {symbol: β, article: Voiced bilabial fricative, voicing: voiced, place: bilabial, manner: fricative,
+     examples: ["Spanish <i>haba</i> [ˈaβa], b between vowels"]}
+  - {symbol: f, commons: "Voiceless labiodental fricative.ogg", article: Voiceless labiodental fricative, voicing: voiceless, place: labiodental, manner: fricative,
+     examples: ["English <i>fan</i> [fæn]", "Spanish <i>fe</i> [fe]"]}
+  - {symbol: v, commons: "Voiced labiodental fricative.ogg", article: Voiced labiodental fricative, voicing: voiced, place: labiodental, manner: fricative,
+     examples: ["English <i>van</i> [væn]", "French <i>vous</i> [vu]"]}
+  - {symbol: θ, article: Voiceless dental fricative, voicing: voiceless, place: dental, manner: fricative,
+     examples: ["English <i>thin</i> [θɪn]", "Castilian Spanish <i>cinco</i> [ˈθiŋko]"]}
+  - {symbol: ð, article: Voiced dental fricative, voicing: voiced, place: dental, manner: fricative,
+     examples: ["English <i>this</i> [ðɪs]", "Spanish <i>nada</i> [ˈnaða], d between vowels"]}
+  - {symbol: s, article: Voiceless alveolar fricative, voicing: voiceless, place: alveolar, manner: fricative,
+     examples: ["English <i>see</i> [si]", "Spanish <i>sí</i> [si]"]}
+  - {symbol: z, article: Voiced alveolar fricative, voicing: voiced, place: alveolar, manner: fricative,
+     examples: ["English <i>zoo</i> [zu]", "French <i>zéro</i> [zeʁo]"]}
+  - {symbol: ʃ, commons: "Voiceless palato-alveolar sibilant.ogg", article: Voiceless postalveolar fricative, voicing: voiceless, place: postalveolar, manner: fricative,
+     examples: ["English <i>she</i> [ʃi]", "French <i>chat</i> [ʃa]", "Hindi शाम [ʃaːm]"]}
+  - {symbol: ʒ, commons: "Voiced palato-alveolar sibilant.ogg", article: Voiced postalveolar fricative, voicing: voiced, place: postalveolar, manner: fricative,
+     examples: ["English <i>vision</i> [ˈvɪʒən]", "French <i>jour</i> [ʒuʁ]"]}
+  - {symbol: ʂ, commons: "Voiceless retroflex sibilant.ogg", article: Voiceless retroflex fricative, voicing: voiceless, place: retroflex, manner: fricative,
+     examples: ["Mandarin 是 <i>shì</i> [ʂɻ̩]", "Hindi ष in careful Sanskrit loans"]}
+  - {symbol: ʐ, commons: "Voiced retroflex sibilant.ogg", article: Voiced retroflex fricative, voicing: voiced, place: retroflex, manner: fricative,
+     examples: ["Russian жук [ʐuk] 'beetle'"]}
+  - {symbol: ç, article: Voiceless palatal fricative, voicing: voiceless, place: palatal, manner: fricative,
+     examples: ["German <i>ich</i> [ɪç]"]}
+  - {symbol: ʝ, article: Voiced palatal fricative, voicing: voiced, place: palatal, manner: fricative,
+     examples: ["Spanish <i>mayo</i> [ˈmaʝo]"]}
+  - {symbol: x, article: Voiceless velar fricative, voicing: voiceless, place: velar, manner: fricative,
+     examples: ["Spanish <i>jamón</i> [xaˈmon]", "German <i>Bach</i> [bax]", "Hindi/Urdu ख़ुश [xʊʃ]"]}
+  - {symbol: ɣ, article: Voiced velar fricative, voicing: voiced, place: velar, manner: fricative,
+     examples: ["Spanish <i>lago</i> [ˈlaɣo], g between vowels", "Hindi/Urdu ग़लत [ɣələt̪]"]}
+  - {symbol: χ, article: Voiceless uvular fricative, voicing: voiceless, place: uvular, manner: fricative,
+     examples: ["Castilian Spanish <i>jamón</i> [χaˈmon] (many speakers)", "Dutch <i>goed</i> [χut]"]}
+  - {symbol: ʁ, article: Voiced uvular fricative, voicing: voiced, place: uvular, manner: fricative,
+     examples: ["French <i>rouge</i> [ʁuʒ]", "German <i>rot</i> [ʁoːt]"]}
+  - {symbol: ħ, article: Voiceless pharyngeal fricative, voicing: voiceless, place: pharyngeal, manner: fricative,
+     examples: ["Arabic حب [ħubb] 'love'"]}
+  - {symbol: ʕ, article: Voiced pharyngeal fricative, voicing: voiced, place: pharyngeal, manner: fricative,
+     examples: ["Arabic عين [ʕajn] 'eye'"]}
+  - {symbol: h, article: Voiceless glottal fricative, voicing: voiceless, place: glottal, manner: fricative,
+     examples: ["English <i>hat</i> [hæt]"]}
+  - {symbol: ɦ, article: Voiced glottal fricative, voicing: voiced, place: glottal, manner: fricative,
+     examples: ["Hindi हाथ [ɦaːt̪ʰ] 'hand'", "English <i>ahead</i> [əˈɦɛd] (many speakers)"]}
+  - {symbol: ɬ, article: Voiceless alveolar lateral fricative, voicing: voiceless, place: alveolar, manner: lateral-fricative,
+     examples: ["Welsh <i>Llanelli</i> [ɬaˈnɛɬi]"]}
+  - {symbol: ɮ, article: Voiced alveolar lateral fricative, voicing: voiced, place: alveolar, manner: lateral-fricative,
+     examples: ["Zulu <i>dla</i> [ɮa] 'eat'"]}
+  - {symbol: ʋ, article: Voiced labiodental approximant, voicing: voiced, place: labiodental, manner: approximant,
+     examples: ["Hindi वन [ʋən] 'forest'"]}
+  - {symbol: ɹ, article: Voiced alveolar approximant, voicing: voiced, place: alveolar, manner: approximant,
+     examples: ["English <i>red</i> [ɹɛd]"]}
+  - {symbol: ɻ, article: Voiced retroflex approximant, voicing: voiced, place: retroflex, manner: approximant,
+     examples: ["Tamil தமிழ் [t̪amiɻ] 'Tamil'"]}
+  - {symbol: j, article: Voiced palatal approximant, voicing: voiced, place: palatal, manner: approximant,
+     examples: ["English <i>yes</i> [jɛs]", "Hindi यह [jəɦ]"]}
+  - {symbol: ɰ, article: Voiced velar approximant, voicing: voiced, place: velar, manner: approximant,
+     examples: ["Spanish <i>agua</i> [ˈaɰwa] for many speakers"]}
+  - {symbol: l, commons: "Alveolar lateral approximant.ogg", article: Voiced dental, alveolar and postalveolar lateral approximants, voicing: voiced, place: alveolar,
+     manner: lateral-approximant, examples: ["English <i>leaf</i> [lif]", "Spanish <i>luz</i> [lus]"]}
+  - {symbol: ɭ, commons: "Retroflex lateral approximant.ogg", article: Voiced retroflex lateral approximant, voicing: voiced, place: retroflex, manner: lateral-approximant,
+     examples: ["Marathi बाळ [baːɭ] 'baby'"]}
+  - {symbol: ʎ, article: Voiced palatal lateral approximant, voicing: voiced, place: palatal, manner: lateral-approximant,
+     examples: ["Italian <i>figlio</i> [ˈfiʎːo]"]}
+  - {symbol: ʟ, article: Voiced velar lateral approximant, voicing: voiced, place: velar, manner: lateral-approximant,
+     examples: []}
+  - {symbol: w, article: Voiced labial–velar approximant, voicing: voiced, place: labial-velar, manner: approximant,
+     examples: ["English <i>we</i> [wi]", "Spanish <i>huevo</i> [ˈweβo]"]}
+  - {symbol: ʍ, article: Voiceless labial–velar fricative, voicing: voiceless, place: labial-velar, manner: fricative,
+     examples: ["Scottish English <i>which</i> [ʍɪtʃ]"]}
+  - {symbol: ɫ, commons: "Velarized alveolar lateral approximant.ogg", article: Velarized alveolar lateral approximant, voicing: voiced, place: alveolar,
+     manner: lateral-approximant, examples: ["English <i>full</i> [fʊɫ] (the 'dark l')"]}
+  - {symbol: t͡ʃ, commons: "Voiceless palato-alveolar affricate.ogg", article: Voiceless postalveolar affricate, voicing: voiceless, place: postalveolar, manner: affricate,
+     examples: ["English <i>church</i> [t͡ʃɝt͡ʃ]", "Spanish <i>chico</i> [ˈt͡ʃiko]", "Hindi चल [t͡ʃəl]"]}
+  - {symbol: d͡ʒ, commons: "Voiced palato-alveolar affricate.ogg", article: Voiced postalveolar affricate, voicing: voiced, place: postalveolar, manner: affricate,
+     examples: ["English <i>judge</i> [d͡ʒʌd͡ʒ]", "Hindi जल [d͡ʒəl]"]}
+  - {symbol: t͡s, article: Voiceless alveolar affricate, voicing: voiceless, place: alveolar, manner: affricate,
+     examples: ["German <i>Zeit</i> [t͡saɪ̯t]", "Italian <i>pizza</i> [ˈpit͡t͡sa]"]}
+vowels:
+  - {symbol: i, article: Close front unrounded vowel, height: close, backness: front, rounding: unrounded,
+     examples: ["English <i>see</i> [si]", "Spanish <i>sí</i> [si]", "Hindi ई [iː] (दीया)"]}
+  - {symbol: y, article: Close front rounded vowel, height: close, backness: front, rounding: rounded,
+     examples: ["French <i>tu</i> [ty]", "German <i>über</i> [ˈyːbɐ]"]}
+  - {symbol: ɨ, article: Close central unrounded vowel, height: close, backness: central, rounding: unrounded,
+     examples: ["Russian ты [tɨ] 'you'"]}
+  - {symbol: ʉ, article: Close central rounded vowel, height: close, backness: central, rounding: rounded,
+     examples: ["Swedish <i>hus</i> [hʉːs] 'house'"]}
+  - {symbol: ɯ, article: Close back unrounded vowel, height: close, backness: back, rounding: unrounded,
+     examples: ["Turkish <i>kız</i> [kɯz] 'girl'", "Korean 으 [ɯ]"]}
+  - {symbol: u, article: Close back rounded vowel, height: close, backness: back, rounding: rounded,
+     examples: ["Spanish <i>tú</i> [tu]", "French <i>vous</i> [vu]", "Hindi ऊ [uː] (दूध)"]}
+  - {symbol: ɪ, article: Near-close near-front unrounded vowel, height: near-close, backness: near-front,
+     rounding: unrounded, examples: ["English <i>bit</i> [bɪt]", "Hindi इ [ɪ] (दिन)"]}
+  - {symbol: ʏ, article: Near-close near-front rounded vowel, height: near-close, backness: near-front,
+     rounding: rounded, examples: ["German <i>hübsch</i> [hʏpʃ]"]}
+  - {symbol: ʊ, article: Near-close near-back rounded vowel, height: near-close, backness: near-back,
+     rounding: rounded, examples: ["English <i>book</i> [bʊk]", "Hindi उ [ʊ] (गुरु)"]}
+  - {symbol: e, article: Close-mid front unrounded vowel, height: close-mid, backness: front, rounding: unrounded,
+     examples: ["Spanish <i>mesa</i> [ˈmesa]", "French <i>été</i> [ete]", "Hindi ए [eː] (देश)"]}
+  - {symbol: ø, article: Close-mid front rounded vowel, height: close-mid, backness: front, rounding: rounded,
+     examples: ["French <i>peu</i> [pø]", "German <i>schön</i> [ʃøːn]"]}
+  - {symbol: ɘ, article: Close-mid central unrounded vowel, height: close-mid, backness: central, rounding: unrounded,
+     examples: []}
+  - {symbol: ɵ, article: Close-mid central rounded vowel, height: close-mid, backness: central, rounding: rounded,
+     examples: ["Swedish <i>full</i> [fɵlː]"]}
+  - {symbol: ɤ, article: Close-mid back unrounded vowel, height: close-mid, backness: back, rounding: unrounded,
+     examples: ["Mandarin 饿 <i>è</i> [ɤ] 'hungry'"]}
+  - {symbol: o, article: Close-mid back rounded vowel, height: close-mid, backness: back, rounding: rounded,
+     examples: ["Spanish <i>no</i> [no]", "French <i>eau</i> [o]", "Hindi ओ [oː] (मोर)"]}
+  - {symbol: ə, article: Mid central vowel, height: mid, backness: central, rounding: unrounded,
+     examples: ["English <i>about</i> [əˈbaʊt]", "Hindi अ [ə] (कल)"]}
+  - {symbol: ɛ, article: Open-mid front unrounded vowel, height: open-mid, backness: front, rounding: unrounded,
+     examples: ["English <i>bed</i> [bɛd]", "French <i>père</i> [pɛʁ]", "Hindi ऐ [ɛː] (है)"]}
+  - {symbol: œ, article: Open-mid front rounded vowel, height: open-mid, backness: front, rounding: rounded,
+     examples: ["French <i>peur</i> [pœʁ]", "German <i>Hölle</i> [ˈhœlə]"]}
+  - {symbol: ɜ, article: Open-mid central unrounded vowel, height: open-mid, backness: central, rounding: unrounded,
+     examples: ["British English <i>nurse</i> [nɜːs]"]}
+  - {symbol: ɞ, article: Open-mid central rounded vowel, height: open-mid, backness: central, rounding: rounded,
+     examples: []}
+  - {symbol: ʌ, article: Open-mid back unrounded vowel, height: open-mid, backness: back, rounding: unrounded,
+     examples: ["English <i>cup</i> [kʌp]"]}
+  - {symbol: ɔ, article: Open-mid back rounded vowel, height: open-mid, backness: back, rounding: rounded,
+     examples: ["French <i>fort</i> [fɔʁ]", "Hindi औ [ɔː] (और)"]}
+  - {symbol: æ, article: Near-open front unrounded vowel, height: near-open, backness: front, rounding: unrounded,
+     examples: ["English <i>cat</i> [kæt]"]}
+  - {symbol: ɐ, article: Near-open central vowel, height: near-open, backness: central, rounding: unrounded,
+     examples: ["Portuguese <i>cama</i> [ˈkɐmɐ]", "German <i>oder</i> [ˈoːdɐ]"]}
+  - {symbol: a, article: Open front unrounded vowel, height: open, backness: front, rounding: unrounded,
+     examples: ["Spanish <i>casa</i> [ˈkasa]", "French <i>patte</i> [pat]", "Hindi आ [aː] (आम)"]}
+  - {symbol: ɶ, article: Open front rounded vowel, height: open, backness: front, rounding: rounded,
+     examples: []}
+  - {symbol: ɑ, article: Open back unrounded vowel, height: open, backness: back, rounding: unrounded,
+     examples: ["American English <i>father</i> [ˈfɑðɚ]"]}
+  - {symbol: ɒ, article: Open back rounded vowel, height: open, backness: back, rounding: rounded,
+     examples: ["British English <i>lot</i> [lɒt]"]}

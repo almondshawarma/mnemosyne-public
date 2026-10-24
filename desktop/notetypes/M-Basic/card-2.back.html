@@ -1,0 +1,6 @@
+<div class="q">{{Back}}</div>
+<hr id="answer">
+<div class="a">{{Front}}</div>
+{{#Elaboration}}<div class="elab">{{Elaboration}}</div>{{/Elaboration}}
+{{#AudioFront}}{{AudioFront}}{{/AudioFront}}{{^AudioFront}}{{#SpeakFront}}{{tts en_US speed=1.15:SpeakFront}}{{/SpeakFront}}{{/AudioFront}}
+{{#Source}}<div class="src">{{#SourceLink}}<a href="{{text:SourceLink}}">{{/SourceLink}}{{Source}}{{#SourceLink}}</a>{{/SourceLink}}</div>{{/Source}}

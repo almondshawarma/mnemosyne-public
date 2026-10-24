@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Watch">
+<meta name="theme-color" content="#e8ecf1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f141b" media="(prefers-color-scheme: dark)">
+<title>Mnemosyne watch</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4fb5'/%3E%3Cpath d='M12 9l11 7-11 7z' fill='white'/%3E%3C/svg%3E">
+<style>
+/* The review page's tokens (review.html), so the two pages read as one app. */
+:root {
+  --ground: #e8ecf1; --face: #fbfcfd; --ink: #17202e; --muted: #5a6677; --line: #d3dae3;
+  --accent: #2f4fb5; --accent-ink: #fff; --approve: #237a4b; --chip: #eef1f6; --code: #f3f5f8; --comment: #6b7a8c;
+  --serif: "Iowan Old Style", "Source Serif 4", Georgia, serif;
+  --sans: -apple-system, "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: ui-monospace, "IBM Plex Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --ground: #0f141b; --face: #18202a; --ink: #e3e8ef; --muted: #97a3b4; --line: #2b3542;
+    --accent: #8aa4f2; --accent-ink: #0f141b; --approve: #5cc08a; --chip: #222c38; --code: #121922; --comment: #7f8da0;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 16px/1.45 var(--sans);
+       padding: env(safe-area-inset-top) 0 calc(env(safe-area-inset-bottom) + 24px); }
+main { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+header.top { padding: 14px 0 10px; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+.row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.grow { flex: 1; }
+h1 { font: 600 20px/1.2 var(--serif); margin: 0; }
+h2 { font: 600 19px/1.3 var(--serif); margin: 14px 0 6px; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+a { color: var(--accent); }
+button { font: 500 15px var(--sans); border-radius: 10px; border: 1px solid var(--line); background: var(--face);
+         color: var(--ink); padding: 8px 12px; min-height: 40px; cursor: pointer; }
+.plain { border: none; background: none; color: var(--accent); padding: 6px 4px; min-height: 0; }
+.chip { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip); color: var(--muted); }
+.filters { display: flex; gap: 6px; margin: 0 0 14px; flex-wrap: wrap; }
+.filters button { min-height: 34px; padding: 5px 12px; font-size: 14px; }
+.filters button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.clips { display: grid; gap: 10px; }
+a.clip { display: block; background: var(--face); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px;
+         color: inherit; text-decoration: none; }
+a.clip .title { font: 600 16px/1.3 var(--serif); }
+video { width: 100%; aspect-ratio: 16 / 9; background: #0f141b; border-radius: 12px; display: block; }
+.chapters { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+.chapters button { min-height: 32px; padding: 4px 10px; font-size: 13px; }
+.chapters button.on { border-color: var(--accent); color: var(--accent); }
+.watchfor { border-left: 3px solid var(--accent); padding-left: 10px; margin: 10px 0; }
+details { margin-top: 14px; background: var(--face); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+summary { cursor: pointer; font-weight: 500; }
+pre { font: 13px/1.5 var(--mono); background: var(--code); border-radius: 8px; padding: 12px; overflow-x: auto;
+      margin: 10px 0 0; tab-size: 4; }
+pre .c { color: var(--comment); font-style: italic; }
+.gate { max-width: 420px; margin: 12vh auto 0; background: var(--face); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+input[type=password] { width: 100%; font: 16px var(--sans); color: var(--ink); background: var(--ground);
+                       border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.save { background: var(--approve); border-color: var(--approve); color: #fff; }
+.problems { color: #b3261e; font-size: 14px; }
+.empty { text-align: center; padding: 40px 10px; color: var(--muted); }
+.keep { margin-top: 14px; background: var(--face); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.keep select { font: 15px var(--sans); color: var(--ink); background: var(--ground); border: 1px solid var(--line);
+               border-radius: 8px; padding: 6px 8px; }
+.danger { color: #b3261e; border-color: #b3261e; background: transparent; }
+.gone { aspect-ratio: 16 / 9; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 12px; text-align: center; padding: 16px; background: var(--face); border: 1px dashed var(--line); border-radius: 12px; }
+.go { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <section id="gate" class="gate" hidden>
+    <h1>Mnemosyne watch</h1>
+    <p class="muted small">This device needs mnemosyne's approve token once (the same one as the review page). It stays
+      in this browser only.</p>
+    <form id="gate-form">
+      <input id="gate-token" type="password" autocomplete="current-password" placeholder="approve token" required>
+      <div class="row" style="margin-top:12px"><button class="save grow" type="submit">Save</button></div>
+    </form>
+    <p id="gate-error" class="problems" hidden></p>
+  </section>
+
+  <section id="app" hidden>
+    <header class="top">
+      <div class="row">
+        <h1 class="grow">Watch</h1>
+        <a class="small" href="/review">Review page</a>
+      </div>
+      <div class="muted small">Short animations for ideas where the motion is the point. Each one's code is below it.</div>
+    </header>
+    <div id="list"></div>
+    <div id="clip" hidden></div>
+  </section>
+</main>
+
+<script>
+"use strict";
+const KEY = "mn-approve-token";
+const $ = (id) => document.getElementById(id);
+const via = new URLSearchParams(location.search).get("via") || "page";   // a card links here with ?via=card
+let clips = [], filter = "all", objectUrl = null;
+
+function token() { try { return localStorage.getItem(KEY) || ""; } catch { return ""; } }
+function setToken(t) { try { t ? localStorage.setItem(KEY, t) : localStorage.removeItem(KEY); } catch {} }
+function esc(s) { return String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+function course(c) { return String(c).toUpperCase().replace(/^([A-Z]+)(\d+)$/, "$1 $2"); }
+function mmss(s) { s = Math.round(s || 0); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
+
+async function get(path) {
+  const res = await fetch(path, { headers: { "Authorization": "Bearer " + token() } });
+  if (res.status === 401) { setToken(""); showGate("That token was refused."); throw new Error("unauthorized"); }
+  if (!res.ok) throw new Error(`${res.status}`);
+  return res;
+}
+
+async function send(method, path, body) {
+  const res = await fetch(path, { method, headers: { "Authorization": "Bearer " + token(), "Content-Type": "application/json" },
+                                  body: body === undefined ? undefined : JSON.stringify(body) });
+  if (res.status === 401) { setToken(""); showGate("That token was refused."); throw new Error("unauthorized"); }
+  if (!res.ok) throw new Error(`${res.status}: ${(await res.text()).slice(0, 160)}`);
+  return res.json();
+}
+function day(iso) { return iso ? new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : ""; }
+function replace(c) { const i = clips.findIndex((x) => x.slug === c.slug); if (i >= 0) clips[i] = c; }
+
+function showGate(msg) {
+  $("app").hidden = true; $("gate").hidden = false;
+  $("gate-error").hidden = !msg; $("gate-error").textContent = msg || "";
+}
+
+async function load() {
+  if (!token()) return showGate();
+  $("gate").hidden = true; $("app").hidden = false;
+  try { clips = (await (await get("/watch/clips")).json()).clips; } catch (e) { if (e.message !== "unauthorized") $("list").innerHTML = `<p class="empty">Couldn't load: ${esc(e.message)}</p>`; return; }
+  route();
+}
+
+function route() {
+  const slug = decodeURIComponent(location.hash.slice(1));
+  const c = clips.find((x) => x.slug === slug);
+  if (c) showClip(c); else showList();
+}
+
+function showList() {
+  if (objectUrl) { URL.revokeObjectURL(objectUrl); objectUrl = null; }
+  $("clip").hidden = true; $("clip").innerHTML = ""; $("list").hidden = false;
+  const courses = [...new Set(clips.flatMap((c) => c.courses))].sort();
+  const shown = clips.filter((c) => filter === "all" || c.courses.includes(filter));
+  $("list").innerHTML =
+    (courses.length > 1 ? `<div class="filters">${["all", ...courses].map((c) =>
+      `<button type="button" data-f="${esc(c)}" aria-pressed="${c === filter}">${c === "all" ? "All" : esc(course(c))}</button>`).join("")}</div>` : "") +
+    (shown.length ? `<div class="clips">${shown.map((c) => `
+      <a class="clip" href="#${encodeURIComponent(c.slug)}">
+        <div class="title">${esc(c.title)}</div>
+        <div class="row small muted" style="margin-top:4px">${c.courses.map((x) => `<span class="chip">${esc(course(x))}</span>`).join("")}
+          <span>${mmss(c.duration)}</span>${c.has_video ? "" : `<span class="chip">${c.render ? "rendering…" : "code only"}</span>`}</div>
+      </a>`).join("")}</div>` : `<p class="empty">No clips yet.</p>`);
+  for (const b of $("list").querySelectorAll("[data-f]")) b.onclick = () => { filter = b.dataset.f; showList(); };
+}
+
+// Full-line comments dimmed: in these scenes the comments carry the reasoning, so they should read as prose.
+function code(src) {
+  return esc(src).split("\n").map((l) => /^\s*#/.test(l) ? `<span class="c">${l}</span>` : l).join("\n");
+}
+
+async function showClip(c) {
+  $("list").hidden = true; $("clip").hidden = false;
+  $("clip").innerHTML = `
+    <a class="small" href="#">← All clips</a>
+    <h2>${esc(c.title)}</h2>
+    <div class="row small muted">${c.courses.map((x) => `<span class="chip">${esc(course(x))}</span>`).join("")}
+      <span>${mmss(c.duration)}</span></div>
+    <div class="watchfor"><span class="muted small">Watch for</span><br>${esc(c.watch_for)}</div>
+    ${c.has_video ? `<video id="player" controls playsinline preload="auto"></video>
+    <div class="chapters">${c.sections.map((s, i) =>
+      `<button type="button" data-at="${s.start}" data-i="${i}">${esc(s.name)}</button>`).join("")}</div>` : gone(c)}
+    ${c.has_video ? keepPanel(c) : ""}
+    ${c.has_scene ? `<details id="src"><summary>The scene's code</summary><pre id="code">Loading…</pre></details>` : ""}`;
+  wire(c);
+  const src = $("src");
+  if (src) src.ontoggle = async () => {
+    if (!src.open || src.dataset.loaded) return;
+    try { $("code").innerHTML = code(await (await get(`/watch/clips/${encodeURIComponent(c.slug)}/scene`)).text()); src.dataset.loaded = "1"; }
+    catch (e) { $("code").textContent = "Couldn't load the code."; }
+  };
+  if (!c.has_video) return;
+  const player = $("player");
+  try {
+    const blob = await (await get(`/watch/clips/${encodeURIComponent(c.slug)}/video?via=${encodeURIComponent(via)}`)).blob();
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
+    objectUrl = URL.createObjectURL(blob);
+    player.src = objectUrl;
+  } catch (e) { if (e.message !== "unauthorized") player.insertAdjacentHTML("afterend", `<p class="problems">Couldn't load the clip (${esc(e.message)}).</p>`); }
+  const marks = [...$("clip").querySelectorAll("[data-at]")];
+  for (const b of marks) b.onclick = () => { player.currentTime = +b.dataset.at + 0.01; player.play(); };
+  player.ontimeupdate = () => {
+    let on = -1; c.sections.forEach((s, i) => { if (player.currentTime >= s.start) on = i; });
+    marks.forEach((b, i) => b.classList.toggle("on", i === on));
+  };
+}
+
+// The video goes N days after it was last watched; the code, stills, and metadata stay (clips.py).
+function keepText(c) {
+  if (c.keep.forever) return "This video is kept for good.";
+  const why = c.last_opened ? "after it was last watched" : "after it was made";
+  return `Video kept until ${day(c.expires_at)}: ${c.keep.days} days ${why}. The code always stays, so it can be rendered again.`;
+}
+function keepPanel(c) {
+  const opts = [`<option value="default" ${c.keep.default && !c.keep.forever ? "selected" : ""}>Default (${c.keep.default_days} days)</option>`,
+    ...c.keep.choices.map((d) => `<option value="${d}" ${!c.keep.default && !c.keep.forever && c.keep.days === d ? "selected" : ""}>${d} days</option>`),
+    `<option value="forever" ${c.keep.forever ? "selected" : ""}>Forever</option>`];
+  return `<div class="keep">
+    <div id="keep-text" class="small">${esc(keepText(c))}</div>
+    <div class="row" style="margin-top:8px">
+      <label class="small muted" for="keep">Keep the video</label>
+      <select id="keep">${opts.join("")}</select>
+      <span class="grow"></span>
+      <button type="button" class="danger" id="clear">Delete video now</button>
+    </div></div>`;
+}
+function gone(c) {
+  const state = c.render === "rendering" ? "Rendering now: about a minute."
+    : c.render === "waiting" ? "Waiting for the renderer…"
+    : c.render === "failed" ? "The last render failed. Try again, or ask Claude to look at the scene." : "";
+  return `<div class="gone" id="gone">
+    <div>${c.cleared_at ? `The video was cleared on ${esc(day(c.cleared_at))} to save space.` : "This clip has no video right now."}
+      The code is below, so it can be rendered again.</div>
+    ${c.render === "rendering" || c.render === "waiting" ? "" : `<button type="button" class="go" id="again">Render it again</button>`}
+    <div class="small muted" id="render-state">${esc(state)}</div></div>`;
+}
+function wire(c) {
+  const keep = $("keep"), clear = $("clear"), again = $("again");
+  if (keep) keep.onchange = async () => {
+    const v = keep.value;
+    try {
+      const got = await send("PUT", `/watch/clips/${encodeURIComponent(c.slug)}/keep`,
+                             v === "forever" ? { forever: true } : { days: v === "default" ? null : +v, forever: false });
+      replace(got); $("keep-text").textContent = keepText(got);
+    } catch (e) { if (e.message !== "unauthorized") $("keep-text").textContent = "Couldn't save that: " + e.message; }
+  };
+  if (clear) clear.onclick = async () => {
+    if (!confirm("Delete this clip's video now? Its code stays, and it can be rendered again in about a minute.")) return;
+    try { const got = await send("POST", `/watch/clips/${encodeURIComponent(c.slug)}/clear`); replace(got); showClip(got); }
+    catch (e) { if (e.message !== "unauthorized") alert("Couldn't delete it: " + e.message); }
+  };
+  if (again) again.onclick = async () => {
+    try { const got = await send("POST", `/watch/clips/${encodeURIComponent(c.slug)}/render`); replace(got); showClip(got); }
+    catch (e) { if (e.message !== "unauthorized") $("render-state").textContent = "Couldn't ask for it: " + e.message; }
+  };
+  if (!c.has_video && (c.render === "waiting" || c.render === "rendering")) poll(c.slug);
+}
+// While a clip renders again, check every 5 s; show it as soon as the video is back.
+function poll(slug) {
+  clearTimeout(poll.timer);
+  poll.timer = setTimeout(async () => {
+    if (decodeURIComponent(location.hash.slice(1)) !== slug) return;
+    try {
+      clips = (await (await get("/watch/clips")).json()).clips;
+      const c = clips.find((x) => x.slug === slug);
+      if (c) showClip(c);
+    } catch (e) { poll(slug); }
+  }, 5000);
+}
+
+$("gate-form").onsubmit = (ev) => { ev.preventDefault(); setToken($("gate-token").value.trim()); $("gate-token").value = ""; load(); };
+window.onhashchange = () => { if (clips.length) route(); };
+load();
+</script>
+</body>
+</html>

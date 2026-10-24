@@ -1,0 +1,770 @@
+{
+ "status": "reviewed",
+ "reviewed_by": "aman",
+ "source": {
+  "kind": "slides",
+  "course": "PHYS217",
+  "lecture": 5,
+  "ref": "PHYS 217 L05 - Direct Current Resistive Circuits (annotated)",
+  "link": "http://<obelisk>:8000/documents/444/details"
+ },
+ "signals": [
+  "red 'what does this mean?' at V = V1 + V2 + V3 for series resistors (slide 10)",
+  "red note on the loop sign in Example 3 (slide 20)",
+  "'ε − Ir ?' written next to the short-circuit example (slide 17)",
+  "Lab course: slide 15 'Important relationships' is the professor's own summary, and every line on it is exam-relevant"
+ ],
+ "cards": [
+  {
+   "key": "931d82ab94",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "emf \\(\\varepsilon\\) of a source (definition)",
+    "Back": "Energy the source supplies per unit charge",
+    "SpeakFront": "definition of the emf, epsilon, of a source",
+    "SpeakBack": "the energy the source supplies per unit charge",
+    "Elaboration": "Measured in volts. It's not a force, despite the name \"electromotive force\".",
+    "Source": "PHYS217 L05 slide 6",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::definition",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     1,
+     6
+    ],
+    "from": "slide 6",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:05:45.074Z"
+   }
+  },
+  {
+   "key": "43f4df959d",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Terminal voltage of a real emf source (emf \\(\\varepsilon\\), internal resistance \\(r\\)) delivering current \\(I\\)",
+    "Back": "\\(V_{ab}=\\varepsilon-Ir\\)",
+    "SpeakFront": "terminal voltage of a real emf source, with emf epsilon and internal resistance r, delivering current I",
+    "SpeakBack": "epsilon minus I r",
+    "Elaboration": "Equals \\(\\varepsilon\\) only when \\(I=0\\) or the source is ideal. Under a short circuit, \\(r\\) sets the current.",
+    "Source": "PHYS217 L05 slide 6",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     2
+    ],
+    "from": "slide 6",
+    "note": "The prompt names every symbol (canon 2)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:05:34.597Z"
+   }
+  },
+  {
+   "key": "44fb2c640e",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Equivalent resistance of resistors in series",
+    "Back": "\\(R_{eq}=R_1+R_2+\\cdots\\)",
+    "SpeakFront": "equivalent resistance of resistors in series",
+    "SpeakBack": "the sum, R one plus R two and so on",
+    "Elaboration": "The same current flows through each, and the voltage drops add.",
+    "Source": "PHYS217 L05 slide 10",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     14
+    ],
+    "from": "slide 10",
+    "note": "'Series' vs 'parallel' in the prompts is the interference guard."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:07:13.018Z"
+   }
+  },
+  {
+   "key": "0c703a2044",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "Why do voltage drops add for resistors in series?",
+    "Back": "Energy conservation: a charge loses \\(qV_1\\), then \\(qV_2\\), then \\(qV_3\\) going from a to b, which totals \\(q(V_a-V_b)\\)",
+    "SpeakFront": "why do voltage drops add for resistors in series?",
+    "SpeakBack": "energy conservation; a charge loses q V one, then q V two, then q V three between the ends, which totals q times the whole potential difference",
+    "Elaboration": "With the same \\(I\\) through each, \\(IR_{eq}=IR_1+IR_2+IR_3\\) gives the series rule.",
+    "Source": "PHYS217 L05 slide 10",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.85,
+   "golden": {
+    "canon": [
+     15,
+     16
+    ],
+    "from": "annotation",
+    "note": "Answers 'what does this mean?' with the conservation law the slide mentions but doesn't explain."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:08:16.276Z"
+   }
+  },
+  {
+   "key": "c670169790",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Equivalent resistance of resistors in parallel",
+    "Back": "\\(\\dfrac{1}{R_{eq}}=\\dfrac1{R_1}+\\dfrac1{R_2}+\\cdots\\)",
+    "SpeakFront": "equivalent resistance of resistors in parallel",
+    "SpeakBack": "one over R equivalent equals one over R one, plus one over R two, and so on",
+    "Elaboration": "The same voltage is across each, and the currents add (charge conservation). \\(R_{eq}\\) is less than the smallest resistor.",
+    "Source": "PHYS217 L05 slide 12",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     6,
+     14
+    ],
+    "from": "slide 12",
+    "note": "The 'less than the smallest' check in Elaboration catches inverted answers."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:08:19.695Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Back": "Current into a junction equals current out: \\(\\sum I_\\text{in}=\\sum I_\\text{out}\\)",
+    "Elaboration": "",
+    "Front": "Kirchhoff's junction rule",
+    "Source": "PHYS217 L05 slide 14",
+    "SourceLink": "",
+    "SpeakBack": "the current into a junction equals the current out",
+    "SpeakFront": "Kirchhoff's junction rule"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the rule, split from its conservation law."
+   },
+   "key": "1224dd66da",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:13:16+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Back": "Conservation of charge",
+    "Elaboration": "In steady state, charge can't pile up at a junction.",
+    "Front": "Kirchhoff's junction rule follows from which conservation law?",
+    "Source": "PHYS217 L05 slide 14",
+    "SourceLink": "",
+    "SpeakBack": "conservation of charge",
+    "SpeakFront": "Kirchhoff's junction rule follows from which conservation law?"
+   },
+   "golden": {
+    "canon": [
+     1,
+     14
+    ],
+    "from": "review",
+    "note": "Revision: the reason half. The rule's name in the prompt keeps it apart from the loop-rule card (canon 14)."
+   },
+   "key": "a7506f06a8",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:13:33+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Back": "The potential changes around any closed loop sum to zero: \\(\\sum\\Delta V=0\\)",
+    "Elaboration": "Use it when series/parallel reduction doesn't work, e.g. two sources in different branches.",
+    "Front": "Kirchhoff's loop rule",
+    "Source": "PHYS217 L05 slides 13–14",
+    "SourceLink": "",
+    "SpeakBack": "the potential changes around any closed loop add to zero",
+    "SpeakFront": "Kirchhoff's loop rule"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the rule, split from its conservation law."
+   },
+   "key": "1a63937da7",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:13:41+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Back": "Conservation of energy",
+    "Elaboration": "\\(V\\) is potential energy per charge, and a charge that goes around a loop returns to the same potential.",
+    "Front": "Kirchhoff's loop rule follows from which conservation law?",
+    "Source": "PHYS217 L05 slides 13–14",
+    "SourceLink": "",
+    "SpeakBack": "conservation of energy",
+    "SpeakFront": "Kirchhoff's loop rule follows from which conservation law?"
+   },
+   "golden": {
+    "canon": [
+     1,
+     14
+    ],
+    "from": "review",
+    "note": "Revision: the reason half."
+   },
+   "key": "3a97b71a0d",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:13:51+00:00"
+   }
+  },
+  {
+   "key": "eab6752459",
+   "note_type": "M-Error",
+   "deck": "Now",
+   "fields": {
+    "Situation": "Writing a loop equation that crosses a resistor against the assumed current direction",
+    "Trap": "Writing \\(-IR\\) out of habit",
+    "Fix": "Against the current, the potential rises: \\(+IR\\). With the current it's \\(-IR\\). Crossing a battery from − to + gives \\(+\\varepsilon\\).",
+    "Why": "Potential drops in the direction current flows through a resistor. A wrong initial guess of direction just shows up as a negative \\(I\\).",
+    "SpeakSituation": "writing a loop equation that crosses a resistor against the assumed current direction",
+    "SpeakFix": "against the current the potential rises, so plus I R; with the current it is minus I R; crossing a battery from minus to plus is plus epsilon",
+    "Source": "PHYS217 L05 slide 20 (annotation)",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::trap",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.85,
+   "golden": {
+    "canon": [
+     11,
+     16
+    ],
+    "from": "annotation",
+    "note": "The red sign question in Example 3 becomes the sign convention as an error card."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:09:02.444Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Back": "\\(P=I^2R\\)",
+    "Elaboration": "From \\(P=VI\\) with \\(V=IR\\). Handy in series, where \\(I\\) is shared.",
+    "Front": "Power dissipated in a resistor, given \\(I\\) and \\(R\\)",
+    "Source": "PHYS217 L05 slide 15",
+    "SourceLink": "",
+    "SpeakBack": "I squared R",
+    "SpeakFront": "power dissipated in a resistor, given current and resistance"
+   },
+   "golden": {
+    "canon": [
+     18
+    ],
+    "from": "review",
+    "note": "Revision: one card per set of givens, as you asked."
+   },
+   "key": "2cba225778",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::formula",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:14:11+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Back": "\\(P=V^2/R\\)",
+    "Elaboration": "From \\(P=VI\\) with \\(I=V/R\\). Handy in parallel, where \\(V\\) is shared.",
+    "Front": "Power dissipated in a resistor, given \\(V\\) and \\(R\\)",
+    "Source": "PHYS217 L05 slide 15",
+    "SourceLink": "",
+    "SpeakBack": "V squared over R",
+    "SpeakFront": "power dissipated in a resistor, given voltage and resistance"
+   },
+   "golden": {
+    "canon": [
+     18
+    ],
+    "from": "review",
+    "note": "Revision: the other set of givens."
+   },
+   "key": "86e667ca67",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::formula",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:14:12+00:00"
+   }
+  },
+  {
+   "key": "97e95cf8db",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Resistance of a uniform conductor (length \\(L\\), cross-section \\(A\\), resistivity \\(\\rho\\))",
+    "Back": "\\(R=\\rho L/A\\)",
+    "SpeakFront": "resistance of a uniform conductor with length L, cross section A, and resistivity rho",
+    "SpeakBack": "rho L over A",
+    "Elaboration": "Longer means more resistance; fatter means less. Resistivity is a material property, resistance is a property of the object.",
+    "Source": "PHYS217 L05 slide 15",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "slide 15",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:10:15.639Z"
+   }
+  },
+  {
+   "key": "c0ef6ca62c",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Ohm's law in its general (microscopic) form",
+    "Back": "\\(\\vec J=\\sigma\\vec E=\\vec E/\\rho\\)",
+    "SpeakFront": "Ohm's law in its general, microscopic form",
+    "SpeakBack": "current density J equals sigma E, which is E over rho",
+    "Elaboration": "Integrate over a uniform wire to get \\(V=IR\\) with \\(R=\\rho L/A\\).",
+    "Source": "PHYS217 L05 slide 15",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     6
+    ],
+    "from": "slide 15",
+    "note": "The Elaboration links the micro and macro forms instead of carding V = IR again."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:11:07.148Z"
+   }
+  },
+  {
+   "key": "2e2c2b41e1",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Conventional current direction, relative to potential and to \\(\\vec E\\)",
+    "Back": "The direction positive charge would flow: toward decreasing potential, along \\(\\vec E\\)",
+    "SpeakFront": "conventional current direction, relative to potential and to the electric field",
+    "SpeakBack": "the direction positive charge would flow; toward decreasing potential, along the field",
+    "Elaboration": "Electrons actually drift the other way. Inside an emf source, current goes from low to high potential.",
+    "Source": "PHYS217 L05 slides 2–4",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     6
+    ],
+    "from": "slide 4",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:11:51.557Z"
+   }
+  }
+ ],
+ "skipped": [
+  {
+   "what": "Circuit symbols (IEEE Std 315)",
+   "why": "Visual recognition you pick up by using them; low value as cards.",
+   "promoted": "Marked 'should be a card' in review. Waiting on slide images (P3 media crops)."
+  },
+  {
+   "what": "Team exercises (4 Ω + 2 Ω at 12 V, parallel 4/2/1 Ω, Examples 2–3)",
+   "why": "Practice problems; the rules are carded. Solutions are posted later in the week."
+  },
+  {
+   "what": "4-gauge copper wire R = 0.158 mΩ, I = 75.7 kA",
+   "why": "Used only as the contrast inside the short-circuit estimate."
+  },
+  {
+   "what": "Admin: Canvas, slido, office hours, next week's topic",
+   "why": "Logistics."
+  }
+ ],
+ "rejected": [
+  {
+   "key": "2ad6921d16",
+   "note_type": "M-Estimate",
+   "deck": "Now",
+   "fields": {
+    "Question": "Short-circuit current of a 12 V lead-acid battery with 9.5 mΩ internal resistance",
+    "Answer": "\\(\\approx1.2\\) kA, not the ~76 kA an ideal source would give",
+    "Anchor": "\\(I=\\varepsilon/(r+R)\\approx12\\ \\mathrm V/(9.5+0.16)\\ \\mathrm{m\\Omega}\\)",
+    "SpeakQuestion": "short circuit current of a 12 volt lead acid battery with 9.5 milliohms of internal resistance",
+    "SpeakAnswer": "about 1.2 kiloamps, instead of the 76 kiloamps an ideal source would give",
+    "Source": "PHYS217 L05 slides 16–18",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::anchor",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [
+    {
+     "quantity": "12 V / 9.6585e-3 ohm",
+     "value": "1242 A",
+     "tolerance": "3%"
+    }
+   ],
+   "confidence": 0.85,
+   "golden": {
+    "canon": [
+     7
+    ],
+    "from": "annotation",
+    "note": "The 'ε − Ir ?' note plus the two examples make a Fermi anchor for why internal resistance matters. Verified: 12/9.6585 mΩ = 1242 A."
+   },
+   "review": {
+    "verdict": "reject",
+    "reason": "a little too specific i feel",
+    "at": "2026-09-25T05:07:09.640Z"
+   }
+  },
+  {
+   "key": "690ddaa76a",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Resistivity as a function of temperature (linear model)",
+    "Back": "\\(\\rho(T)=\\rho_0\\left[1+\\alpha(T-T_0)\\right]\\)",
+    "SpeakFront": "resistivity as a function of temperature, the linear model",
+    "SpeakBack": "rho naught times, one plus alpha times T minus T naught",
+    "Elaboration": "For metals \\(\\alpha>0\\): they resist more when hot.",
+    "Source": "PHYS217 L05 slide 15",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::formula",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "slide 15",
+    "note": ""
+   },
+   "review": {
+    "verdict": "reject",
+    "reason": "just seems a little niche for the class",
+    "at": "2026-09-25T05:11:19.972Z"
+   }
+  }
+ ],
+ "superseded": [
+  {
+   "key": "8917165136",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Kirchhoff's junction rule, and the conservation law behind it",
+    "Back": "Current into a junction equals current out: \\(\\sum I=0\\). Charge conservation.",
+    "SpeakFront": "Kirchhoff's junction rule, and the conservation law behind it",
+    "SpeakBack": "the current into a junction equals the current out; charge conservation",
+    "Elaboration": "",
+    "Source": "PHYS217 L05 slide 14",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     6,
+     14
+    ],
+    "from": "slide 14",
+    "note": "Asking for the conservation law turns the rule into understanding, and the laws keep the two rules apart."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "good, but should be two cards",
+    "at": "2026-09-25T05:08:42.261Z"
+   },
+   "replaced_by": [
+    "1224dd66da",
+    "a7506f06a8"
+   ]
+  },
+  {
+   "key": "e34b8e33d8",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Kirchhoff's loop rule, and the conservation law behind it",
+    "Back": "The potential changes around any closed loop sum to zero: \\(\\sum V=0\\). Energy conservation.",
+    "SpeakFront": "Kirchhoff's loop rule, and the conservation law behind it",
+    "SpeakBack": "the potential changes around any closed loop add to zero; energy conservation",
+    "Elaboration": "Use it when series/parallel reduction doesn't work, e.g. two sources in different branches.",
+    "Source": "PHYS217 L05 slides 13–14",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     6,
+     14
+    ],
+    "from": "slide 14",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "prob should be two cards",
+    "at": "2026-09-25T05:08:56.695Z"
+   },
+   "replaced_by": [
+    "1a63937da7",
+    "3a97b71a0d"
+   ]
+  },
+  {
+   "key": "2592200116",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Power dissipated in a resistor, in terms of \\(I\\) and \\(R\\), and in terms of \\(V\\) and \\(R\\)",
+    "Back": "\\(P=I^2R=V^2/R\\) (both equal to \\(VI\\))",
+    "SpeakFront": "power dissipated in a resistor, in terms of current and resistance, and in terms of voltage and resistance",
+    "SpeakBack": "I squared R, or V squared over R, both equal to V times I",
+    "Elaboration": "Use \\(I^2R\\) when current is shared (series) and \\(V^2/R\\) when voltage is shared (parallel).",
+    "Source": "PHYS217 L05 slide 15",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys217::l05-direct-current-resistive-circuits",
+    "topic::physics::em::circuits",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     1,
+     2
+    ],
+    "from": "slide 15",
+    "note": "Forms of one relation, not a set. The prompt asks for them explicitly so the answer is determined."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "good, is there a way to have these recalled individually though? like, power if you only have resistance and current, vs power if you have only voltage and resistance",
+    "at": "2026-09-25T05:09:48.467Z"
+   },
+   "replaced_by": [
+    "2cba225778",
+    "86e667ca67"
+   ]
+  }
+ ]
+}

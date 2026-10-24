@@ -1,0 +1,20 @@
+{
+  "name": "M-Ear",
+  "kind": "standard",
+  "css": "shared.css",
+  "fields": [
+    "PromptAudio",
+    "Answer",
+    "SpeakAnswer",
+    "Source",
+    "SourceLink",
+    "MnemosyneID"
+  ],
+  "templates": [
+    {
+      "name": "Card 1",
+      "front": "M-Ear/card-1.front.html",
+      "back": "M-Ear/card-1.back.html"
+    }
+  ]
+}

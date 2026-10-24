@@ -1,0 +1,701 @@
+{
+ "status": "reviewed",
+ "reviewed_by": "aman",
+ "source": {
+  "kind": "slides",
+  "course": "NUEN201",
+  "lecture": 6,
+  "ref": "NUEN 201 L06 - Relativistic Energy (annotated)",
+  "link": "http://<obelisk>:8000/documents/441/details"
+ },
+ "signals": [
+  "red 'why?' next to relativistic mass (slide 8)",
+  "red 'we can't push to c?' (slide 8)",
+  "red note on slide 6: gamma*m is relativistic mass, p_rel = gamma m v",
+  "red 'why?' at E^2 - p^2 c^2 and 'How does light have momentum?' (slide 13)",
+  "worked Q-value example done in class (slide 12)"
+ ],
+ "cards": [
+  {
+   "key": "2af0e13522",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Relativistic momentum of a mass \\(m\\) moving at velocity \\(\\vec u\\)",
+    "Back": "\\(\\vec p=\\gamma m\\vec u\\), with \\(\\gamma=1/\\sqrt{1-u^2/c^2}\\)",
+    "SpeakFront": "relativistic momentum of a mass m moving at velocity u",
+    "SpeakBack": "p equals gamma m u, where gamma is one over the square root of one minus u squared over c squared",
+    "Elaboration": "Reduces to \\(m\\vec u\\) when \\(u\\ll c\\).",
+    "Source": "NUEN201 L06 slide 8",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::formula",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     1,
+     2
+    ],
+    "from": "slide 8",
+    "note": "Core: a result worth keeping after the course."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "i think in general limits, for stem concepts are really good to also have. maybe a specific card for that too? it is indeed useful to memorize the formula, but even more so where those go and how they act",
+    "at": "2026-09-25T04:44:23.669Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(\\approx m\\vec u\\): \\(\\gamma\\to1\\), the classical momentum",
+    "Elaboration": "",
+    "Front": "Relativistic momentum \\(\\gamma m\\vec u\\) when \\(u\\ll c\\)",
+    "Source": "NUEN201 L06 slide 8",
+    "SourceLink": "",
+    "SpeakBack": "approximately m u, since gamma goes to one; the classical momentum",
+    "SpeakFront": "relativistic momentum gamma m u when u is much less than c"
+   },
+   "golden": {
+    "canon": [
+     17
+    ],
+    "from": "review",
+    "note": "Your review: limits deserve their own cards."
+   },
+   "key": "eff703b0b4",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::result",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:03:07+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "Diverges: \\(\\gamma\\to\\infty\\), so \\(p\\to\\infty\\) for any \\(m>0\\)",
+    "Elaboration": "A massive particle would need infinite momentum to reach c.",
+    "Front": "Relativistic momentum \\(\\gamma m\\vec u\\) as \\(u\\to c\\)",
+    "Source": "NUEN201 L06 slide 8",
+    "SourceLink": "",
+    "SpeakBack": "it diverges; gamma goes to infinity, so p goes to infinity for any nonzero mass",
+    "SpeakFront": "relativistic momentum gamma m u as u approaches c"
+   },
+   "golden": {
+    "canon": [
+     17
+    ],
+    "from": "review",
+    "note": "The other limit."
+   },
+   "key": "e2c8ba7b54",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::result",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:03:13+00:00"
+   }
+  },
+  {
+   "key": "c277635344",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "\"Relativistic (apparent) mass\" in NUEN 201's convention",
+    "Back": "\\(\\gamma m\\): about \\(m\\) for \\(u\\ll c\\), growing without bound as \\(u\\to c\\)",
+    "SpeakFront": "relativistic, or apparent, mass in the NUEN 201 convention",
+    "SpeakBack": "gamma times m; about m at low speed, growing without bound as u approaches c",
+    "Elaboration": "Rest mass \\(m\\) is measured in the object's rest frame. Most modern texts keep \\(m\\) invariant and avoid \"relativistic mass\", so expect it on this course's exams but not everywhere.",
+    "Source": "NUEN201 L06 slide 8",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::definition",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.8,
+   "golden": {
+    "canon": [
+     9
+    ],
+    "from": "slide 8",
+    "note": "Source-faithful but correct: carded in the course's convention, with the modern caveat in Elaboration. Deck Now because the convention is course-specific."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:48:59.685Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(a=\\dfrac{F}{\\gamma^3m}=\\dfrac{F}{m}\\left(1-\\dfrac{u^2}{c^2}\\right)^{3/2}\\)",
+    "Elaboration": "From \\(F=dp/dt\\) with \\(p=\\gamma mu\\); \\(\\gamma\\) grows with \\(u\\), so \\(dp/du=\\gamma^3m\\).",
+    "Front": "Acceleration produced by a force \\(F\\) parallel to the velocity \\(u\\), relativistically",
+    "Source": "NUEN201 L06 slide 9",
+    "SourceLink": "",
+    "SpeakBack": "F over gamma cubed m, which is F over m times one minus u squared over c squared, to the three halves",
+    "SpeakFront": "acceleration produced by a force F parallel to the velocity u, relativistically"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the formula half of the old 'never reach c' card."
+   },
+   "key": "a698102e4c",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::formula",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:06:30+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "The acceleration it produces falls to zero as \\(u\\to c\\)",
+    "Elaboration": "Equivalently, the momentum needed diverges. Accelerators like the LHC approach c but never reach it.",
+    "Front": "Why can a constant force never accelerate a particle to \\(c\\)?",
+    "Source": "NUEN201 L06 slide 9",
+    "SourceLink": "",
+    "SpeakBack": "because the acceleration it produces falls to zero as the speed approaches c",
+    "SpeakFront": "why can a constant force never accelerate a particle to the speed of light?"
+   },
+   "golden": {
+    "canon": [
+     1,
+     15
+    ],
+    "from": "review",
+    "note": "Revision: the reasoning half, with no formula to recite."
+   },
+   "key": "3408d96be0",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:06:37+00:00"
+   }
+  },
+  {
+   "key": "58e5e2991d",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Relativistic kinetic energy of mass \\(m\\) at speed \\(u\\)",
+    "Back": "\\(K=(\\gamma-1)mc^2\\)",
+    "SpeakFront": "relativistic kinetic energy of mass m at speed u",
+    "SpeakBack": "K equals gamma minus one, times m c squared",
+    "Elaboration": "From \\(K=\\int F\\,dx\\) with \\(F=d(\\gamma mu)/dt\\) (the in-class derivation). Reduces to \\(\\tfrac12mu^2\\) for \\(u\\ll c\\).",
+    "Source": "NUEN201 L06 slide 10",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     1,
+     6
+    ],
+    "from": "slide 10",
+    "note": "The derivation stays in Elaboration as its key move; the full derivation is a desk ritual, not a card (canon 3)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:49:56.277Z"
+   }
+  },
+  {
+   "key": "3e718285a2",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Total relativistic energy of a free particle",
+    "Back": "\\(E=\\gamma mc^2=K+mc^2\\)",
+    "SpeakFront": "total relativistic energy of a free particle",
+    "SpeakBack": "E equals gamma m c squared, which is kinetic energy plus the rest energy m c squared",
+    "Elaboration": "The rest energy \\(mc^2\\) is what shows up as the Q-value when mass is lost in a reaction.",
+    "Source": "NUEN201 L06 slides 10–11",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     1,
+     6
+    ],
+    "from": "slide 11",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:50:10.537Z"
+   }
+  },
+  {
+   "key": "dcb06ef825",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Frame-invariant combination of \\(E\\) and \\(p\\) for a particle of mass \\(m\\)",
+    "Back": "\\(E^2-(pc)^2=(mc^2)^2\\)",
+    "SpeakFront": "the frame invariant combination of energy and momentum for a particle of mass m",
+    "SpeakBack": "E squared minus p c squared equals m c squared, squared",
+    "Elaboration": "Substitute \\(E=\\gamma mc^2\\), \\(p=\\gamma mu\\): \\(\\gamma^2m^2c^2(c^2-u^2)=m^2c^4\\), since \\(\\gamma^2(1-u^2/c^2)=1\\).",
+    "Source": "NUEN201 L06 slide 13",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     6,
+     16
+    ],
+    "from": "annotation",
+    "note": "The red 'why?' is answered in Elaboration; the relation itself is the recall target."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:50:18.515Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(p=E/c\\)",
+    "Elaboration": "Set \\(m=0\\) in \\(E^2=(pc)^2+(mc^2)^2\\).",
+    "Front": "Momentum of a photon of energy \\(E\\)",
+    "Source": "NUEN201 L06 slide 13",
+    "SourceLink": "",
+    "SpeakBack": "E over c",
+    "SpeakFront": "momentum of a photon of energy E"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the mathematical half of the old photon-momentum card."
+   },
+   "key": "4265385961",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::formula",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:07:25+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(p=mu\\) is only the low-speed form. The general relation \\(E^2=(pc)^2+(mc^2)^2\\) allows \\(p\\ne0\\) with \\(m=0\\).",
+    "Elaboration": "",
+    "Front": "How can a photon carry momentum with zero mass?",
+    "Source": "NUEN201 L06 slide 13",
+    "SourceLink": "",
+    "SpeakBack": "because p equals m u is only the low speed form; the general energy momentum relation allows nonzero momentum with zero mass",
+    "SpeakFront": "how can a photon carry momentum with zero mass?"
+   },
+   "golden": {
+    "canon": [
+     1,
+     15
+    ],
+    "from": "review",
+    "note": "Revision: the logical half."
+   },
+   "key": "2f769fa02f",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:07:43+00:00"
+   }
+  },
+  {
+   "key": "f9cdf470c3",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Energy equivalent of 1 atomic mass unit (4 sig figs)",
+    "Back": "931.5 MeV",
+    "SpeakFront": "energy equivalent of one atomic mass unit, to four significant figures",
+    "SpeakBack": "931.5 mega electron volts",
+    "Elaboration": "The lecture rounds to 931 MeV/c². Multiply a mass defect in u by this to get Q in MeV.",
+    "Source": "NUEN201 L06 slide 12",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::nuclear::mass-energy",
+    "type::anchor",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [
+    {
+     "quantity": "1 u c^2",
+     "value": "931.494 MeV",
+     "tolerance": "0.05%"
+    }
+   ],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     2,
+     7
+    ],
+    "from": "slide 12",
+    "note": "The precision is stated in the prompt; checked against scipy.constants (931.494)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "good! this could also be a fermi one and a unit one.",
+    "at": "2026-09-25T04:53:22.344Z"
+   }
+  },
+  {
+   "checks": [
+    {
+     "quantity": "m_p c^2",
+     "tolerance": "0.1%",
+     "value": "938.3 MeV"
+    }
+   ],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Anchor": "A nucleon is about 1 u, and 1 u ≈ 931.5 MeV/\\(c^2\\).",
+    "Answer": "\\(\\approx1\\) GeV (proton: 938 MeV)",
+    "Question": "Rest energy of a nucleon, to one significant figure",
+    "Source": "NUEN201 L06 slide 12",
+    "SourceLink": "",
+    "SpeakAnswer": "about one G e V; the proton is nine hundred thirty eight M e V",
+    "SpeakQuestion": "rest energy of a nucleon, to one significant figure"
+   },
+   "golden": {
+    "canon": [
+     7
+    ],
+    "from": "review",
+    "note": "Your review: the Fermi version of the atomic-mass-unit card (that one is the unit card)."
+   },
+   "key": "14b386c6f6",
+   "mode": "audio",
+   "note_type": "M-Estimate",
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::nuclear::mass-energy",
+    "type::anchor",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:08:00+00:00"
+   }
+  },
+  {
+   "key": "fc144a989b",
+   "note_type": "M-Estimate",
+   "deck": "Now",
+   "fields": {
+    "Question": "Q-value of \\({}^{236}\\mathrm{U}^*\\to{}^{90}\\mathrm{Rb}+{}^{143}\\mathrm{Cs}+3n\\) (to the nearest 5 MeV)",
+    "Answer": "\\(\\approx165\\) MeV",
+    "Anchor": "\\(\\Delta m=M({}^{236}\\mathrm U)-M({}^{90}\\mathrm{Rb})-M({}^{143}\\mathrm{Cs})-3m_n\\approx0.177\\) u, then \\(\\times931.5\\) MeV/u",
+    "SpeakQuestion": "Q value when an excited uranium 236 nucleus splits into rubidium 90, cesium 143, and three neutrons, to the nearest five M e V",
+    "SpeakAnswer": "about 165 M e V",
+    "Source": "NUEN201 L06 slide 12",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::nuclear::fission",
+    "type::anchor",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [
+    {
+     "quantity": "0.1774 u c^2",
+     "value": "165 MeV",
+     "tolerance": "1%"
+    }
+   ],
+   "confidence": 0.85,
+   "golden": {
+    "canon": [
+     7,
+     3
+    ],
+    "from": "annotation",
+    "note": "The worked example becomes an estimate: the recall target is the size and the derivation path, not the arithmetic. Verified: 0.17744 u × 931.494 = 165.3 MeV."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:53:55.521Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(\\vec F=\\dfrac{d\\vec p}{dt}=\\dfrac{d}{dt}(\\gamma m\\vec u)\\)",
+    "Elaboration": "Not \\(m\\vec a\\): \\(\\gamma\\) changes with \\(u\\) too.",
+    "Front": "Relativistic force in terms of momentum",
+    "Source": "NUEN201 L06 slide 9",
+    "SourceLink": "",
+    "SpeakBack": "F equals d p d t, the time derivative of gamma m u",
+    "SpeakFront": "relativistic force in terms of momentum"
+   },
+   "golden": {
+    "canon": [
+     16
+    ],
+    "from": "review",
+    "note": "Promoted from 'left out' in your review."
+   },
+   "key": "e452919353",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::formula",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:08:18+00:00"
+   }
+  }
+ ],
+ "skipped": [
+  {
+   "what": "Einstein's two postulates (slide 4)",
+   "why": "Taught in L03–L04; they belong to those lectures' cards, so repeating them here would duplicate."
+  },
+  {
+   "what": "Einstein photo, dates 1879–1955",
+   "why": "Trivia."
+  }
+ ],
+ "rejected": [
+  {
+   "key": "24b6a603a9",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "Why must momentum be redefined as \\(\\gamma m\\vec u\\) in special relativity?",
+    "Back": "With \\(m\\vec u\\), momentum is conserved in one inertial frame but not in another (the two-ball collision viewed from S′). \\(\\gamma m\\vec u\\) is conserved in every frame, as postulate 1 requires.",
+    "SpeakFront": "why must momentum be redefined as gamma m u in special relativity?",
+    "SpeakBack": "because m u is conserved in one inertial frame but not in another; gamma m u is conserved in every frame, as the first postulate requires",
+    "Elaboration": "Slides 5–6 set this up: the inelastic collision is fine in S and breaks in S′.",
+    "Source": "NUEN201 L06 slides 5–8",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.85,
+   "golden": {
+    "canon": [
+     15,
+     16
+    ],
+    "from": "annotation",
+    "note": "Answers the red 'why?'. A why-card instead of a definition, because the definition is already carded."
+   },
+   "review": {
+    "verdict": "reject",
+    "reason": "this just seems a bit obvious? maybe there is some more underlying idea that would be useful",
+    "at": "2026-09-25T04:48:34.834Z"
+   }
+  }
+ ],
+ "superseded": [
+  {
+   "key": "2fd5eb1bc7",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Why can a constant force never accelerate a particle to \\(c\\)?",
+    "Back": "\\(a=\\dfrac{F}{m}\\left(1-u^2/c^2\\right)^{3/2}\\to0\\) as \\(u\\to c\\): the same force produces less and less acceleration",
+    "SpeakFront": "why can a constant force never accelerate a particle to the speed of light?",
+    "SpeakBack": "because the acceleration equals F over m times one minus u squared over c squared, to the three halves, which goes to zero as u approaches c",
+    "Elaboration": "Equivalently, the force needed to keep accelerating diverges. That's why accelerators like the LHC approach c but never reach it.",
+    "Source": "NUEN201 L06 slide 9",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     15,
+     16
+    ],
+    "from": "annotation",
+    "note": "Answers the red 'we can't push to c?' with the formula as the reason. The formula alone is not its own card."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "this should be two cards, one being the formula, and one being the reasoning.",
+    "at": "2026-09-25T04:49:42.573Z"
+   },
+   "replaced_by": [
+    "a698102e4c",
+    "3408d96be0"
+   ]
+  },
+  {
+   "key": "45e0e6e06d",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "How can light carry momentum if photons are massless?",
+    "Back": "Set \\(m=0\\) in \\(E^2=(pc)^2+(mc^2)^2\\): \\(p=E/c\\)",
+    "SpeakFront": "how can light carry momentum if photons are massless?",
+    "SpeakBack": "set m to zero in E squared equals p c squared plus m c squared squared; so p equals E over c",
+    "Elaboration": "Momentum is not \\(mu\\) in general; the energy–momentum relation is the more basic statement.",
+    "Source": "NUEN201 L06 slide 13",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l06-relativistic-energy",
+    "topic::physics::relativity",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     15,
+     16
+    ],
+    "from": "annotation",
+    "note": "The student's own question makes the best cue."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "good, but should be two cards, one mathematical, and one logical",
+    "at": "2026-09-25T04:51:03.798Z"
+   },
+   "replaced_by": [
+    "4265385961",
+    "2f769fa02f"
+   ]
+  }
+ ]
+}

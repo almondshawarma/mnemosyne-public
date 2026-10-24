@@ -1,0 +1,27 @@
+/* Shared by every M-* note type. Phone-first: one column, large type, quiet chrome. */
+@font-face { font-family: "Charis SIL"; src: url("_CharisSIL.woff2"); }
+
+.card {
+  font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+  font-size: 26px;
+  line-height: 1.4;
+  text-align: center;
+  color: #1d1d1f;
+  background: #fbfbfd;
+  padding: 16px;
+}
+.nightMode.card, .night_mode .card { color: #e8e8ed; background: #1c1c1e; }
+
+.q { opacity: 0.55; font-size: 0.85em; }            /* question re-rendered on the back; never replayed */
+.a { font-size: 1.1em; margin-top: 0.4em; }
+hr#answer { border: none; border-top: 1px solid currentColor; opacity: 0.2; margin: 0.8em 0; }
+.label { font-size: 0.55em; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.5; margin-top: 0.8em; }
+.prompt { font-size: 0.7em; opacity: 0.7; margin-top: 0.6em; }
+.elab { font-size: 0.7em; opacity: 0.75; margin-top: 1em; text-align: left; }
+.src { font-size: 0.45em; opacity: 0.4; margin-top: 1.6em; }
+.src a { color: inherit; }
+.ipa, .symbol { font-family: "Charis SIL", "Doulos SIL", serif; }
+.symbol { font-size: 2.6em; }
+.target { font-size: 1.2em; }
+.cloze { font-weight: 600; color: #0a66c2; }
+.nightMode .cloze, .night_mode .cloze { color: #5ea8ff; }

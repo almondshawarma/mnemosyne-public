@@ -1,0 +1,20 @@
+[
+  {"front": "Ideal Gas Law", "back": "\\(PV = nRT\\)", "tags": ["Science::Chemistry::Gas-Laws", "Course::CHEM107::Exam2"], "deck": "Science::Chemistry::Gas Laws", "notetype": "Basic (and reversed card)", "reviews": 2},
+  {"front": "Ideal gas law", "back": "\\(PV=nRT\\)", "tags": ["Science::Chemistry::Fundamentals", "Course::CHEM-107"], "deck": "Science::Chemistry::Fundamentals"},
+  {"front": "\\(\\frac{\\mathrm{d}}{\\mathrm{d}x}\\sin(x)\\)", "back": "\\(\\cos(x)\\)", "tags": ["Math::Calculus::Derivatives", "type::result"], "deck": "Math::Calculus::Derivatives", "reviews": 1},
+  {"front": "\\(\\dfrac{d}{dx}\\,\\sin x\\)", "back": "\\(\\cos x\\)", "tags": ["Math::Calculus::Derivatives", "type::fundamental", "type::result"], "deck": "Math::Calculus::Derivatives"},
+  {"front": "\\(2^{12}\\)", "back": "4096", "tags": ["Math::Arithmetic::Exponentials::Powers-of-2"], "deck": "Math::Arithmetic::Exponentials::Powers of 2"},
+  {"front": "\\(21^2\\)", "back": "441", "tags": ["Math::Arithmetic::Squares"], "deck": "Math::Arithmetic::Squares"},
+  {"front": "\\(8\\times17\\)", "back": "136", "tags": ["Math::Arithmetic::Multiplication"], "deck": "Math::Arithmetic::Multiplication"},
+  {"front": "\\(17\\times8\\)", "back": "136", "tags": ["Math::Arithmetic::Multiplication"], "deck": "Math::Arithmetic::Multiplication"},
+  {"front": "\\(3\\times4\\)", "back": "12", "tags": ["Math::Arithmetic::Multiplication"], "deck": "Math::Arithmetic::Multiplication", "reviews": 1},
+  {"front": "\\(4\\times3\\)", "back": "12", "tags": ["Math::Arithmetic::Multiplication"], "deck": "Math::Arithmetic::Multiplication"},
+  {"front": "ज", "back": "ja [dʒ]", "tags": ["Languages::Hindi::Devanagari-Script::Consonants", "Languages::Phonetics", "Languages::Phonetics::Palatal"], "deck": "Languages::Hindi::Devanagari Script::Consonants"},
+  {"front": "ज़", "back": "za [zə]", "tags": ["Languages::Hindi::Devanagari-Script::Irregular-Ligatures"], "deck": "Languages::Hindi::Devanagari Script::Irregular Ligatures"},
+  {"front": "annus mirabilis", "back": "Latin - \"year of miracles\"", "tags": ["Languages::Latin", "Languages::Random-Foreign-Phrases"], "deck": "Languages::Random Foreign Phrases", "notetype": "Basic (and reversed card)"},
+  {"front": "\\(\\frac{1}{4}\\)", "back": "\\(0.25\\)", "tags": ["Math::Arithmetic::Fractions-and-Decimals", "Math::Arithmetic::FractionsandDecimals", "ai-generated"], "deck": "Math::Arithmetic::Fractions and Decimals", "notetype": "Basic (and reversed card)"},
+  {"front": "k (kilo)", "back": "\\(10^3\\)&nbsp;(thousand)", "tags": ["Science::Metrology::SI-Symbols-&-Prefixes"], "deck": "Science::Metrology::SI Symbols & Prefixes", "notetype": "Basic (and reversed card)"},
+  {"front": "<img src=\"cone.png\">", "back": "Cone", "tags": ["Math::Calculus::Multivariable::3D-Conics"], "deck": "Math::Calculus::Multivariable::3D Conics", "notetype": "Basic (and reversed card)"},
+  {"front": "The {{c1::ampere}} is the SI unit of current.", "back": "", "tags": ["Science::Metrology::SI-Units"], "deck": "Science::Metrology::SI Units", "notetype": "Cloze"},
+  {"front": "Monkey and dart: where is the monkey when the dart is at P?", "back": "A", "tags": ["Course::PHYS206::Exam1", "type::missed-question"], "deck": "Science::Physics::Classical Mechanics::Motion in Two or Three Dimensions"}
+]

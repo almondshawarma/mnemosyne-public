@@ -1,0 +1,154 @@
+# mnemosyne on the Obelisk: its own compose project, joined to the Helios network so it can reach
+# helios-anki-sync, and reachable by helios-telegram / helios-mcp. See docs/deploy.md.
+#
+# Secrets live in ./secrets/ (gitignored, mode 600). Settings in ./.env (gitignored):
+#   HELIOS_HOST_IP, HELIOS_LEDGER_DIR, ANKI_SYNC_USERNAME, ANKI_SYNC_TEST_USERNAME
+name: mnemosyne
+
+x-anki-core: &anki-core
+  build: services/anki-core
+  restart: unless-stopped
+  environment: &anki-core-env
+    MCP_HOST: "0.0.0.0"
+    MCP_PORT: "8000"
+    MCP_AUTH_TOKEN_FILE: /run/secrets/anki_core_token
+    MCP_ALLOWED_HOSTS: "anki-core,anki-core:*,anki-core-test,anki-core-test:*,localhost,localhost:*,127.0.0.1,127.0.0.1:*"
+    MCP_SCOPES: "read,write,admin"       # admin for P4 decks and today-only limits (Aman, 2026-09-26); mnemosyne's
+                                         # client allowlists its tools. Never destructive.
+    ANKI_COLLECTION_PATH: /data/collection.anki2
+    ANKI_SYNC_HOST: "http://anki-sync:8080/"
+    ANKI_SYNC_INSECURE_HOSTS: "anki-sync"   # plain HTTP only on the private Docker network
+    ANKI_SYNC_ON_WRITE: "true"
+    ANKI_ALLOW_DESTRUCTIVE: "false"      # invariant 9
+    ANKI_ALLOW_FULL_SYNC: "false"        # invariant 3
+    ANKI_ALLOW_SCHEMA_CHANGES: "false"   # invariant 2
+    ANKI_ALLOW_REVIEW_ANSWERS: "false"
+    ANKI_BOOTSTRAP_MODE: ${ANKI_BOOTSTRAP_MODE:-disabled}   # download_if_empty only for a fresh volume's first start: it refuses a non-empty collection
+    ANKI_MAX_BATCH_SIZE: "50"
+  networks: [default, helios]
+
+services:
+  api:
+    build: {context: ., target: app}
+    restart: unless-stopped
+    environment:
+      MNEMOSYNE_LEDGER: /ledger/helios.db
+      MNEMOSYNE_ANKI_CORE_URL: http://anki-core:8000/mcp
+      MNEMOSYNE_ANKI_CORE_TOKEN_FILE: /run/secrets/anki_core_token
+      MNEMOSYNE_PROPOSE_TOKEN_FILE: /run/secrets/propose_token
+      MNEMOSYNE_APPROVE_TOKEN_FILE: /run/secrets/approve_token
+      MNEMOSYNE_PAPERLESS_URL: http://webserver:8000
+      MNEMOSYNE_PAPERLESS_PUBLIC_URL: http://${HELIOS_HOST_IP}:8000
+      MNEMOSYNE_PAPERLESS_TOKEN_FILE: /run/secrets/paperless_token
+      MNEMOSYNE_OLLAMA_URL: http://ollama:11434
+      MNEMOSYNE_INFLUX_TOKEN_FILE: /run/secrets/influx_token   # empty until obelisk_secrets.sh fills it; metrics stay in the Ledger
+      MNEMOSYNE_STUBS_DIR: /vault-sources/Paperless            # lecture stubs: questions go in a block below HELIOS's marker
+      MNEMOSYNE_OLD_NOTES_DIR: /vault-sources/Lectures         # the retired '… · questions' notes (one-time move)
+      MNEMOSYNE_HELIOS_MCP_URL: http://mcp:8091/mcp           # Helios MCP on helios_default, for Hyperion investigations
+      MNEMOSYNE_CALIBRE_DIR: /calibre                         # textbooks for the reading path (read-only)
+      MNEMOSYNE_CALIBRE_PUBLIC_URL: http://${HELIOS_HOST_IP}:8083
+      MNEMOSYNE_MEDIA_DIR: /media                             # pipeline media too big for git (ASL videos)
+      MNEMOSYNE_BOOKS_INDEX: /cache/books.db                  # full-text index of the books (a cache, rebuilt from the PDFs)
+      MNEMOSYNE_WATCH_QUEUE: /watch-queue                     # requests for the watcher (videos.py)
+      MNEMOSYNE_RENDER_QUEUE: /render-queue                   # clips for the render runner (scripts/render_runner.py)
+      MNEMOSYNE_PUBLIC_URL: http://${HELIOS_HOST_IP}:8110
+      MNEMOSYNE_SCENES_DIR: /scenes                           # mn_style + brand tokens, for the clip toolkit
+      MNEMOSYNE_AMANIM_DIR: /amanim                           # Aman's technique library (pulled nightly)
+    secrets: [anki_core_token, propose_token, approve_token, paperless_token, tamu_api_key, tamu_base_url, influx_token]
+    volumes:
+      - ${HELIOS_LEDGER_DIR:?set in .env}:/ledger
+      - ${HELIOS_VAULT_DIR:-/mnt/data/helios/vault}/Sources:/vault-sources   # only Sources/ of the vault
+      - calibre_library:/calibre:ro                         # Helios's Calibre library, never written
+      - ./media:/media:ro                                   # scripts/asl_videos.py fills it on the host
+      - ./media/watch-queue:/watch-queue                    # media the api writes: video requests,
+      - ./media/render:/media/render                        # clearing a clip's video (its code stays), chats' scenes,
+      - ./media/render-queue:/render-queue                  # and clips for the render runner
+      - ./scenes:/scenes:ro                                 # the clip toolkit reads these two, never runs them
+      - ../amanim:/amanim:ro
+      - books_index:/cache                                  # library.Index: derived from the PDFs, safe to delete
+    ports:
+      - "${HELIOS_HOST_IP:?set in .env}:8110:8110"   # tailnet only
+    networks:
+      default: {}
+      helios: {aliases: [mnemosyne]}
+    depends_on: [anki-core]
+
+  # Lecture videos for the tutor (videos.py): captions and key frames, never the video. It needs the internet (YouTube)
+  # and nothing else: no Helios network, no secrets, no capabilities, a read-only root. Create media/watch and
+  # media/watch-queue as the host user before the first up, or Docker makes them as root.
+  watcher:
+    build: services/watch
+    image: mnemosyne-watch:1          # the same image scripts/watch.py runs from a session
+    command: ["--serve"]
+    restart: unless-stopped
+    read_only: true
+    tmpfs: ["/tmp:size=3g"]           # the video lives here while frames are cut, then it's deleted
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    user: "1000:1000"
+    mem_limit: 4g
+    cpus: 4
+    pids_limit: 256
+    volumes:
+      - ./media/watch:/watch
+      - ./media/watch-queue:/queue
+    networks: [outside]                # its own network: it can reach YouTube, not anki-core or the api
+
+  anki-core:
+    <<: *anki-core
+    environment:
+      <<: *anki-core-env
+      ANKI_SYNC_USERNAME: ${ANKI_SYNC_USERNAME:?set in .env}
+      ANKI_SYNC_PASSWORD_FILE: /run/secrets/anki_sync_password
+    secrets: [anki_core_token, anki_sync_password]
+    volumes: [anki_core_data:/data]
+
+  # ---- integration tests: the test sync user only (docker compose --profile test ...) ----
+  anki-core-test:
+    <<: *anki-core
+    profiles: [test]
+    restart: "no"
+    environment:
+      <<: *anki-core-env
+      ANKI_SYNC_USERNAME: ${ANKI_SYNC_TEST_USERNAME:?set in .env}
+      ANKI_SYNC_PASSWORD_FILE: /run/secrets/anki_sync_test_password
+    secrets: [anki_core_token, anki_sync_test_password]
+    volumes: [anki_core_test_data:/data]
+
+  integration:
+    build: {context: ., target: integration}
+    profiles: [test]
+    environment:
+      TEST_SYNC_USER: ${ANKI_SYNC_TEST_USERNAME:?set in .env}
+      TEST_SYNC_PASSWORD_FILE: /run/secrets/anki_sync_test_password
+      SYNC_ENDPOINT: "http://anki-sync:8080/"
+      ANKI_CORE_URL: http://anki-core-test:8000/mcp
+      ANKI_CORE_TOKEN_FILE: /run/secrets/anki_core_token
+      HOME: /tmp
+    secrets: [anki_core_token, anki_sync_test_password]
+    networks: [default, helios]
+
+secrets:
+  anki_core_token: {file: ./secrets/anki_core_token}
+  propose_token: {file: ./secrets/propose_token}
+  approve_token: {file: ./secrets/approve_token}
+  anki_sync_password: {file: ./secrets/anki_sync_password}
+  anki_sync_test_password: {file: ./secrets/anki_sync_test_password}
+  paperless_token: {file: ./secrets/paperless_token}
+  tamu_api_key: {file: ./secrets/tamu_api_key}
+  tamu_base_url: {file: ./secrets/tamu_base_url}
+  influx_token: {file: ./secrets/influx_token}
+
+volumes:
+  books_index:
+  anki_core_data:
+  anki_core_test_data:
+  calibre_library:                  # Calibre-Web-Automated's library in the Helios stack
+    external: true
+    name: helios_cwa-library
+
+networks:
+  outside: {}
+  helios:
+    external: true
+    name: helios_default

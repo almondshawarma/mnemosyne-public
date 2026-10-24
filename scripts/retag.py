@@ -1,0 +1,139 @@
+# /// script
+# requires-python = ">=3.12"
+# dependencies = ["zstandard"]
+# ///
+"""Tag normalization dry run (PLAN §3.3). Reads a .colpkg, never writes to it.
+
+Usage: uv run scripts/retag.py path/to/collection.colpkg --out docs/runs/<date>-retag.json
+
+Writes the per-note diff as JSON plus a reviewable Markdown summary next to it.
+The JSON is what gets applied on Anki Desktop, via scripts/anki_apply.py.
+"""
+import argparse
+import collections
+import hashlib
+import json
+import re
+import sqlite3
+from pathlib import Path
+
+from audit import open_colpkg
+
+LEGACY = "src::legacy"  # every pre-pipeline note gets this
+EXPLICIT: dict[str, tuple[str, ...]] = {  # keys casefolded
+    "ai-generated": ("gen::ai",),
+    "languages::random-foreign-phrases": ("topic::idioms",),
+    "languages::latin": ("topic::idioms",),
+    "languages::phonetics": (),  # bare parent; place/manner children carry the meaning
+    "type::missed-question": ("type::trap",),
+}
+SEGMENT_ALIASES = {"fractionsanddecimals": "fractions-and-decimals"}
+IPA_PLACE = {"bilabial", "labial", "labiodental", "dental", "alveolar", "postalveolar", "retroflex",
+             "palatal", "velar", "uvular", "pharyngeal", "glottal"}
+IPA_MANNER = {"occlusive": "plosive", "plosive": "plosive", "stop": "plosive", "nasal": "nasal",
+              "trill": "trill", "tap": "tap", "flap": "tap", "fricative": "fricative", "affricate": "affricate",
+              "approximant": "approximant", "lateral": "lateral"}
+COURSE = re.compile(r"^(?:course::)?([a-z]{3,4})-?(\d{3})((?:::.+)?)$", re.IGNORECASE)
+CANONICAL = re.compile(r"^(course|topic|type|src|gen|mode|lang|ipa|status)(::[a-z0-9]+(-[a-z0-9]+)*)+$")
+
+
+def seg(s: str) -> str:
+    s = re.sub(r"[\s_]+", "-", s.casefold().replace("&", "and"))
+    s = re.sub(r"-+", "-", s).strip("-")
+    return SEGMENT_ALIASES.get(s, s)
+
+
+def map_tag(tag: str) -> tuple[str, ...] | None:
+    """New tags for one legacy tag. () drops it; None means no rule applies."""
+    if tag.casefold() in EXPLICIT:
+        return EXPLICIT[tag.casefold()]
+    if CANONICAL.match(tag):
+        return (tag,)
+    parts = tag.split("::")
+    head = parts[0].casefold()
+    if m := COURSE.match(tag):
+        rest = [seg(p) for p in m[3].split("::") if p]
+        return ("::".join(["course", f"{m[1]}{m[2]}".lower(), *rest]),)
+    if head == "math":
+        return ("::".join(["topic", *map(seg, parts)]),)
+    if head == "science" and len(parts) > 1:
+        return ("::".join(["topic", *map(seg, parts[1:])]),)
+    if [seg(p) for p in parts[:3]] == ["languages", "hindi", "devanagari-script"]:
+        return ("::".join(["lang", "hi", "script", *map(seg, parts[3:])]),)
+    if [seg(p) for p in parts[:2]] == ["languages", "phonetics"] and len(parts) == 3:
+        feature = seg(parts[2])
+        if feature in IPA_PLACE:
+            return (f"ipa::place::{feature}",)
+        if feature in IPA_MANNER:
+            return (f"ipa::manner::{IPA_MANNER[feature]}",)
+    if head == "type" and len(parts) == 2:
+        return (f"type::{seg(parts[1])}",)
+    return None
+
+
+def retag_note(tags: list[str]) -> tuple[list[str], list[str]]:
+    """(new tags, unmapped legacy tags). Unmapped tags are kept, never dropped silently."""
+    out, unmapped = {LEGACY}, []
+    for t in tags:
+        mapped = map_tag(t)
+        if mapped is None:
+            unmapped.append(t)
+            out.add(t)
+        else:
+            out.update(mapped)
+    return sorted(out), unmapped
+
+
+def plan(c: sqlite3.Connection) -> dict:
+    notes = c.execute("select id, tags from notes order by id").fetchall()
+    rows, unmapped, new_counts = [], collections.Counter(), collections.Counter()
+    for nid, tags in notes:
+        before = sorted(tags.split())
+        after, um = retag_note(before)
+        unmapped.update(um)
+        new_counts.update(after)
+        if after != before:
+            rows.append({"nid": nid, "before": before, "after": after})
+    counts = collections.Counter(t for _, s in notes for t in s.split())
+    tag_map = {t: list(m if (m := map_tag(t)) is not None else (t,)) for t in sorted(counts)}
+    return {"kind": "retag", "version": 1,
+            "summary": {"notes": len(notes), "changed": len(rows), "unchanged": len(notes) - len(rows),
+                        "tags_before": len(counts), "tags_after": len(new_counts), "unmapped": dict(unmapped)},
+            "tag_map": tag_map, "tag_counts_before": dict(sorted(counts.items())),
+            "tag_counts_after": dict(sorted(new_counts.items())), "notes": rows}
+
+
+def dump(p: dict) -> str:
+    """Indented header, then one note per line so run diffs stay reviewable."""
+    head = json.dumps({k: v for k, v in p.items() if k != "notes"}, indent=1, ensure_ascii=False)
+    rows = ",\n".join("  " + json.dumps(r, ensure_ascii=False) for r in p["notes"])
+    return head[:-2] + f',\n "notes": [\n{rows}\n ]\n}}\n'
+
+
+def markdown(p: dict, source: str) -> str:
+    s = p["summary"]
+    lines = [f"# Retag dry run — {source}", "",
+             "Generated by `scripts/retag.py`. Nothing was written to any collection.", "",
+             f"- Notes: {s['notes']} · changed: {s['changed']} · unchanged: {s['unchanged']}",
+             f"- Distinct tags: {s['tags_before']} → {s['tags_after']}",
+             f"- Unmapped (kept as-is): {', '.join(f'`{t}`' for t in s['unmapped']) or 'none'}",
+             f"- Every note also gets `{LEGACY}`.", "",
+             "## Tag map", "", "| Legacy tag | Notes | New tag(s) |", "|---|---:|---|"]
+    for old, new in p["tag_map"].items():
+        lines.append(f"| `{old}` | {p['tag_counts_before'][old]} | {', '.join(f'`{t}`' for t in new) or '*(dropped)*'} |")
+    lines += ["", "## Resulting tags", "", "| Tag | Notes |", "|---|---:|"]
+    lines += [f"| `{t}` | {n} |" for t, n in p["tag_counts_after"].items()]
+    return "\n".join(lines) + "\n"
+
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser(description=(__doc__ or "").partition("\n")[0])
+    ap.add_argument("colpkg", type=Path)
+    ap.add_argument("--out", type=Path, required=True, help="JSON diff path; the .md summary is written beside it")
+    args = ap.parse_args()
+    p = plan(open_colpkg(args.colpkg))
+    p["source"] = {"colpkg": args.colpkg.name, "sha256": hashlib.sha256(args.colpkg.read_bytes()).hexdigest()}
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.out.write_text(dump(p), encoding="utf-8")
+    args.out.with_suffix(".md").write_text(markdown(p, args.colpkg.name), encoding="utf-8")
+    print(json.dumps(p["summary"], ensure_ascii=False))

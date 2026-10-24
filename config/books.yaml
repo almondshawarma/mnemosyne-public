@@ -1,0 +1,197 @@
+# Textbooks mnemosyne can card from (the reading path, PLAN §4.1). A reading is a book plus where in it: a section
+# from the book's outline ("2.3"), a chapter ("ch 2"), or pages as printed in the book ("p 39-47"). Books without an
+# outline take pages only.
+#   calibre: the book's id in Calibre (the number in its folder name, e.g. ".../Introduction to Plasma... (28)").
+#   name:    what goes in the cards' Source field and in Paperless titles.
+#   slug:    the tag, src::book::<slug>::<where> (e.g. src::book::chen::s2-3).
+#   course:  set it when the book is a current course's textbook: its cards then go to Now and carry course::<code>.
+#            Without one, cards are self-study and go to Core. A book several courses share maps chapters to courses
+#            ({PHYS207: [21-32], PHYS221: [17-20, 33-36]}); chapters none of them covers are self-study.
+#   aliases: the words that name the book at the start of a scan's title in Paperless ("Chen 2.3").
+#   offset:  PDF page = printed page + offset, for PDFs without page labels (measured 2026-10-04). PDFs with page
+#            labels (Chen, Serway, Leon, Haberman) map printed pages exactly; with neither, pages are PDF pages.
+#   outline_shift: {from, by} when the PDF's bookmarks point `by` pages early from PDF page `from` on (Griffiths QM),
+#            so a section doesn't lose its last page to the next one.
+#   last_page: the PDF page the book ends on, when the file carries something else after it; nothing past it is read.
+#            (University Physics had another book merged after p. 1596; trimmed in Calibre on 2026-10-06.)
+#   first_page: the PDF page the book starts on, for one PDF holding two books (Hibbeler's Statics, then his
+#            Dynamics, each numbered from p. 1): two entries share the Calibre id, each with its own pages.
+#   number_sections: true when the outline names sections without numbers; they're numbered by page within each
+#            chapter, as printed in the book (University Physics: "21.3 Coulomb's Law").
+#
+# Adding a book: put its PDF in Calibre (Calibre-Web's upload, or drop it in ~/helios/stack/books/ingest), then add an
+# entry here with its Calibre id, and deploy. Check that its outline and printed pages land right (docs/deploy.md,
+# "Readings"); measure an offset if the PDF has no page labels.
+books:
+  chen:
+    name: Chen
+    title: Introduction to Plasma Physics and Controlled Fusion
+    calibre: 28
+    slug: chen
+    course: null
+    aliases: [chen, plasma]
+  beiser:
+    name: Beiser
+    title: Concepts of Modern Physics
+    calibre: 27
+    offset: 15
+    slug: beiser
+    course: NUEN201
+    aliases: [beiser]
+  serway:
+    name: Serway
+    title: Modern Physics
+    calibre: 25
+    slug: serway
+    course: NUEN201
+    aliases: [serway]
+  leon:
+    name: Leon
+    title: Linear Algebra with Applications
+    calibre: 24
+    slug: leon
+    course: MATH309
+    aliases: [leon]
+  spiegel:
+    name: Spiegel
+    title: "Schaum's Outline of Fourier Analysis with Applications to Boundary Value Problems"
+    calibre: 26
+    slug: spiegel
+    course: MATH309
+    aliases: [spiegel, schaum, schaums]
+  boyce:
+    name: Boyce
+    title: Elementary Differential Equations and Boundary Value Problems
+    calibre: 21
+    slug: boyce
+    course: null
+    aliases: [boyce, boyce-diprima]
+  haberman:
+    name: Haberman
+    title: Applied Partial Differential Equations
+    calibre: 23
+    slug: haberman
+    course: MATH309
+    aliases: [haberman]
+  strogatz:
+    name: Strogatz
+    title: Nonlinear Dynamics and Chaos
+    calibre: 5
+    offset: 15
+    slug: strogatz
+    course: null
+    aliases: [strogatz]
+  jaynes:
+    name: Jaynes
+    title: "Probability Theory: The Logic of Science"
+    calibre: 22
+    offset: 30
+    slug: jaynes
+    course: null
+    aliases: [jaynes]
+  scherz:
+    name: Scherz
+    title: Practical Electronics for Inventors
+    calibre: 7
+    slug: scherz
+    course: null
+    aliases: [scherz]
+  nahin:
+    name: Nahin
+    title: Inside Interesting Integrals
+    calibre: 4
+    slug: nahin
+    course: null
+    aliases: [nahin]
+  # Three Griffiths and two Susskind books (added 2026-10-06): a scan title names one with its hyphenated alias,
+  # since "Griffiths 2.1" alone could be any of three.
+  griffiths-em:
+    name: Griffiths Electrodynamics
+    title: Introduction to Electrodynamics
+    calibre: 29
+    offset: 24
+    slug: griffiths-em
+    course: null
+    aliases: [griffiths-em, griffiths-ed, electrodynamics]
+  griffiths-qm:
+    name: Griffiths QM
+    title: Introduction to Quantum Mechanics
+    calibre: 30
+    offset: 13
+    outline_shift: {from: 17, by: 1}   # chapter 1 opens on PDF 16 as bookmarked; every bookmark after is a page early
+    slug: griffiths-qm
+    course: null
+    aliases: [griffiths-qm]
+  griffiths-particles:
+    name: Griffiths Particles
+    title: Introduction to Elementary Particles
+    calibre: 31
+    slug: griffiths-particles
+    course: null
+    aliases: [griffiths-particles, griffiths-pp]
+  susskind-qm:
+    name: Susskind QM
+    title: "Quantum Mechanics: The Theoretical Minimum"
+    calibre: 32
+    slug: susskind-qm
+    course: null
+    aliases: [susskind-qm, tm-qm]
+  susskind-cm:
+    name: Susskind CM
+    title: "The Theoretical Minimum: What You Need to Know to Start Doing Physics"
+    calibre: 33
+    slug: susskind-cm
+    course: null
+    aliases: [susskind-cm, tm-cm]
+  young:
+    name: University Physics
+    title: University Physics with Modern Physics (Young & Freedman)
+    calibre: 34
+    offset: 30
+    number_sections: true
+    slug: young
+    course: {PHYS207: [21-32], PHYS221: [17-20, 33-36]}    # PHYS 206 (ch 1-16) is done: those are self-study
+    aliases: [young, university-physics, uphys, up]
+  # Hibbeler, Engineering Mechanics: Statics & Dynamics, 15th ed. (2026-10-12): one scanned PDF, OCR'd on the Obelisk,
+  # with an outline from the book's contents and page labels added. Statics and Dynamics each number from p. 1, so
+  # they're two entries; chapters 1-11 are Statics, 12-22 Dynamics. MEEN 221 covers 1-10, 12, and 13 (its syllabus).
+  hibbeler-statics:
+    name: Hibbeler Statics
+    title: "Engineering Mechanics: Statics (15th ed.)"
+    calibre: 35
+    last_page: 673
+    slug: hibbeler-statics
+    course: {MEEN221: [1-10]}
+    aliases: [hibbeler-statics, hibbeler-s, statics]
+  hibbeler-dynamics:
+    name: Hibbeler Dynamics
+    title: "Engineering Mechanics: Dynamics (15th ed.)"
+    calibre: 35
+    first_page: 674
+    slug: hibbeler-dynamics
+    course: {MEEN221: [12-13]}
+    aliases: [hibbeler-dynamics, hibbeler-d, dynamics]
+  # Computational science, self-study (2026-10-14): Strang's K = AᵀCA framework, Grady & Polimeni's discrete calculus
+  # on graphs, and Bossavit's Whitney forms for Maxwell's equations.
+  strang:
+    name: Strang CSE
+    title: Computational Science and Engineering
+    calibre: 36        # a ClearScan scan: outline built from its printed contents and page labels added in Calibre
+    slug: strang
+    course: null
+    aliases: [strang, strang-cse, cse]
+  grady:
+    name: Grady & Polimeni
+    title: "Discrete Calculus: Applied Analysis on Graphs for Computational Science"
+    calibre: 37        # bookmarks numbered as printed, and page labels added in Calibre (the PDF drops blank pages)
+    slug: grady
+    course: null
+    aliases: [grady, discrete-calculus]
+  bossavit:
+    name: Bossavit
+    title: "Computational Electromagnetism: Variational Formulations, Complementarity, Edge Elements"
+    calibre: 38
+    offset: 22
+    slug: bossavit
+    course: null
+    aliases: [bossavit, computational-em]

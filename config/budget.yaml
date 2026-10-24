@@ -1,0 +1,46 @@
+# Catch-up budget (Aman, 2026-10-07): schoolwork and foundations first, Spanish paused. The Spanish listening that
+# filled the rest of the walking hour goes to Anki, and the desk gets more. Was 40 + 15 = 55; go back once Now's
+# backlog is through and reviews are keeping pace with the lectures.
+walk_minutes: 60          # the whole walking hour is Anki for now
+desk_minutes: 40
+priority_weights:         # share of governed new cards; a deck with none left passes its share on
+  Now: 0.45
+  Core: 0.25
+  Lang::IPA: 0.15         # desk limit (not a walk home); added 2026-10-07: without a weight its cards never came in
+  Lang::ASL: 0.15         # desk only (M-Sign is visual); added 2026-10-05
+  Lang::Spanish: 0        # paused 2026-10-07 (was 0.45)
+  Lang::Hindi: 0          # paused 2026-10-07 (was 0.05)
+  Lang::French: 0         # paused 2026-10-07 (was 0.05)
+backlog_clear:            # one-time, first ~10 days after migration
+  until: 2026-10-04       # P1 migration ran 2026-09-24; +10 days
+  zero_new_in: [Core, Now, Lang::Hindi, Lang::French]
+  walk_new: 10            # PLAN §5.5: the multiplication facts keep coming in on walks, 10 a day
+governor:                 # PLAN §5.3: new cards a day from the week's projected load
+  new_card_reviews: 5     # answers a day that one sustained new card a day costs early on (learning steps included)
+  max_new_per_day: 40     # ceiling on all governed new cards together, walk and desk (was 25)
+  seconds_per_review: 8   # used until the last 14 days hold at least 50 timed reviews
+focus:                    # ~Focus::<name>::New and ::Due, rebuilt at 04:15 (schedule/focus.py; Aman, 2026-10-05)
+  # Fresh (Aman, 2026-10-20): cards added in the last 3 days, while the lecture is still in his head, so they don't
+  # sink into the new-card backlog. First, so a recent card lands here before another focus (Plasma) takes it.
+  - name: Fresh
+    search: "added:3"
+    new_per_day: all        # no cap (Aman, 2026-10-20): burn through them when there's time; not out of the total
+    recall_below: 0.90
+    due_limit: 60
+  - name: Plasma
+    search: "tag:topic::plasma* OR tag:src::book::chen* OR tag:topic::nuclear::fusion*"
+    new_per_day: 5          # out of the day's governed total (max_new_per_day), not on top of it
+    recall_below: 0.90      # seen cards come in when due, or once recall drops below this
+    due_limit: 60
+  # Metis (Aman, 2026-10-21): his computational apprenticeship's cards (mnemosyne-unpack). They sit in Core behind
+  # ~1000 new cards, so none had come up. Only course::metis, not topic::computing, which MATH 309's least-squares
+  # cards also carry as a connection.
+  - name: Metis
+    search: "tag:course::metis*"
+    new_per_day: 3          # out of the day's governed total; about six cards land per unpack session
+    recall_below: 0.90
+    due_limit: 40
+exam_window:
+  days_before: 10
+  r_threshold_start: 0.85
+  r_threshold_end: 0.95

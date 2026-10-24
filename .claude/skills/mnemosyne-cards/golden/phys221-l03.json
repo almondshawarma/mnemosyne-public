@@ -1,0 +1,1036 @@
+{
+ "status": "reviewed",
+ "reviewed_by": "aman",
+ "source": {
+  "kind": "slides",
+  "course": "PHYS221",
+  "lecture": 3,
+  "ref": "PHYS 221 L03 - The First Law of Thermodynamics (annotated)",
+  "link": "http://<obelisk>:8000/documents/445/details"
+ },
+ "signals": [
+  "Professor labels: 'Exam Example 26–33'. Derivations 26 and 27 are marked as exam material.",
+  "red 'why? that Q & W don't have a differential? b/c they aren't state functions?' (slide 2)",
+  "red 'isobaric?' / 'isochoric?' at C_P and C_V (slide 7): vocabulary gap",
+  "red 'n vs m?' (slides 12, 16)",
+  "red 'why is adiabatic steeper? more internal energy lost?' and 'what does higher γ mean?' (slide 15)",
+  "red 'always true?' at ΔU = nC_V ΔT in the isothermal case (slide 25)",
+  "red 'not dependent on gas ideality?' at γ values (slide 8)"
+ ],
+ "cards": [
+  {
+   "key": "2cba8ad4b9",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "First law of thermodynamics (PHYS 221 sign convention)",
+    "Back": "\\(\\delta Q=dU+\\delta W\\), with \\(Q>0\\) for heat into the system and \\(W>0\\) for work done by it",
+    "SpeakFront": "the first law of thermodynamics, in the PHYS 221 sign convention",
+    "SpeakBack": "delta Q equals d U plus delta W; heat into the system is positive, and work done by the system is positive",
+    "Elaboration": "Chemistry often writes \\(\\Delta U=Q+W\\) with \\(W\\) done on the system. Same physics, opposite sign for \\(W\\).",
+    "Source": "PHYS221 L03 slide 1",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     2,
+     14
+    ],
+    "from": "slide 1",
+    "note": "The sign convention sits in the prompt (canon 2). The chemistry convention in Elaboration guards against interference from CHEM 107 cards."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:14:52.162Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(Q\\) and \\(W\\) depend on the path (inexact differentials); \\(U\\) is a state function (exact)",
+    "Elaboration": "Different paths between the same two states enclose different \\(pV\\) areas: \\(W\\) differs, \\(\\Delta U\\) doesn't.",
+    "Front": "Why are heat and work written \\(\\delta Q,\\ \\delta W\\) but internal energy \\(dU\\)?",
+    "Source": "PHYS221 L03 slides 2, 5",
+    "SourceLink": "",
+    "SpeakBack": "heat and work depend on the path, so their differentials are inexact; internal energy is a state function, so d U is exact",
+    "SpeakFront": "why are heat and work written with a small delta, but internal energy with d?"
+   },
+   "golden": {
+    "canon": [
+     3
+    ],
+    "from": "review",
+    "note": "Revision: trimmed."
+   },
+   "key": "84b64f05c2",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:14:27+00:00"
+   }
+  },
+  {
+   "key": "204cd2e09b",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Work done by a gas during a volume change",
+    "Back": "\\(W=\\displaystyle\\int_{V_1}^{V_2}p\\,dV\\): the area under the path on a pV diagram",
+    "SpeakFront": "work done by a gas during a volume change",
+    "SpeakBack": "the integral of p d V from V one to V two; the area under the path on a p V diagram",
+    "Elaboration": "From \\(dW=F\\,dx=pA\\,dx=p\\,dV\\). Compression gives negative work.",
+    "Source": "PHYS221 L03 slides 3–4",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     6
+    ],
+    "from": "slide 3",
+    "note": "The F → p step in Elaboration answers the red 'how get F → p?'."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:17:00.213Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "Constant volume",
+    "Elaboration": "Greek choros, space: the space stays the same.",
+    "Front": "Isochoric process",
+    "Source": "PHYS221 L03 slide 13",
+    "SourceLink": "",
+    "SpeakBack": "constant volume",
+    "SpeakFront": "isochoric process"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the definition alone."
+   },
+   "key": "e5cb3ca01c",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::definition",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:14:33+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(W=0\\)",
+    "Elaboration": "So by the first law, all the heat goes into internal energy: \\(Q=\\Delta U\\).",
+    "Front": "Work done in an isochoric process",
+    "Source": "PHYS221 L03 slide 13",
+    "SourceLink": "",
+    "SpeakBack": "zero",
+    "SpeakFront": "work done in an isochoric process"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the consequence gets its own card."
+   },
+   "key": "f4674fdcd6",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::result",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:14:41+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "Constant pressure",
+    "Elaboration": "Greek baros, weight or pressure.",
+    "Front": "Isobaric process",
+    "Source": "PHYS221 L03 slide 13",
+    "SourceLink": "",
+    "SpeakBack": "constant pressure",
+    "SpeakFront": "isobaric process"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the definition alone."
+   },
+   "key": "4328590d99",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::definition",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:14:44+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(W=p\\,\\Delta V\\)",
+    "Elaboration": "",
+    "Front": "Work done in an isobaric process",
+    "Source": "PHYS221 L03 slide 13",
+    "SourceLink": "",
+    "SpeakBack": "p times the change in volume",
+    "SpeakFront": "work done in an isobaric process"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the consequence gets its own card."
+   },
+   "key": "220ce068eb",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::result",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:14:45+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(U=\\tfrac32nRT=\\tfrac32Nk_BT\\)",
+    "Elaboration": "Three translational degrees of freedom, each contributing ½kT per molecule.",
+    "Front": "Internal energy of a monatomic ideal gas",
+    "Source": "PHYS221 L03 slide 6",
+    "SourceLink": "",
+    "SpeakBack": "three halves n R T, which is three halves N k B T",
+    "SpeakFront": "internal energy of a monatomic ideal gas"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the dependence moves to its own card."
+   },
+   "key": "72241cd79e",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::ideal-gas",
+    "type::result",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:15:00+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "Temperature only",
+    "Elaboration": "Not on \\(p\\) or \\(V\\) separately, so \\(\\Delta U=0\\) in any isothermal ideal-gas process.",
+    "Front": "Internal energy of an ideal gas depends on which state variable?",
+    "Source": "PHYS221 L03 slide 6",
+    "SourceLink": "",
+    "SpeakBack": "temperature only",
+    "SpeakFront": "internal energy of an ideal gas depends on which state variable?"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: true for every ideal gas, not just monatomic, so it stands alone."
+   },
+   "key": "58d03b9a8b",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::ideal-gas",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:15:13+00:00"
+   }
+  },
+  {
+   "key": "83d117f5e3",
+   "note_type": "M-Error",
+   "deck": "Now",
+   "fields": {
+    "Situation": "Finding \\(\\Delta U\\) of an ideal gas in a process that isn't at constant volume",
+    "Trap": "Thinking \\(\\Delta U=nC_V\\Delta T\\) only holds for isochoric processes",
+    "Fix": "For an ideal gas, \\(\\Delta U=nC_V\\Delta T\\) for any process",
+    "Why": "\\(U\\) depends on \\(T\\) alone. \\(C_V\\) is just the constant-volume way of measuring \\(dU/dT\\).",
+    "SpeakSituation": "finding the change in internal energy of an ideal gas in a process that is not at constant volume",
+    "SpeakFix": "for an ideal gas, delta U equals n C V delta T for any process",
+    "Source": "PHYS221 L03 slides 6, 25",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::ideal-gas",
+    "type::trap",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     11,
+     16
+    ],
+    "from": "annotation",
+    "note": "Answers the red 'always true?' on Exam Example 32."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:20:24.116Z"
+   }
+  },
+  {
+   "key": "d60e6b72ae",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Specific heat \\(c\\) vs molar heat capacity \\(C\\): what does each count per?",
+    "Back": "\\(c\\): per kilogram (\\(\\delta Q=cm\\Delta T\\)). \\(C\\): per mole (\\(\\delta Q=Cn\\Delta T\\)).",
+    "SpeakFront": "specific heat, small c, versus molar heat capacity, capital C; what does each count per?",
+    "SpeakBack": "small c is per kilogram, with mass m; capital C is per mole, with n moles",
+    "Elaboration": "\\(n=m/M\\), where \\(M\\) is the molar mass. Watch which one a problem gives you.",
+    "Source": "PHYS221 L03 slide 6",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo",
+    "type::definition",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     14,
+     16
+    ],
+    "from": "annotation",
+    "note": "The red 'n vs m?' appears twice, so it gets a contrast card whose prompt asks for the contrast (canon 1)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:21:05.656Z"
+   }
+  },
+  {
+   "key": "10e24fbb6d",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Molar heat capacity \\(C_V\\) of a monatomic ideal gas",
+    "Back": "\\(C_V=\\tfrac32R\\)",
+    "SpeakFront": "molar heat capacity at constant volume, C V, of a monatomic ideal gas",
+    "SpeakBack": "three halves R",
+    "Elaboration": "From \\(U=\\tfrac32nRT\\): \\(dU/dT\\) per mole. About 12.5 J/(mol·K) (He, Ar).",
+    "Source": "PHYS221 L03 slides 8, 11",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::ideal-gas",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [
+    {
+     "quantity": "1.5 * molar gas constant",
+     "value": "12.47 J/(mol K)",
+     "tolerance": "0.5%"
+    }
+   ],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     7
+    ],
+    "from": "slide 8",
+    "note": "Numeric Elaboration, checked: 1.5 × 8.314 = 12.47."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:21:08.927Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(R\\)",
+    "Elaboration": "Real polyatomic gases deviate a little (CO₂: 8.48 vs 8.31 J/(mol·K)).",
+    "Front": "\\(C_P-C_V\\) for an ideal gas (molar heat capacities)",
+    "Source": "PHYS221 L03 slides 7–8, 11",
+    "SourceLink": "",
+    "SpeakBack": "R",
+    "SpeakFront": "C P minus C V for an ideal gas, molar heat capacities"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the value, split from the why."
+   },
+   "key": "818ba656c0",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::ideal-gas",
+    "type::result",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:15:42+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "At constant pressure, part of the heat goes into expansion work, so more heat is needed per degree",
+    "Elaboration": "The extra is \\(p\\,\\Delta V=nR\\,\\Delta T\\) per \\(\\Delta T\\), which is where \\(C_P-C_V=R\\) comes from.",
+    "Front": "Why is \\(C_P>C_V\\) for an ideal gas?",
+    "Source": "PHYS221 L03 slides 7–8",
+    "SourceLink": "",
+    "SpeakBack": "at constant pressure part of the heat goes into expansion work, so more heat is needed per degree",
+    "SpeakFront": "why is C P greater than C V for an ideal gas?"
+   },
+   "golden": {
+    "canon": [
+     1,
+     15
+    ],
+    "from": "review",
+    "note": "Revision: the why, as its own card."
+   },
+   "key": "addfe89daf",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::ideal-gas",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:15:48+00:00"
+   }
+  },
+  {
+   "key": "4ef6d4d1e8",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Adiabatic index \\(\\gamma=C_P/C_V\\): monatomic vs diatomic ideal gas",
+    "Back": "Monatomic (5/3); diatomic (7/5) (rotation active, vibration frozen)",
+    "SpeakFront": "the adiabatic index gamma, C P over C V, for a monatomic versus a diatomic ideal gas",
+    "SpeakBack": "five thirds for monatomic, seven fifths for diatomic, with rotation active and vibration frozen out",
+    "Elaboration": "More degrees of freedom raise \\(C_V\\), and \\(\\gamma\\) moves toward 1. A higher \\(\\gamma\\) means a steeper adiabat.",
+    "Source": "PHYS221 L03 slide 8",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::ideal-gas",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     1,
+     16
+    ],
+    "from": "slide 8",
+    "note": "A contrast card, since the contrast is the point. Elaboration answers 'what does higher γ mean?'."
+   },
+   "review": {
+    "verdict": "edit",
+    "reason": "no need for the decimals",
+    "at": "2026-09-25T05:23:21.999Z",
+    "before": {
+     "Back": "Monatomic \\(5/3\\approx1.67\\); diatomic \\(7/5=1.40\\) (rotation active, vibration frozen)"
+    }
+   }
+  },
+  {
+   "key": "dc6bf145f9",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Work done by \\(n\\) mol of ideal gas in an isothermal change \\(V_i\\to V_f\\)",
+    "Back": "\\(W=nRT\\ln(V_f/V_i)\\), and since \\(\\Delta U=0\\), \\(Q=W\\)",
+    "SpeakFront": "work done by n moles of ideal gas in an isothermal change from V i to V f",
+    "SpeakBack": "n R T times the natural log of V f over V i; and since delta U is zero, the heat equals the work",
+    "Elaboration": "Integrate \\(p=nRT/V\\). \\(W\\ne p\\Delta V\\) because \\(p\\) varies along the path.",
+    "Source": "PHYS221 L03 slide 14",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     6,
+     16
+    ],
+    "from": "slide 14",
+    "note": "Answers the red 'W = pΔV? what do you need to integrate?'."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "W neq p delta v should be its own card w/ why",
+    "at": "2026-09-25T05:23:59.992Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "The pressure changes along the path (\\(p=nRT/V\\)), so you have to integrate: \\(W=\\int p\\,dV\\)",
+    "Elaboration": "\\(W=p\\,\\Delta V\\) only holds when \\(p\\) is constant (isobaric).",
+    "Front": "Why isn't the work in an isothermal ideal-gas expansion \\(p\\,\\Delta V\\)?",
+    "Source": "PHYS221 L03 slide 14",
+    "SourceLink": "",
+    "SpeakBack": "because the pressure changes along the path, so you have to integrate p d V",
+    "SpeakFront": "why isn't the work in an isothermal ideal gas expansion p delta V?"
+   },
+   "golden": {
+    "canon": [
+     11,
+     15
+    ],
+    "from": "review",
+    "note": "Your review: W ≠ pΔV gets its own card, with the why."
+   },
+   "key": "ddfd01cc2f",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::trap",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:15:50+00:00"
+   }
+  },
+  {
+   "key": "debc3da9f6",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Adiabatic process for an ideal gas: the p–V relation",
+    "Back": "\\(pV^\\gamma=\\text{const}\\) (equivalently \\(TV^{\\gamma-1}=\\text{const}\\))",
+    "SpeakFront": "adiabatic process for an ideal gas, the p V relation",
+    "SpeakBack": "p V to the gamma is constant; equivalently T V to the gamma minus one is constant",
+    "Elaboration": "Adiabatic means \\(Q=0\\): no heat exchange, e.g. a thermally insulated system or a process too fast for heat to flow.",
+    "Source": "PHYS221 L03 slides 15, 17",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     6,
+     16
+    ],
+    "from": "slide 15",
+    "note": "The meaning of 'adiabatic' goes in Elaboration, answering 'isothermal vs adiabatic?'."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:24:03.386Z"
+   }
+  },
+  {
+   "key": "97d5de2144",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Why is an adiabat steeper than an isotherm on a pV diagram?",
+    "Back": "Expanding adiabatically, the gas pays for its work out of \\(U\\), so \\(T\\) drops as well and \\(p\\) falls faster: \\(p\\propto V^{-\\gamma}\\) vs \\(V^{-1}\\), with \\(\\gamma>1\\)",
+    "SpeakFront": "why is an adiabat steeper than an isotherm on a p V diagram?",
+    "SpeakBack": "because the gas pays for its work out of internal energy, so the temperature drops too and the pressure falls faster; p goes as V to the minus gamma instead of V to the minus one",
+    "Elaboration": "Isothermal: heat flows in to hold \\(T\\), so \\(p\\) falls only through \\(V\\).",
+    "Source": "PHYS221 L03 slide 15",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     15,
+     16
+    ],
+    "from": "annotation",
+    "note": "The student's guess ('more internal energy lost?') was right; the card makes it precise."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:24:08.713Z"
+   }
+  },
+  {
+   "key": "fbab97ef47",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Work done by an ideal gas in an adiabatic process",
+    "Back": "\\(W=-\\Delta U=nC_V(T_i-T_f)=\\dfrac{p_iV_i-p_fV_f}{\\gamma-1}\\)",
+    "SpeakFront": "work done by an ideal gas in an adiabatic process",
+    "SpeakBack": "minus delta U, which is n C V times T i minus T f, which also equals p i V i minus p f V f, over gamma minus one",
+    "Elaboration": "\\(Q=0\\), so the first law gives \\(W=-\\Delta U\\). Positive work means the gas cools.",
+    "Source": "PHYS221 L03 slide 15",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     6
+    ],
+    "from": "slide 15",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:24:11.857Z"
+   }
+  },
+  {
+   "key": "bfaa2c4c0d",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "Exam Example 26 result: \\(C_p-C_V\\) for a general (nonideal) gas",
+    "Back": "\\(C_p-C_V=\\left[\\left(\\dfrac{\\partial U}{\\partial V}\\right)_T+p\\right]\\left(\\dfrac{\\partial V}{\\partial T}\\right)_p\\)",
+    "SpeakFront": "",
+    "SpeakBack": "",
+    "Elaboration": "Key move: write \\(dU(T,V(T,p))\\) with the chain rule at constant \\(p\\). For an ideal gas, \\((\\partial U/\\partial V)_T=0\\) and \\(p(\\partial V/\\partial T)_p=R\\), giving \\(R\\).",
+    "Source": "PHYS221 L03 slides 9–10",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "visual",
+   "checks": [],
+   "confidence": 0.8,
+   "golden": {
+    "canon": [
+     8,
+     10
+    ],
+    "from": "slide 9",
+    "note": "Explicitly visual: nested partial derivatives don't survive audio (canon 8), so the Speak fields are empty on purpose. Kept because it's exam-labelled."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:24:53.115Z"
+   }
+  }
+ ],
+ "skipped": [
+  {
+   "what": "Zeroth law and 'postulates of thermodynamics' (slide 1)",
+   "why": "Recap from L01–L02; those lectures' cards cover it."
+  },
+  {
+   "what": "'Fundamental fact: homogeneity of time is the primary symmetry…' (slide 1)",
+   "why": "An interesting aside, not load-bearing for this course's exams. Aman: add it if you want the symmetry link as an elaboration elsewhere."
+  },
+  {
+   "what": "Table 19.1 values (H₂ 20.42, N₂ 20.76, …)",
+   "why": "Lookup data. The pattern (monatomic 12.5, diatomic ~20.8, C_P − C_V ≈ R) is carded."
+  },
+  {
+   "what": "Exam Examples 28–33 numbers",
+   "why": "Practice problems. Worth solving from a blank page before the exam, not memorizing."
+  },
+  {
+   "what": "pT-diagram sketch, and p ∝ T^(γ/(γ−1)) for an adiabat (the student's orange derivation)",
+   "why": "Derivable from pV^γ; your own derivation is the practice. It's also visual."
+  }
+ ],
+ "rejected": [
+  {
+   "key": "0440478db9",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "Exam Example 27, key step: from \\(\\delta Q=0\\) to \\(pV^\\gamma=\\text{const}\\)",
+    "Back": "\\(nC_V\\,dT=-p\\,dV\\) with \\(p=nRT/V\\) gives \\(\\dfrac{dT}{T}=-(\\gamma-1)\\dfrac{dV}{V}\\). Integrate to get \\(TV^{\\gamma-1}=\\text{const}\\), then substitute \\(T=pV/nR\\).",
+    "SpeakFront": "Exam example 27, the key step from zero heat to p V to the gamma constant",
+    "SpeakBack": "set n C V d T equal to minus p d V with p equal to n R T over V, which gives d T over T equals minus gamma minus one, times d V over V; integrate, then substitute T equals p V over n R",
+    "Elaboration": "Uses \\(R/C_V=(C_P-C_V)/C_V=\\gamma-1\\).",
+    "Source": "PHYS221 L03 slides 16–17",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.85,
+   "golden": {
+    "canon": [
+     3,
+     10
+    ],
+    "from": "slide 17",
+    "note": "Exam-labelled derivation: card the key move, not the whole derivation (principle 6: support derivation, don't replace it)."
+   },
+   "review": {
+    "verdict": "reject",
+    "reason": "this feels a little too specific?",
+    "at": "2026-09-25T05:24:37.625Z"
+   }
+  }
+ ],
+ "superseded": [
+  {
+   "key": "ddaed42b53",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Why are heat and work written \\(\\delta Q,\\ \\delta W\\) but internal energy \\(dU\\)?",
+    "Back": "\\(Q\\) and \\(W\\) depend on the path, so they aren't state functions and their differentials are inexact. \\(U\\) is a state function, so \\(dU\\) is exact.",
+    "SpeakFront": "why are heat and work written with a small delta, but internal energy with d?",
+    "SpeakBack": "heat and work depend on the path, so they are not state functions and their differentials are inexact; internal energy is a state function, so d U is exact",
+    "Elaboration": "Three different paths from state 1 to state 2 enclose three different pV areas, so \\(W\\) differs while \\(\\Delta U\\) is the same.",
+    "Source": "PHYS221 L03 slides 2, 5",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     15,
+     16
+    ],
+    "from": "annotation",
+    "note": "The student's guess was right; the card confirms it and adds the pV-path picture."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "could probably just be less verbose",
+    "at": "2026-09-25T05:18:32.848Z"
+   },
+   "replaced_by": [
+    "84b64f05c2"
+   ]
+  },
+  {
+   "key": "37901375cb",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Isochoric process",
+    "Back": "Constant volume, so \\(W=0\\) and \\(Q=\\Delta U\\)",
+    "SpeakFront": "isochoric process",
+    "SpeakBack": "constant volume, so no work is done, and all the heat goes into internal energy",
+    "Elaboration": "Greek choros, space: the space stays the same.",
+    "Source": "PHYS221 L03 slide 13",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::definition",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     16
+    ],
+    "from": "annotation",
+    "note": "The red 'isochoric?' is a vocabulary gap. It gets its own card, with its consequence on the back."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "should be two cards",
+    "at": "2026-09-25T05:18:56.588Z"
+   },
+   "replaced_by": [
+    "e5cb3ca01c",
+    "f4674fdcd6"
+   ]
+  },
+  {
+   "key": "55f358b163",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Isobaric process",
+    "Back": "Constant pressure, so \\(W=p\\,\\Delta V\\)",
+    "SpeakFront": "isobaric process",
+    "SpeakBack": "constant pressure, so the work is p times the change in volume",
+    "Elaboration": "Greek baros, weight or pressure.",
+    "Source": "PHYS221 L03 slide 13",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::processes",
+    "type::definition",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     14,
+     16
+    ],
+    "from": "annotation",
+    "note": "A sibling of the isochoric card. The etymology in Elaboration is the interference guard."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "should be two cards",
+    "at": "2026-09-25T05:18:48.667Z"
+   },
+   "replaced_by": [
+    "4328590d99",
+    "220ce068eb"
+   ]
+  },
+  {
+   "key": "8548b81b4f",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Internal energy of a monatomic ideal gas",
+    "Back": "\\(U=\\tfrac32nRT=\\tfrac32Nk_BT\\): it depends on \\(T\\) only",
+    "SpeakFront": "internal energy of a monatomic ideal gas",
+    "SpeakBack": "three halves n R T, which is three halves N k B T; it depends only on temperature",
+    "Elaboration": "Not on \\(p\\) or \\(V\\) separately. That's why \\(\\Delta U=0\\) in any isothermal ideal-gas process.",
+    "Source": "PHYS221 L03 slide 6",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::ideal-gas",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     6
+    ],
+    "from": "slide 6",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "good, dependence is either unnecessary or should be another card though",
+    "at": "2026-09-25T05:19:35.607Z"
+   },
+   "replaced_by": [
+    "72241cd79e",
+    "58d03b9a8b"
+   ]
+  },
+  {
+   "key": "d3ce27df75",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "\\(C_P-C_V\\) for any ideal gas, and why",
+    "Back": "\\(R\\): at constant pressure, part of the heat goes into expansion work \\(p\\,\\Delta V=nR\\,\\Delta T\\)",
+    "SpeakFront": "C P minus C V for any ideal gas, and why",
+    "SpeakBack": "R; at constant pressure some of the heat goes into expansion work, p delta V, which equals n R delta T",
+    "Elaboration": "Real polyatomic gases deviate a little (CO₂: 8.48 vs 8.31 J/(mol·K)). For a nonideal gas, see the Exam Example 26 card.",
+    "Source": "PHYS221 L03 slides 7–8, 11",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys221::l03-the-first-law-of-thermodynamics",
+    "topic::physics::thermo::ideal-gas",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     6,
+     15
+    ],
+    "from": "annotation",
+    "note": "The 'why' is the student's own slide 7 note ('some heat is lost to work of expanding'). The table deviation answers 'not dependent on gas ideality?'."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "the why should be a separate card",
+    "at": "2026-09-25T05:21:26.872Z"
+   },
+   "replaced_by": [
+    "818ba656c0",
+    "addfe89daf"
+   ]
+  }
+ ]
+}

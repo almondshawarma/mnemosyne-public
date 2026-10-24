@@ -1,0 +1,604 @@
+# Starter ASL vocabulary, most frequent first (scripts/asl_vocab.py). From ASL-LEX 2.0 (CC BY-NC 4.0):
+# frequency is Deaf signers' rating, 1-7. `signbank` is the ASL Signbank gloss id; its video is the card's.
+# `meaning` is what the card asks for; `also` lists Signbank's other English equivalents.
+signs:
+- meaning: water
+  signbank: 1414
+  also: liquid, water
+  frequency: 6.96
+- meaning: I love you
+  signbank: 156
+  also: I love you, ILY, love
+  frequency: 6.89
+- meaning: 'yes'
+  signbank: 1472
+  also: affirmative, yeah, yep, yes
+  frequency: 6.88
+- meaning: eat
+  signbank: 399
+  also: consume, food, eat
+  frequency: 6.84
+- meaning: deaf
+  signbank: 103
+  also: deaf
+  frequency: 6.77
+- meaning: work
+  signbank: 1450
+  also: career, employ, employment, job, labor, occupation, profession, work, working
+  frequency: 6.74
+- meaning: book
+  signbank: 418
+  also: book, books, read, textbook
+  frequency: 6.68
+- meaning: mother
+  signbank: 1590
+  also: mama, maternal, mom, mommy, mother
+  frequency: 6.6
+- meaning: sleep
+  signbank: 709
+  also: asleep, go to bed, go to sleep, nap, sleep, sleepy
+  frequency: 6.6
+- meaning: teach
+  signbank: 3261
+  also: teach
+  frequency: 6.6
+- meaning: money
+  signbank: 1596
+  also: cash, dollar, how much?, money
+  frequency: 6.59
+- meaning: thank you
+  signbank: 1198
+  also: grateful, gratitude, thank, thanks, thank you
+  frequency: 6.57
+- meaning: parents
+  signbank: 696
+  also: parents
+  frequency: 6.56
+- meaning: bathroom
+  signbank: 32
+  also: bathroom, pee, restroom, toilet
+  frequency: 6.56
+- meaning: car
+  signbank: 428
+  also: automobile, car, drive, steer, vehicle
+  frequency: 6.56
+- meaning: evening
+  signbank: 199
+  also: night, evening
+  frequency: 6.56
+- meaning: love
+  signbank: 179
+  also: hug, love
+  frequency: 6.56
+- meaning: tired
+  signbank: 297
+  also: exhausted, tire, tired, worn out
+  frequency: 6.54
+- meaning: hello
+  signbank: 482
+  also: greeting, hello, hey, hi
+  frequency: 6.52
+- meaning: this/it
+  signbank: 1712
+  also: deictic, he, indexical, it, IX, point at, she, that, there, this, you
+  frequency: 6.52
+- meaning: let me see
+  signbank: 173
+  also: check it out, eventually, let's see, look, maybe, perhaps, perchance, see, see-see, wait and see, we'll see
+  frequency: 6.49
+- meaning: paper
+  signbank: 588
+  also: paper
+  frequency: 6.48
+- meaning: home
+  signbank: 152
+  also: home
+  frequency: 6.48
+- meaning: friend
+  signbank: 462
+  also: friend, relationship
+  frequency: 6.46
+- meaning: more
+  signbank: 508
+  also: more
+  frequency: 6.46
+- meaning: good
+  signbank: 472
+  also: good
+  frequency: 6.44
+- meaning: 'no'
+  signbank: 512
+  also: don't, don't do that, negative, no, no-no
+  frequency: 6.43
+- meaning: what
+  signbank: 1425
+  also: interrogative, pronoun, what, WHAT
+  frequency: 6.41
+- meaning: must
+  signbank: 192
+  also: have to, imperative, must, need, need to, should
+  frequency: 6.41
+- meaning: today
+  signbank: 299
+  also: current, currently, day, now, nowadays, present, presently, today, these days, this day
+  frequency: 6.41
+- meaning: school
+  signbank: 247
+  also: academic, campus, education, school
+  frequency: 6.4
+- meaning: do do
+  signbank: 1424
+  also: do, interrogative, pronoun, what, what do, WHATbo, WHAT-DO
+  frequency: 6.4
+- meaning: hold
+  signbank: 151
+  also: clutch, hold, hold on to, retain, save
+  frequency: 6.4
+- meaning: read
+  signbank: 341
+  also: look through, read, skim
+  frequency: 6.39
+- meaning: coffee
+  signbank: 2035
+  also: coffee, drink
+  frequency: 6.39
+- meaning: time
+  signbank: 1233
+  also: clock, tense, time
+  frequency: 6.38
+- meaning: change
+  signbank: 1053
+  also: adapt, adjust, adjustment, change, fix, fixing, modify, replace, transform
+  frequency: 6.37
+- meaning: better
+  signbank: 409
+  also: best, better, comparative
+  frequency: 6.37
+- meaning: ready
+  signbank: 2161
+  also: be prepared, be ready, get ready, get set, ready
+  frequency: 6.37
+- meaning: father
+  signbank: 764
+  also: dad, daddy, father, papa
+  frequency: 6.36
+- meaning: drink
+  signbank: 119
+  also: beverage, drink
+  frequency: 6.35
+- meaning: tomorrow
+  signbank: 301
+  also: day, future, time, tomorrow
+  frequency: 6.35
+- meaning: see
+  signbank: 538
+  also: look, see, vision, watch
+  frequency: 6.33
+- meaning: door
+  signbank: 116
+  also: door, opening
+  frequency: 6.32
+- meaning: nothing
+  signbank: 1556
+  also: none, nothing, nothing at all, nobody
+  frequency: 6.32
+- meaning: friday
+  signbank: 558
+  also: day of the week, Friday
+  frequency: 6.32
+- meaning: category
+  signbank: 585
+  also: category, class, group
+  frequency: 6.31
+- meaning: hot
+  signbank: 485
+  also: heat, hot, temperature
+  frequency: 6.3
+- meaning: light
+  signbank: 497
+  also: light, lamp
+  frequency: 6.3
+- meaning: bed
+  signbank: 1974
+  also: asleep, bed, go to sleep, sleep
+  frequency: 6.28
+- meaning: why
+  signbank: 1431
+  also: adverb, because, interrogative, question, reason, why
+  frequency: 6.27
+- meaning: picture
+  signbank: 215
+  also: iconic, illustration, image, photo, photograph, picture, snapshot
+  frequency: 6.26
+- meaning: soon
+  signbank: 266
+  also: before long, in a moment, momentarily, not long now, shortly, soon, SOONch
+  frequency: 6.26
+- meaning: dog
+  signbank: 376
+  also: canine, dog, puppy
+  frequency: 6.26
+- meaning: where
+  signbank: 1427
+  also: adverb, conjunction, interrogative, where
+  frequency: 6.24
+- meaning: milk
+  signbank: 506
+  also: dairy, milk, MILKasym
+  frequency: 6.23
+- meaning: who
+  signbank: 1430
+  also: interrogative, pronoun, who, whose
+  frequency: 6.23
+- meaning: shop
+  signbank: 1039
+  also: sell, shop, shopping, store
+  frequency: 6.23
+- meaning: learn
+  signbank: 170
+  also: learn
+  frequency: 6.2
+- meaning: technology
+  signbank: 1183
+  also: equipment, tech, technical, technically, technique, technology
+  frequency: 6.2
+- meaning: fine
+  signbank: 455
+  also: all right, fine, okay, no problem
+  frequency: 6.18
+- meaning: bring
+  signbank: 51
+  also: bring, carry, deliver, delivery
+  frequency: 6.18
+- meaning: internet
+  signbank: 2980
+  also: computer, internet, network, wifi, world wide web
+  frequency: 6.17
+- meaning: pet
+  signbank: 891
+  also: animal, caress, pet
+  frequency: 6.17
+- meaning: please
+  signbank: 527
+  also: enjoy, please, pleasure
+  frequency: 6.16
+- meaning: boy
+  signbank: 377
+  also: boy, dude, gentleman, guy, male, man, men
+  frequency: 6.16
+- meaning: help
+  signbank: 2562
+  also: assist, assistance, help, HELPpa
+  frequency: 6.15
+- meaning: interpreter
+  signbank: 1722
+  also: interpreter, translator
+  frequency: 6.15
+- meaning: one
+  signbank: 519
+  also: 1, number, one
+  frequency: 6.15
+- meaning: hug
+  signbank: 154
+  also: cling to, cuddle, embrace, hold tight, hug, squeeze
+  frequency: 6.15
+- meaning: think ponder
+  signbank: 915
+  also: brainstorm, consider, contemplate, going through the mind, mull over, ponder, pondering, think about, thinking, wondering
+  frequency: 6.15
+- meaning: dont know
+  signbank: 113
+  also: do not know, don't know, dunno, not know
+  frequency: 6.13
+- meaning: have
+  signbank: 1779
+  also: has, have, possess
+  frequency: 6.12
+- meaning: walk
+  signbank: 314
+  also: saunter, steps, walk
+  frequency: 6.11
+- meaning: dont like
+  signbank: 114
+  also: dislike, do not like, don't like
+  frequency: 6.11
+- meaning: should
+  signbank: 194
+  also: have to, must, necessary, need, need to, should
+  frequency: 6.11
+- meaning: woman
+  signbank: 1443
+  also: female, girl, lady, woman
+  frequency: 6.11
+- meaning: always
+  signbank: 265
+  also: alone, always, only, somebody, someone, something
+  frequency: 6.1
+- meaning: understand
+  signbank: 311
+  also: comprehend, comprehension, understand, understanding
+  frequency: 6.1
+- meaning: morning
+  signbank: 190
+  also: AM, morning, time
+  frequency: 6.1
+- meaning: month
+  signbank: 1595
+  also: month, monthly, one month
+  frequency: 6.1
+- meaning: city
+  signbank: 551
+  also: city, community, neighborhood, town
+  frequency: 6.08
+- meaning: gas
+  signbank: 843
+  also: fill up, gas, gasoline, oil, petrol
+  frequency: 6.08
+- meaning: three
+  signbank: 1216
+  also: 3, number, three
+  frequency: 6.08
+- meaning: wrong
+  signbank: 326
+  also: incorrect, mistake, what's the matter?, what's wrong?, wrong
+  frequency: 6.08
+- meaning: cook
+  signbank: 2584
+  also: cook, food, kitchen, pancake
+  frequency: 6.08
+- meaning: teacher
+  signbank: 792
+  also: educator, instructor, professor, teacher
+  frequency: 6.07
+- meaning: shoes
+  signbank: 393
+  also: footwear, shoe, shoes, sneakers
+  frequency: 6.07
+- meaning: yay
+  signbank: 1468
+  also: applaud, applause, clap, hooray, ovation, praise, yay
+  frequency: 6.07
+- meaning: go ahead
+  signbank: 1875
+  also: get along, go ahead, let's do it, move on, proceed
+  frequency: 6.07
+- meaning: again
+  signbank: 400
+  also: again, another, repeat
+  frequency: 6.07
+- meaning: bye
+  signbank: 425
+  also: bye, bye-bye, goodbye, hello, hey, salutation, wave
+  frequency: 6.06
+- meaning: summon
+  signbank: 1142
+  also: ask, beckon, call, request, summon
+  frequency: 6.04
+- meaning: week
+  signbank: 1418
+  also: time, week, weekly
+  frequency: 6.04
+- meaning: maybe
+  signbank: 505
+  also: maybe, might, perhaps, possible, probably
+  frequency: 6.04
+- meaning: kitchen
+  signbank: 557
+  also: kitchen
+  frequency: 6.04
+- meaning: breakfast
+  signbank: 49
+  also: breakfast, compound, eat, morning
+  frequency: 6.04
+- meaning: we
+  signbank: 1416
+  also: pronoun, us, we
+  frequency: 6.04
+- meaning: excited
+  signbank: 1344
+  also: anticipate, anticipation, excited, excitement
+  frequency: 6.04
+- meaning: go
+  signbank: 469
+  also: attend, go, going, went, GOix, GOgg
+  frequency: 6.03
+- meaning: dont want
+  signbank: 442
+  also: don't want
+  frequency: 6.03
+- meaning: table
+  signbank: 661
+  also: desk, surface, table
+  frequency: 6.0
+- meaning: people
+  signbank: 570
+  also: people
+  frequency: 6.0
+- meaning: right
+  signbank: 533
+  also: accurate, accuracy, correct, proper, right
+  frequency: 6.0
+- meaning: can
+  signbank: 426
+  also: able to, can, possibility, possible
+  frequency: 6.0
+- meaning: winter
+  signbank: 432
+  also: chill, chilly, cold, freezing, weather, winter
+  frequency: 6.0
+- meaning: something
+  signbank: 2488
+  also: always, somebody, someone, something
+  frequency: 6.0
+- meaning: thrilled
+  signbank: 1220
+  also: event, excited, thrill, thrilled, what's up
+  frequency: 6.0
+- meaning: license
+  signbank: 2597
+  also: card, driver license, ID, license
+  frequency: 6.0
+- meaning: tie up
+  signbank: 1231
+  also: tie, tie game, tied up, turn, twist
+  frequency: 6.0
+- meaning: fun
+  signbank: 141
+  also: fun
+  frequency: 5.97
+- meaning: family
+  signbank: 1379
+  also: family
+  frequency: 5.97
+- meaning: play
+  signbank: 526
+  also: goof off, party, play
+  frequency: 5.97
+- meaning: explanation
+  signbank: 1353
+  also: define, definition, describe, description, detail, direct, explain, explanation
+  frequency: 5.97
+- meaning: support
+  signbank: 1147
+  also: advocate, assist, help, in favor of, justify, reinforce, support
+  frequency: 5.96
+- meaning: long
+  signbank: 177
+  also: how long, length, long, time
+  frequency: 5.96
+- meaning: tell
+  signbank: 1189
+  also: say to, tell
+  frequency: 5.93
+- meaning: name
+  signbank: 511
+  also: name, be called, call, mention, named, to name, TITLE
+  frequency: 5.93
+- meaning: cheap
+  signbank: 630
+  also: cheap, discount, on sale, sale
+  frequency: 5.93
+- meaning: believe
+  signbank: 576
+  also: belief, believe, believeb, position, thinking, view
+  frequency: 5.93
+- meaning: if
+  signbank: 279
+  also: if, hypothetical, imagine, suppose, what if, IFi
+  frequency: 5.93
+- meaning: black
+  signbank: 415
+  also: black, color
+  frequency: 5.92
+- meaning: want
+  signbank: 1409
+  also: want, wanted, wanting, wants
+  frequency: 5.9
+- meaning: sign
+  signbank: 256
+  also: sign, sign language, signing
+  frequency: 5.9
+- meaning: yesterday
+  signbank: 327
+  also: past, time, yesterday, YESTERDAYth
+  frequency: 5.89
+- meaning: saturday
+  signbank: 997
+  also: day, day of the week, Saturday, weekend
+  frequency: 5.89
+- meaning: restaurant
+  signbank: 969
+  also: deli, delicatessen, eatery, restaurant
+  frequency: 5.89
+- meaning: pour
+  signbank: 224
+  also: lump, pour, spill
+  frequency: 5.89
+- meaning: wait
+  signbank: 1405
+  also: halt, pause, remain, rest, stop, wait
+  frequency: 5.88
+- meaning: policeman
+  signbank: 346
+  also: cop, police, police officer, security
+  frequency: 5.88
+- meaning: what for
+  signbank: 134
+  also: because, cause, for, for-for, reason, what for, why
+  frequency: 5.87
+- meaning: think
+  signbank: 398
+  also: brain, mind, remember, think, thought
+  frequency: 5.87
+- meaning: taste
+  signbank: 290
+  also: favorite, flavor, prefer, preference, taste
+  frequency: 5.87
+- meaning: kiss fist
+  signbank: 166
+  also: adore, favorite, kissfist, kiss-fist, like, love
+  frequency: 5.86
+- meaning: hearing
+  signbank: 1773
+  also: hearing, public
+  frequency: 5.86
+- meaning: eleven
+  signbank: 1303
+  also: 11, eleven, number
+  frequency: 5.86
+- meaning: full
+  signbank: 139
+  also: fed up, filled up, full, not hungry, satiated, stuffed
+  frequency: 5.85
+- meaning: curious
+  signbank: 1194
+  also: curiosity, curious, interested, wonder
+  frequency: 5.85
+- meaning: kiss
+  signbank: 2986
+  also: kiss, KISSck
+  frequency: 5.85
+- meaning: important
+  signbank: 1746
+  also: critical, crucial, importance, important, relevant, significant, vital, worth, worthy
+  frequency: 5.84
+- meaning: same
+  signbank: 535
+  also: alike, also, me too, same, same as, similar, too
+  frequency: 5.84
+- meaning: dont mind
+  signbank: 115
+  also: do you mind?, don't care, don't mind
+  frequency: 5.84
+- meaning: game
+  signbank: 463
+  also: challenge, competition, game, match, meet
+  frequency: 5.83
+- meaning: stay
+  signbank: 543
+  also: don't move, remain, stay, stay there
+  frequency: 5.82
+- meaning: tired of
+  signbank: 2897
+  also: bored with it, done, fed up, finished, over it, sick of it, tired of it, OVER-IT
+  frequency: 5.82
+- meaning: champion
+  signbank: 2353
+  also: champion, champ, winner, set record, grand prize, championship
+  frequency: 5.82
+- meaning: our
+  signbank: 206
+  also: our, plural, possessive
+  frequency: 5.82
+- meaning: both
+  signbank: 2128
+  also: bi-, both, dual, pronoun, two
+  frequency: 5.82
+- meaning: sometimes
+  signbank: 1094
+  also: every so often, from time to time, occasionally, once in a while, periodically, sometime, sometimes, sporadically
+  frequency: 5.81
+- meaning: drive
+  signbank: 2207
+  also: car, cruise, drive, driving
+  frequency: 5.81

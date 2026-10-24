@@ -1,0 +1,30 @@
+{
+  "name": "M-Basic",
+  "kind": "standard",
+  "css": "shared.css",
+  "fields": [
+    "Front",
+    "Back",
+    "SpeakFront",
+    "SpeakBack",
+    "AudioFront",
+    "AudioBack",
+    "Elaboration",
+    "Reverse",
+    "Source",
+    "SourceLink",
+    "MnemosyneID"
+  ],
+  "templates": [
+    {
+      "name": "Card 1",
+      "front": "M-Basic/card-1.front.html",
+      "back": "M-Basic/card-1.back.html"
+    },
+    {
+      "name": "Card 2",
+      "front": "M-Basic/card-2.front.html",
+      "back": "M-Basic/card-2.back.html"
+    }
+  ]
+}

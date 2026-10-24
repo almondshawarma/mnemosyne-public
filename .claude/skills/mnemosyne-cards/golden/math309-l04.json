@@ -1,0 +1,580 @@
+{
+ "status": "reviewed",
+ "reviewed_by": "aman",
+ "source": {
+  "kind": "notes",
+  "course": "MATH309",
+  "lecture": 4,
+  "ref": "MATH 309 L04 - Linear Dependence, Basis, and Dimension (typeset notes, annotated)",
+  "link": "http://<obelisk>:8000/documents/433/details"
+ },
+ "signals": [
+  "red 'does this mean orthogonality? or just |v1 × v2| ≠ 0?' at the definition of dependence (p3)",
+  "cyan highlight on 'v is linearly independent with itself iff v ≠ 0' (p3)",
+  "red 'does det(A^T) = det(A)?' (p5)",
+  "red 'meaning? is this not just 2D? why not {e1, e2}' at the basis of ℝ^{2×2} (p7)",
+  "red 'from REF?' at the pivot-column basis (p8)",
+  "red 'is V = {0} valid?' and 'proof?' (p9); 'wronskian?' (p3, p5)",
+  "Source inconsistency: p6 treats P_n as degree < n; p7 Example 12 uses 1, x, …, x^n (degree ≤ n)"
+ ],
+ "cards": [
+  {
+   "key": "5e92284dc3",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "\\(\\operatorname{span}(v_1,\\dots,v_n)\\)",
+    "Back": "the set of all linear combinations \\(\\alpha_1v_1+\\dots+\\alpha_nv_n\\), with \\(\\alpha_i\\in\\mathbb R\\)",
+    "SpeakFront": "the span of v one through v n",
+    "SpeakBack": "the set of all linear combinations, alpha one v one plus through alpha n v n, with real alphas",
+    "Elaboration": "The span is always a subspace. The vectors form a spanning set for \\(S\\) if their span equals \\(S\\).",
+    "Source": "MATH309 L04 p1",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::definition",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "p1",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-24T23:33:17.468Z"
+   }
+  },
+  {
+   "key": "a586a82279",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "\\(v_1,\\dots,v_k\\) are linearly independent iff…",
+    "Back": "\\(\\alpha_1v_1+\\dots+\\alpha_kv_k=0\\implies\\alpha_1=\\dots=\\alpha_k=0\\): the only combination giving the zero vector is the trivial one",
+    "SpeakFront": "v one through v k are linearly independent if and only if what?",
+    "SpeakBack": "the only linear combination that gives the zero vector is the one with every coefficient zero",
+    "Elaboration": "Dependent means some vector is a combination of the others.",
+    "Source": "MATH309 L04 p3",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::definition",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "p3",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-24T23:34:22.624Z"
+   }
+  },
+  {
+   "key": "f0c5c4720a",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "A single vector \\(v\\) is linearly dependent iff…",
+    "Back": "\\(v=\\mathbf 0\\)",
+    "SpeakFront": "a single vector v is linearly dependent if and only if what?",
+    "SpeakBack": "v is the zero vector",
+    "Elaboration": "\\(1\\cdot\\mathbf 0=\\mathbf 0\\) is a nontrivial combination. So any set containing \\(\\mathbf 0\\) is dependent.",
+    "Source": "MATH309 L04 p3",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::result",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "annotation",
+    "note": "The student highlighted it, so it counts as emphasis."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-24T23:37:41.595Z"
+   }
+  },
+  {
+   "key": "29d1fcec06",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "\\(n\\) vectors in \\(\\mathbb R^n\\) are linearly dependent iff the matrix \\(X=[x_1\\ \\cdots\\ x_n]\\) is…",
+    "Back": "singular: \\(\\det X=0\\)",
+    "SpeakFront": "n vectors in R n are linearly dependent if and only if the matrix with those columns is what?",
+    "SpeakBack": "singular; its determinant is zero",
+    "Elaboration": "A square matrix only. For \\(m\\ne n\\), row-reduce instead.",
+    "Source": "MATH309 L04 p5",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::result",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     2
+    ],
+    "from": "p5",
+    "note": "'n vectors in ℝⁿ' in the prompt is the precision cue (canon 2)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-24T23:38:09.165Z"
+   }
+  },
+  {
+   "key": "e1747446d0",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "If a square matrix \\(A\\) has linearly dependent rows, must its columns be dependent? Why?",
+    "Back": "Yes: \\(\\det A^T=\\det A\\), so \\(\\det A=0\\) either way",
+    "SpeakFront": "if a square matrix has linearly dependent rows, must its columns be dependent too? Why?",
+    "SpeakBack": "yes, because the determinant of A transpose equals the determinant of A, so both are zero",
+    "Elaboration": "Row rank = column rank, for any matrix.",
+    "Source": "MATH309 L04 p5",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::result",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     15,
+     16
+    ],
+    "from": "annotation",
+    "note": "Answers 'does det(Aᵀ) = det(A)?' inside the true/false item it came from."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-24T23:38:31.940Z"
+   }
+  },
+  {
+   "key": "473fd5c4b9",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Basis of a vector space \\(V\\)",
+    "Back": "a set of vectors that is linearly independent and spans \\(V\\)",
+    "SpeakFront": "definition of a basis of a vector space V",
+    "SpeakBack": "a set of vectors that is linearly independent and spans V",
+    "Elaboration": "Spanning means enough vectors; independent means none extra.",
+    "Source": "MATH309 L04 p7",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::definition",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     1,
+     6
+    ],
+    "from": "p7",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-24T23:39:11.976Z"
+   }
+  },
+  {
+   "key": "cc7d3500ed",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Why does a basis give each vector a unique set of coordinates?",
+    "Back": "If \\(v=\\sum a_iv_i=\\sum b_iv_i\\), then \\(\\sum(a_i-b_i)v_i=0\\), and independence forces \\(a_i=b_i\\)",
+    "SpeakFront": "why does a basis give each vector a unique set of coordinates?",
+    "SpeakBack": "if v has two expansions, subtracting gives a combination equal to zero, and independence forces every coefficient difference to be zero",
+    "Elaboration": "Spanning gives existence; independence gives uniqueness.",
+    "Source": "MATH309 L04 p6 (annotated proof)",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::result",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     15
+    ],
+    "from": "annotation",
+    "note": "The student's own handwritten proof becomes the answer: cards reinforce derivations he already did."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-24T23:41:46.842Z"
+   }
+  },
+  {
+   "key": "aa9338d3df",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Dimension of \\(\\mathbb R^{2\\times2}\\), the space of 2×2 real matrices",
+    "Back": "4. Basis: \\(E_{11},E_{12},E_{21},E_{22}\\)",
+    "SpeakFront": "dimension of the space of two by two real matrices",
+    "SpeakBack": "four; one basis matrix for each entry",
+    "Elaboration": "Each matrix has 4 independent entries, so the space looks like \\(\\mathbb R^4\\), not \\(\\mathbb R^2\\). \\(\\{e_1,e_2\\}\\) can't produce a 2×2 matrix.",
+    "Source": "MATH309 L04 p7",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::trap",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     16
+    ],
+    "from": "annotation",
+    "note": "Answers 'is this not just 2D?'. Tagged type::trap because the error is intuitive."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-24T23:41:52.413Z"
+   }
+  },
+  {
+   "key": "6f97a7c219",
+   "note_type": "M-Error",
+   "deck": "Now",
+   "fields": {
+    "Situation": "Trimming a spanning set down to a basis by row reduction",
+    "Trap": "Taking the columns of the REF/RREF as the basis vectors",
+    "Fix": "Use the columns of the original matrix \\(A\\) at the pivot positions",
+    "Why": "Row operations change the column space; they only preserve which columns are independent.",
+    "SpeakSituation": "trimming a spanning set down to a basis by row reduction",
+    "SpeakFix": "use the original matrix's columns at the pivot positions, not the reduced matrix's columns",
+    "Source": "MATH309 L04 p8 (annotation)",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::trap",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     11,
+     16
+    ],
+    "from": "annotation",
+    "note": "The red 'from REF?' is exactly the classic mistake."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T01:03:03.841Z"
+   }
+  },
+  {
+   "key": "1562bfd0fa",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "If \\(\\{v_1,\\dots,v_n\\}\\) spans \\(V\\), what's true of any \\(k>n\\) vectors in \\(V\\)?",
+    "Back": "They are linearly dependent",
+    "SpeakFront": "if n vectors span V, what is true of any collection of more than n vectors in V?",
+    "SpeakBack": "they are linearly dependent",
+    "Elaboration": "So every basis has the same size, which is what makes dimension well defined. For an \\(n\\times(n+1)\\) matrix: \\(n+1\\) columns in \\(\\mathbb R^n\\) are always dependent.",
+    "Source": "MATH309 L04 p9",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::result",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     1,
+     6
+    ],
+    "from": "p9",
+    "note": "The corollary (every basis has the same size) goes in Elaboration, which also answers the red 'proof?'."
+   },
+   "review": {
+    "verdict": "edit",
+    "reason": "\"k\" seems better here than m, since matrices are often described as m x n",
+    "at": "2026-09-25T04:34:55.169Z",
+    "before": {
+     "Front": "If \\(\\{v_1,\\dots,v_n\\}\\) spans \\(V\\), what's true of any \\(m>n\\) vectors in \\(V\\)?"
+    }
+   }
+  },
+  {
+   "key": "bc92196e69",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "For \\(n\\) vectors in an \\(n\\)-dimensional space, what must you check to show they form a basis?",
+    "Back": "linear independence or spanning",
+    "SpeakFront": "for n vectors in an n dimensional space, what must you check to show they form a basis?",
+    "SpeakBack": "linear independence or spanning",
+    "Elaboration": "In \\(\\mathbb R^n\\): \\(\\det\\ne0\\) is enough (Example 16).",
+    "Source": "MATH309 L04 p10",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::result",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     1,
+     3
+    ],
+    "from": "p10",
+    "note": "The prompt asks for the shortcut, the form it's used in on an exam."
+   },
+   "review": {
+    "verdict": "edit",
+    "reason": "saying one implies the other is true and useful, but is an extra fact, so no longer \"atomic\"?",
+    "at": "2026-09-25T04:36:32.977Z",
+    "before": {
+     "Back": "Only one of: linear independence or spanning. Either implies the other.",
+     "SpeakBack": "just one of them, independence or spanning; either one implies the other"
+    }
+   }
+  },
+  {
+   "key": "bdb9713089",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Dimension and basis of the zero subspace \\(\\{\\mathbf 0\\}\\)",
+    "Back": "Dimension 0; its basis is the empty set",
+    "SpeakFront": "dimension and basis of the zero subspace",
+    "SpeakBack": "dimension zero; its basis is the empty set",
+    "Elaboration": "\\(\\{\\mathbf 0\\}\\) itself can't be a basis: a set containing \\(\\mathbf 0\\) is dependent. It is still a valid vector space.",
+    "Source": "MATH309 L04 p9",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::result",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.85,
+   "golden": {
+    "canon": [
+     16
+    ],
+    "from": "annotation",
+    "note": "Answers 'is V = {0} valid?'."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:53:37.860Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Back": "1 if \\(i=j\\), 0 otherwise",
+    "Elaboration": "The standard basis vector \\(\\vec e_i\\) has components \\((\\vec e_i)_j=\\delta_{ij}\\).",
+    "Front": "Kronecker delta \\(\\delta_{ij}\\)",
+    "Source": "MATH309 L04 p8",
+    "SourceLink": "",
+    "SpeakBack": "one if i equals j, zero otherwise",
+    "SpeakFront": "Kronecker delta, delta i j"
+   },
+   "golden": {
+    "canon": [
+     16
+    ],
+    "from": "review",
+    "note": "Promoted from 'left out' in your review."
+   },
+   "key": "1141393879",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::definition",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:02:51+00:00"
+   }
+  }
+ ],
+ "skipped": [
+  {
+   "what": "Wronskian",
+   "why": "The student asked 'wronskian?' twice, but this lecture doesn't teach it. Card it when a lecture does (canon 9); for now it's a note for Aman."
+  },
+  {
+   "what": "Worked examples 1–8, 14, 16 (specific vectors and determinants)",
+   "why": "Practice problems; each method is carded as a result."
+  },
+  {
+   "what": "Geometric interpretation sketch (dependent vectors in ℝ² are collinear)",
+   "why": "Covered by the orthogonality-trap card's Fix."
+  }
+ ],
+ "rejected": [
+  {
+   "key": "50c0a01140",
+   "note_type": "M-Error",
+   "deck": "Now",
+   "fields": {
+    "Situation": "Deciding whether two vectors in \\(\\mathbb R^2\\) or \\(\\mathbb R^3\\) are linearly independent",
+    "Trap": "Treating independence as orthogonality",
+    "Fix": "Independent just means not parallel: neither is a multiple of the other. \\((1,1)\\) and \\((1,2)\\) are independent but not orthogonal.",
+    "Why": "Orthogonal nonzero vectors are always independent, but not the other way round. In \\(\\mathbb R^3\\), \\(\\lVert v_1\\times v_2\\rVert\\ne0\\) is exactly the test for two vectors.",
+    "SpeakSituation": "deciding whether two vectors in the plane or in space are linearly independent",
+    "SpeakFix": "independent just means not parallel; one and one, and one and two, are independent but not orthogonal",
+    "Source": "MATH309 L04 p3 (annotation)",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::trap",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     11,
+     16
+    ],
+    "from": "annotation",
+    "note": "The student's question gets both answers: orthogonality, no; cross product, yes."
+   },
+   "review": {
+    "verdict": "reject",
+    "reason": "this one was just poorly written in class, i understand it pretty intuitively, and don't want to bloat",
+    "at": "2026-09-24T23:35:43.119Z"
+   }
+  },
+  {
+   "key": "edb8837858",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "In Leon's notation, what is \\(P_n\\), and what is its dimension?",
+    "Back": "Polynomials of degree less than \\(n\\); dimension \\(n\\) (basis \\(1,x,\\dots,x^{n-1}\\))",
+    "SpeakFront": "in Leon's notation, what is P n, and what is its dimension?",
+    "SpeakBack": "polynomials of degree less than n; its dimension is n",
+    "Elaboration": "The lecture's Example 12 uses \\(1,x,\\dots,x^n\\) (degree ≤ \\(n\\), dimension \\(n+1\\)). Check which convention a problem uses.",
+    "Source": "MATH309 L04 p6–p7",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::math309::l04-linear-dependence-basis-and-dimension",
+    "topic::math::linear-algebra",
+    "type::trap",
+    "src::notes"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.7,
+   "golden": {
+    "canon": [
+     2,
+     9
+    ],
+    "from": "p6–p7",
+    "note": "The source contradicts itself. Low confidence on purpose: Aman should confirm which convention the course's exams use."
+   },
+   "review": {
+    "verdict": "reject",
+    "reason": "this feels like kind of an arbitrary question, and while worth considering, i think that whenever P_n is mentioned, it will be explained?",
+    "at": "2026-09-25T01:02:55.093Z"
+   }
+  }
+ ],
+ "superseded": []
+}

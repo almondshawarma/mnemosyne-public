@@ -1,0 +1,20 @@
+{
+  "name": "M-Cloze",
+  "kind": "cloze",
+  "css": "shared.css",
+  "fields": [
+    "Text",
+    "Extra",
+    "SpeakText",
+    "Source",
+    "SourceLink",
+    "MnemosyneID"
+  ],
+  "templates": [
+    {
+      "name": "Cloze",
+      "front": "M-Cloze/cloze.front.html",
+      "back": "M-Cloze/cloze.back.html"
+    }
+  ]
+}

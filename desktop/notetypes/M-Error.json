@@ -1,0 +1,23 @@
+{
+  "name": "M-Error",
+  "kind": "standard",
+  "css": "shared.css",
+  "fields": [
+    "Situation",
+    "Trap",
+    "Fix",
+    "Why",
+    "SpeakSituation",
+    "SpeakFix",
+    "Source",
+    "SourceLink",
+    "MnemosyneID"
+  ],
+  "templates": [
+    {
+      "name": "Card 1",
+      "front": "M-Error/card-1.front.html",
+      "back": "M-Error/card-1.back.html"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+# Animated clips on /watch (clips.py). A clip's video is deleted this many days after it was last opened (or
+# rendered, if never opened); its code, stills, and metadata stay, and the page can render it again in about a minute.
+# Each clip can override this on the page: 7, 14, 30, or 90 days, or keep forever. (Aman, 2026-10-13)
+keep_days: 14

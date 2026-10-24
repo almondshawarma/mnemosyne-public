@@ -1,0 +1,21 @@
+# LLM routing (CLAUDE.md: model IDs live only here). Secrets are files under secrets/ on the Obelisk.
+providers:
+  tamu:                                   # TAMU AI Chat gateway, OpenAI-compatible (school material)
+    kind: openai
+    base_url_file: /run/secrets/tamu_base_url
+    api_key_file: /run/secrets/tamu_api_key
+    user_agent: mnemosyne/1.0             # the gateway's WAF rejects Python's default User-Agent
+    images: true                          # send page images alongside the text layer
+    timeout_s: 300
+routes:
+  lecture:  {provider: tamu, model: "protected.Claude Opus 4.8", max_tokens: 16000}
+  graded:   {provider: tamu, model: "protected.Claude-Opus-5", max_tokens: 16000, stream: true}     # debriefs (2026-10-06): a few a month, and the diagnosis must be right
+  syllabus: {provider: tamu, model: "protected.Claude Sonnet 4.6", max_tokens: 8000}
+  question: {provider: tamu, model: "protected.Claude Opus 4.8", max_tokens: 4000}   # the card a question's answer teaches (2026-10-07)
+  leech:    {provider: tamu, model: "protected.Claude Opus 4.8", max_tokens: 8000}   # the leech doctor (P4)
+  prep:     {provider: tamu, model: "protected.Claude Opus 4.8", max_tokens: 12000, stream: true}  # review sheets, practice exams, keys → their problems (2026-10-07)
+limits:
+  max_pages: 60                           # longer PDFs send the text layer only past this page
+  chunk_pages: 24                         # a lecture's page images per request: the gateway allows 100k tokens a minute
+  image_dpi: 110
+  graded_max_px: 1568                     # graded work: each page's long edge, the most the model reads (handwriting)

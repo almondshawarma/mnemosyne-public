@@ -1,0 +1,7 @@
+{
+  "name": "mnemosyne",
+  "description": "mnemosyne-cards (the card canon), mnemosyne-tutor (tutoring from his Anki), mnemosyne-books (his textbooks: quote, cite, practice problems), mnemosyne-clips (animated clips for /watch, rendered on the Obelisk), and mnemosyne-unpack (turn something clever Claude did into a write-up, a drill in metis, and cards).",
+  "author": {
+    "name": "Aman Sharma"
+  }
+}

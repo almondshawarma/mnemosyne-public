@@ -1,0 +1,46 @@
+# Current semester. Code is canonical (used in tags as lowercase, e.g. course::nuen201).
+# Shortcut menu, syllabus parsing, and the Paperless poller read this file. The paperless_tag is the
+# course tag documents already carry in Paperless (e.g. NUEN-201).
+semester: 2026-fall
+paperless_semester_tag: Fall-26
+# P3 go-live: lectures added to Paperless on or after this date are processed by default; older ones
+# (the backlog) and every non-lecture document need the `mnemosyne` tag (PLAN §4.1, opt-in rules).
+intake_go_live: 2026-09-25
+# `exam`: what the room allows, for the mnemosyne-exam skill (2026-10-07, from Aman's Exam I sheets). sheet: own (he
+# writes it; the skill drafts it) | provided (learn what's NOT on it; file each exam's sheet in Paperless as
+# "<COURSE> <Exam> Formula Sheet") | none | unknown (the skill asks, then add it here). output: the format the skill
+# writes in (§5): html-set (review guide, solutions, cram sheet; PHYS 221 Exam 2, 2026-10-20) | latex (cram sheet +
+# LaTeX worked solutions). Absent: the skill picks and asks. The sheet document follows `sheet` in either format.
+courses:
+  - {code: NUEN201, name: "Intro to Nuclear Engineering I", deck: Now, paperless_tag: NUEN-201,
+     exam: {sheet: own, detail: "one self-made A4 sheet, two sides; closed book; calculator required; partial credit for the governing equation written first"}}
+  - {code: PHYS207, name: "Electricity & Magnetism", deck: Now, paperless_tag: PHYS-207,
+     exam: {sheet: provided, detail: "formula sheet provided, different each exam (definitions, few results); multiple choice by flavour, 45 min (syllabus; from Fall 2026, about half the old question count at the same difficulty, Aman 2026-10-10); wrong answers carry partial credit, no guessing penalty"}}
+  - {code: MATH309, name: "Linear Algebra for Differential Equations", deck: Now, paperless_tag: MATH-309,
+     exam: {sheet: none, detail: "no formula sheet (Aman, 2026-10-07); Exam 1 was 5 T/F, 3 fill-in, 5 work-out"}}
+  - {code: MEEN221, name: "Statics & Particle Dynamics", deck: Now, paperless_tag: MEEN-221,
+     exam: {sheet: none, detail: "no formula sheet (Aman, 2026-10-07)"}}
+  - {code: PHYS221, name: "Optics & Thermal Physics", deck: Now, paperless_tag: PHYS-221,
+     exam: {sheet: provided, output: html-set,
+           detail: "formula sheet provided, different each exam; 50 min; derivations are step-graded"}}
+  - {code: PHYS217, name: "Experimental Physics & Engineering Lab III: E&M", deck: Now, paperless_tag: PHYS-217,
+     exam: {sheet: provided, detail: "formula sheet provided; one exam in the course"}}
+# The disciplines each course is the home of (topic paths, canon 22). When two courses card one idea at the same
+# level of `foundations` (topics.yaml), the home course's card gives the wording: MATH 309's over Calc III's for a
+# projection, PHYS 207's over the lab's for a capacitor. Past courses too, since their cards are still in Anki.
+homes:
+  NUEN201: [nuclear, physics::quantum, physics::relativity]
+  PHYS207: [physics::em]
+  MATH309: [math::linear-algebra, math::differential-equations::systems]
+  MEEN221: [mechanics]
+  PHYS221: [physics::thermo, physics::optics, physics::classical-mechanics::waves]
+  PHYS217: [physics::em::circuits]
+  MATH251: [math::calculus::multivariable, math::calculus::vector-calculus]
+  MATH308: [math::differential-equations]
+  CHEM107: [chemistry]
+  PHYS206: [physics::classical-mechanics]
+past:   # cards keep these tags; they live in Core/Reservoir
+  - CHEM107
+  - MATH251
+  - MATH308
+  - PHYS206

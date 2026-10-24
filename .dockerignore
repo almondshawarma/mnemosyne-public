@@ -1,0 +1,12 @@
+.git
+.venv
+**/.venv
+**/__pycache__
+.pytest_cache
+.ruff_cache
+secrets
+.env
+*.colpkg
+*.apkg
+*.anki2
+mnemosyne-cards.zip

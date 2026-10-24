@@ -1,0 +1,7 @@
+auto_approve: [slides, notes, chat, obsidian, telegram, legacy]
+human_review: [graded-homework, graded-exam, syllabus, leech-rewrite, reading, paper]   # reading: textbook sections (2026-10-04); paper: research papers (2026-10-06)
+always_review_if: [verify_failed, verify_skipped, dedupe_flagged]
+probation_reviews: 2              # '*' mark during probation -> leech doctor
+flip_to_review_below_approval_rate: 0.85
+calibration:                      # decided 2026-09-24
+  human_review_first_lectures_per_course: 1   # every card reviewed; the approved set joins the golden set

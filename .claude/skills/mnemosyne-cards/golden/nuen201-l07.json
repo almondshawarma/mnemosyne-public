@@ -1,0 +1,462 @@
+{
+ "status": "reviewed",
+ "reviewed_by": "aman",
+ "source": {
+  "kind": "slides",
+  "course": "NUEN201",
+  "lecture": 7,
+  "ref": "NUEN 201 L07 - Quantum Theory of Light (in-class, unannotated)",
+  "link": null
+ },
+ "signals": [
+  "Lecture was mostly history (student's own description); about 70% of the slides are narrative",
+  "Slide errors: 'Wein' and 'Stephan' misspelled; Wien constant written in 'mK' (meter·kelvin, not millikelvin); lava 'about 3000 °C' is well above real lava (roughly 700–1200 °C)",
+  "Slide 18 gives Planck's fitted h = 6.56e-34 J·s, not the CODATA value"
+ ],
+ "cards": [
+  {
+   "key": "8111c1897b",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "What does the Rayleigh–Jeans law predict for blackbody energy density as \\(\\lambda\\to0\\)?",
+    "Back": "\\(u(\\lambda)\\to\\infty\\): the ultraviolet catastrophe",
+    "SpeakFront": "what does the Rayleigh Jeans law predict for blackbody energy density as the wavelength goes to zero?",
+    "SpeakBack": "it diverges to infinity; the ultraviolet catastrophe",
+    "Elaboration": "Experiment shows the curve peaks and falls back to zero.",
+    "Source": "NUEN201 L07 slides 6, 14",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l07-quantum-theory-of-light",
+    "topic::physics::quantum::blackbody",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     15
+    ],
+    "from": "slide 14",
+    "note": "Angle 1 of 3 on the one concept this lecture teaches: the prediction."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:54:57.184Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "Energy is continuous, so equipartition gives every standing-wave mode an average energy \\(kT\\)",
+    "Elaboration": "",
+    "Front": "Which classical assumption causes the ultraviolet catastrophe?",
+    "Source": "NUEN201 L07 slides 13–14",
+    "SourceLink": "",
+    "SpeakBack": "that energy is continuous, so every standing wave mode gets an average energy of k T",
+    "SpeakFront": "which classical assumption causes the ultraviolet catastrophe?"
+   },
+   "golden": {
+    "canon": [
+     1,
+     15
+    ],
+    "from": "review",
+    "note": "Revision: the assumption, split from the mode count."
+   },
+   "key": "06dd0f8fc2",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::nuen201::l07-quantum-theory-of-light",
+    "topic::physics::quantum::blackbody",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:08:27+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(\\propto 1/\\lambda^4\\)",
+    "Elaboration": "Energy density = modes per volume × \\(kT\\), so it diverges as \\(\\lambda\\to0\\).",
+    "Front": "Rayleigh–Jeans: how the number of standing-wave modes per volume scales with \\(\\lambda\\)",
+    "Source": "NUEN201 L07 slide 14",
+    "SourceLink": "",
+    "SpeakBack": "as one over lambda to the fourth",
+    "SpeakFront": "Rayleigh Jeans: how the number of standing wave modes per volume scales with wavelength"
+   },
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "review",
+    "note": "Revision: the mode count, split from the assumption."
+   },
+   "key": "8d65f2e956",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::nuen201::l07-quantum-theory-of-light",
+    "topic::physics::quantum::blackbody",
+    "type::result",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:09:59+00:00"
+   }
+  },
+  {
+   "key": "15e6c33df6",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "What did Planck change to fix blackbody radiation?",
+    "Back": "Oscillator energy is quantized, \\(E=nhf\\), so the average energy per mode becomes \\(\\bar E=\\dfrac{hf}{e^{hf/kT}-1}\\) and high-frequency modes are suppressed",
+    "SpeakFront": "what did Planck change to fix blackbody radiation?",
+    "SpeakBack": "he quantized oscillator energy, E equals n h f, so the average energy per mode becomes h f over e to the h f over k T minus one, which suppresses high frequency modes",
+    "Elaboration": "When \\(hf\\ll kT\\), \\(\\bar E\\to kT\\): the classical result comes back at long wavelength.",
+    "Source": "NUEN201 L07 slides 15–16",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l07-quantum-theory-of-light",
+    "topic::physics::quantum::blackbody",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     15,
+     6
+    ],
+    "from": "slides 15–16",
+    "note": "Angle 3: the resolution. The classical-limit Elaboration connects the two laws instead of adding a card."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:55:41.821Z"
+   }
+  },
+  {
+   "key": "00133b9e6d",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "Rayleigh–Jeans spectral energy density \\(u(\\lambda)\\)",
+    "Back": "\\(u(\\lambda)=\\dfrac{8\\pi}{\\lambda^4}\\,kT\\)",
+    "SpeakFront": "the Rayleigh Jeans spectral energy density, u of lambda",
+    "SpeakBack": "eight pi over lambda to the fourth, times k T",
+    "Elaboration": "\\(8\\pi/\\lambda^4\\) counts standing-wave modes per volume; \\(kT\\) is the classical energy per mode.",
+    "Source": "NUEN201 L07 slide 14",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l07-quantum-theory-of-light",
+    "topic::physics::quantum::blackbody",
+    "type::formula",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.85,
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "slide 14",
+    "note": "Now, not Core: exam-relevant but historical. Planck's full u(λ) is skipped as too long to recall usefully (canon 3)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:55:52.447Z"
+   }
+  },
+  {
+   "key": "0a2f917437",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Blackbody (definition)",
+    "Back": "an object that absorbs all radiation falling on it",
+    "SpeakFront": "definition of a blackbody",
+    "SpeakBack": "an object that absorbs all radiation falling on it",
+    "Elaboration": "Its emission spectrum then depends only on its temperature.",
+    "Source": "NUEN201 L07 slide 8",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l07-quantum-theory-of-light",
+    "topic::physics::quantum::blackbody",
+    "type::definition",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "slide 8",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:56:27.982Z"
+   }
+  },
+  {
+   "key": "701eaebfd8",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Stefan–Boltzmann law: total intensity radiated by a blackbody at temperature \\(T\\)",
+    "Back": "\\(I=\\sigma T^4\\)",
+    "SpeakFront": "the Stefan Boltzmann law for the total intensity radiated by a blackbody at temperature T",
+    "SpeakBack": "I equals sigma T to the fourth",
+    "Elaboration": "\\(I\\) is the area under \\(R(\\lambda)\\). Doubling \\(T\\) gives 16× the power.",
+    "Source": "NUEN201 L07 slide 9",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l07-quantum-theory-of-light",
+    "topic::physics::thermal-radiation",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     9,
+     14
+    ],
+    "from": "slide 9",
+    "note": "The slide spells it 'Stephan'; corrected. 'Stefan–Boltzmann' and 'total intensity' in the prompt keep it apart from Wien (interference)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:56:37.414Z"
+   }
+  },
+  {
+   "key": "3a22a32970",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Stefan–Boltzmann constant \\(\\sigma\\) (3 sig figs, SI)",
+    "Back": "\\(5.67\\times10^{-8}\\) W/(m²·K⁴)",
+    "SpeakFront": "the Stefan Boltzmann constant sigma, three significant figures, in S I units",
+    "SpeakBack": "5.67 times ten to the minus 8 watts per square meter per kelvin to the fourth",
+    "Elaboration": "Its units are power per area per \\(T^4\\), so it can't be Wien's constant, which is a length times a temperature.",
+    "Source": "NUEN201 L07 slide 9",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l07-quantum-theory-of-light",
+    "topic::physics::constants",
+    "type::anchor",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [
+    {
+     "quantity": "Stefan-Boltzmann constant",
+     "value": "5.670e-8 W/(m^2 K^4)",
+     "tolerance": "0.1%"
+    }
+   ],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     2,
+     7,
+     14
+    ],
+    "from": "slide 9",
+    "note": "Checked against scipy.constants (5.6704e-8). The units in the elaboration are the interference guard."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:56:49.793Z"
+   }
+  },
+  {
+   "key": "88b52c4658",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Wien's displacement law (with the constant, 4 sig figs)",
+    "Back": "\\(\\lambda_{\\max}T=2.898\\times10^{-3}\\) m·K",
+    "SpeakFront": "Wien's displacement law, with the constant to four significant figures",
+    "SpeakBack": "lambda max times T equals 2.898 times ten to the minus 3 meter kelvins",
+    "Elaboration": "Hotter means a shorter peak wavelength. The slide's \"mK\" means meter·kelvin, not millikelvin.",
+    "Source": "NUEN201 L07 slides 9–10",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l07-quantum-theory-of-light",
+    "topic::physics::thermal-radiation",
+    "type::anchor",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [
+    {
+     "quantity": "Wien displacement constant",
+     "value": "2.898e-3 m*K",
+     "tolerance": "0.1%"
+    }
+   ],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     7,
+     9,
+     14
+    ],
+    "from": "slides 9–10",
+    "note": "Slide typos fixed ('Wein', 'mK'). The unit trap goes in Elaboration, not a separate card."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:57:00.949Z"
+   }
+  },
+  {
+   "key": "6b7c8f9cf0",
+   "note_type": "M-Estimate",
+   "deck": "Core",
+   "fields": {
+    "Question": "Peak wavelength of sunlight (solar surface ≈ 5800 K)",
+    "Answer": "\\(\\approx500\\) nm, blue-green, near the middle of the visible band",
+    "Anchor": "\\(\\lambda_{\\max}=2.898\\times10^{-3}\\ \\mathrm{m\\,K}/5800\\ \\mathrm K\\)",
+    "SpeakQuestion": "peak wavelength of sunlight, taking the solar surface as about 5800 kelvin",
+    "SpeakAnswer": "about 500 nanometers, in the blue green, near the middle of the visible band",
+    "Source": "NUEN201 L07 slide 10 (Wien); solar temperature is an outside anchor",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l07-quantum-theory-of-light",
+    "topic::physics::thermal-radiation",
+    "type::anchor",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [
+    {
+     "quantity": "2.898e-3 m*K / 5800 K",
+     "value": "5.0e-7 m",
+     "tolerance": "2%"
+    }
+   ],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     7,
+     9
+    ],
+    "from": "slide 10",
+    "note": "Replaces the lava example, whose 3000 °C is wrong. The Sun is a better Fermi anchor, and it's allowed as an outside fact because it's tagged type::anchor."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:57:12.096Z"
+   }
+  }
+ ],
+ "skipped": [
+  {
+   "what": "Maxwell 1865–1873, Hertz 1857–1894, 'unified electricity, magnetism and light'",
+   "why": "Narrative history; nothing downstream depends on the dates."
+  },
+  {
+   "what": "'Four pillars of physics in 1900' list",
+   "why": "An enumeration (canon 13), and only context for the story."
+  },
+  {
+   "what": "Lava 'about 3000 °C' from color",
+   "why": "Factually wrong; real lava is roughly 700–1200 °C. Replaced by the solar-peak estimate."
+  },
+  {
+   "what": "Planck constant value",
+   "why": "Already in Core (Science::Physics::Constants, 6.626e-34 J·s): dedupe. The slide's 6.56e-34 is Planck's historical fit."
+  },
+  {
+   "what": "Planck's full u(λ) formula",
+   "why": "Too long to recall usefully (canon 3). The mechanism card covers the idea, and the formula is derivable from Ē times the modes per volume."
+  },
+  {
+   "what": "Grill / BBQ color analogies, Maxwell's equations recap",
+   "why": "Illustration, and a recap of material carded elsewhere."
+  }
+ ],
+ "rejected": [],
+ "superseded": [
+  {
+   "key": "af889261ab",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Which classical assumption causes the ultraviolet catastrophe?",
+    "Back": "Continuous energy: every standing-wave mode gets average energy \\(kT\\), while the number of modes per volume grows as \\(1/\\lambda^4\\)",
+    "SpeakFront": "which classical assumption causes the ultraviolet catastrophe?",
+    "SpeakBack": "that energy is continuous, so every standing wave mode gets average energy k T, while the number of modes grows as one over lambda to the fourth",
+    "Elaboration": "Energy density = (modes per volume) × (energy per mode).",
+    "Source": "NUEN201 L07 slides 13–14",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::nuen201::l07-quantum-theory-of-light",
+    "topic::physics::quantum::blackbody",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     15
+    ],
+    "from": "slides 13–14",
+    "note": "Angle 2: the cause."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "good, but should be two cards",
+    "at": "2026-09-25T04:55:22.266Z"
+   },
+   "replaced_by": [
+    "06dd0f8fc2",
+    "8d65f2e956"
+   ]
+  }
+ ]
+}

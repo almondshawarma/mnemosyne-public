@@ -1,0 +1,23 @@
+# Helios hooks for mnemosyne
+
+Copies of what `patch_helios.py` adds to the homelab stack on the Obelisk. The live files are in `~/helios/stack`, each with a `.bak-mnemosyne` copy, and Aman commits homelab himself.
+
+- **`mnemo.py`** becomes `~/helios/stack/mcp/mnemo.py`. It provides `mnemosyne_propose_cards` on every MCP instance, and `mnemosyne_pending_batches` and `mnemosyne_approve_batch` only where the approve token is set (mcp-local).
+- **`patch_helios.py`** makes the additive edits:
+  - the Telegram bot announces batches, forwards `mn|…` buttons, and turns a pasted `mnemosyne-cards` block into a batch;
+  - it registers the MCP tools, adds `mnemo.py` to the MCP Dockerfile, and adds `MNEMOSYNE_*` env entries for mcp, mcp-local, and telegram.
+
+  It aborts if any anchor has changed, and refuses to run twice.
+- **`patch_helios_p4.py`** (P4, 2026-09-27) adds four read-only tools to every MCP instance: `mnemosyne_learner_profile`, `mnemosyne_search_cards`, `mnemosyne_exam_status`, and `mnemosyne_card_stats`. The `mnemosyne-tutor` skill uses them. They need only the propose token, because they read and never write. The script backs up to `.bak-mnemosyne-p4` and refuses to run twice.
+- **`patch_helios_questions.py`** adds `mnemosyne_log_question`. It backs up to `.bak-mnemosyne-questions`.
+- **`patch_helios_stuck.py`** (2026-10-07) adds `mnemosyne_stuck_documents` and `mnemosyne_settle_document` to every instance: card a lecture in a session when the TAMU allowance is spent. It backs up to `.bak-mnemosyne-stuck`.
+- **`patch_helios_weekly.py`** (2026-10-07) adds the read-only `mnemosyne_weekly_audit` to every instance: the week's evidence for the `mnemosyne-weekly` skill. It backs up to `.bak-mnemosyne-weekly`.
+- **`patch_helios_exam.py`** (2026-10-07) adds the exam prep tools to every instance: `mnemosyne_exam_pack`, `mnemosyne_doc_read` (course documents only, with page images), and `mnemosyne_log_probe` (add-only). It backs up to `.bak-mnemosyne-exam`.
+- **`patch_helios_attempts.py`** (2026-10-07) adds `mnemosyne_log_attempt` to every instance: a fresh problem on a graded mistake, right or wrong. It only adds, so the propose token is enough. It backs up to `.bak-mnemosyne-attempts`.
+- **`patch_helios_books.py`** (2026-10-06) adds the read-only book tools to every instance: `mnemosyne_books`, `mnemosyne_book_search`, `mnemosyne_book_read`, and `mnemosyne_book_problems`. Read and problems return page images as MCP image content. It backs up to `.bak-mnemosyne-books`.
+- **`patch_helios_videos.py`** (2026-10-13) adds the lecture-video tools to every instance: `mnemosyne_videos`, `mnemosyne_video_search`, `mnemosyne_video_watch` (transcript span + contact sheets as images), `mnemosyne_video_frames`, and `mnemosyne_video_request` (add-only: queues a YouTube link for the watcher). `with_images` now takes an image's own `label`. It backs up to `.bak-mnemosyne-videos`.
+- **`patch_helios_video_study.py`** (2026-10-24) adds `mnemosyne_video_study` to every instance: study mode, one span of an animation measured densely for dissecting its craft. The first call queues it (add-only, YouTube links only); a later one returns it with the motion plot (PNG), shot sheets, and filmstrips or frames on request. `with_images` now takes an image's `format`. It backs up to `.bak-mnemosyne-videostudy`.
+- **`patch_helios_clips.py`** (2026-10-13) adds the clip tools to every instance: `mnemosyne_clips`, `mnemosyne_clip_submit` (a Manim scene's code, rendered in a throwaway sandbox on the Obelisk and published to /watch; reviewed in `docs/security/clip-submit.md`), and `mnemosyne_clip_status` (the error, or the stills as images). It backs up to `.bak-mnemosyne-clips`.
+- **`patch_helios_clips_skill.py`** (2026-10-23) rewrites the descriptions of `mnemosyne_clips` and `mnemosyne_clip_submit` only: they say the tool is for any video or animation request and point to the `mnemosyne-clips` skill, so a chat doesn't render a clip in its own sandbox. It backs up to `.bak-mnemosyne-clips-skill`.
+- **`patch_helios_preview.py`** (2026-10-24) teaches Helios's Jobs & Renders page (helios-preview, :8095) about clip renders, which `scripts/helios_jobs.py` writes in the page's own job format: a waiting badge, a link to the clip on /watch, refresh while anything waits, and a "How to send a render" panel. It backs up to `.bak-mnemosyne-preview`; then rebuild `preview`.
+- **`patch_helios_toolkit.py`** (2026-10-14) adds the read-only `mnemosyne_clip_toolkit` to every instance: amanim's API and commit, the house style's helpers and palette roles, and `# harvest:` candidates, read live so chats write scenes in Aman's current style. It backs up to `.bak-mnemosyne-toolkit`.

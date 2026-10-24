@@ -1,0 +1,1115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mnemosyne">
+<meta name="theme-color" content="#e8ecf1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f141b" media="(prefers-color-scheme: dark)">
+<title>Mnemosyne review</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f4fb5'/%3E%3Ctext x='16' y='22' font-size='17' text-anchor='middle' fill='white' font-family='Georgia'%3EM%3C/text%3E%3C/svg%3E">
+<script>
+  window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] },
+                     options: { enableMenu: false }, startup: { typeset: false } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+:root {
+  --ground: #e8ecf1; --face: #fbfcfd; --ink: #17202e; --muted: #5a6677; --line: #d3dae3;
+  --accent: #2f4fb5; --accent-ink: #fff; --approve: #237a4b; --edit: #9a6208; --reject: #b3261e;
+  --ask-bg: #fff4dc; --ask-ink: #6b4a05; --warn-bg: #fdeceb; --chip: #eef1f6;
+  --serif: "Iowan Old Style", "Source Serif 4", Georgia, serif;
+  --sans: -apple-system, "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: ui-monospace, "IBM Plex Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --ground: #0f141b; --face: #18202a; --ink: #e3e8ef; --muted: #97a3b4; --line: #2b3542;
+    --accent: #8aa4f2; --accent-ink: #0f141b; --approve: #5cc08a; --edit: #e2a743; --reject: #f07b72;
+    --ask-bg: #33290f; --ask-ink: #f0cf86; --warn-bg: #3a1f1e; --chip: #222c38;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 16px/1.45 var(--sans);
+       padding: env(safe-area-inset-top) 0 calc(env(safe-area-inset-bottom) + 24px); }
+main { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+header.top { position: sticky; top: 0; z-index: 5; background: var(--ground); padding: 14px 0 10px;
+             border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+.row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.grow { flex: 1; }
+h1 { font: 600 20px/1.2 var(--serif); margin: 0; }
+h2 { font: 600 17px/1.3 var(--serif); margin: 22px 0 10px; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.tabs { display: flex; gap: 6px; margin-top: 10px; }
+.tab { flex: 1; border: 1px solid var(--line); background: var(--face); color: var(--ink); border-radius: 10px;
+       padding: 8px 10px; font: 500 15px var(--sans); }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button, .btn { font: 500 15px var(--sans); border-radius: 10px; border: 1px solid var(--line);
+               background: var(--face); color: var(--ink); padding: 9px 14px; min-height: 42px; cursor: pointer; }
+button:disabled { opacity: .5; }
+.approve { background: var(--approve); border-color: var(--approve); color: #fff; }
+.reject { color: var(--reject); border-color: var(--reject); background: transparent; }
+.editb { color: var(--edit); border-color: var(--edit); background: transparent; }
+.plain { border: none; background: none; color: var(--accent); padding: 6px 4px; min-height: 0; }
+a.plain { font: 500 15px var(--sans); text-decoration: none; }
+.batch { background: var(--face); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 18px; overflow: hidden; }
+.batch > .head { padding: 12px 14px; border-bottom: 1px solid var(--line); }
+.batch .title { font: 600 16px var(--serif); }
+.card { padding: 14px; border-bottom: 1px solid var(--line); }
+.card:last-child { border-bottom: none; }
+.card.done { opacity: .55; }
+.card.done .actions { display: none; }
+.chip { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--chip); color: var(--muted); }
+.reason { font-size: 14px; border-radius: 10px; padding: 8px 10px; margin: 8px 0; background: var(--chip); }
+.reason.question { background: var(--ask-bg); color: var(--ask-ink); }
+.reason.failed { background: var(--warn-bg); }
+.field { margin: 8px 0; }
+.field .name { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.field .val { font-family: var(--serif); font-size: 17px; overflow-x: auto; }
+details { margin-top: 6px; }
+summary { color: var(--muted); font-size: 13px; cursor: pointer; }
+.actions { display: flex; gap: 8px; margin-top: 12px; }
+.actions button { flex: 1; }
+.verdict { font-weight: 600; font-size: 14px; margin-top: 8px; }
+.problems { color: var(--reject); font-size: 14px; margin-top: 8px; }
+textarea, input[type=text], input[type=password], select {
+  width: 100%; font: 16px var(--sans); color: var(--ink); background: var(--ground);
+  border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+textarea { font-family: var(--mono); font-size: 14px; resize: vertical; min-height: 44px; }
+label.f { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 4px; text-transform: uppercase; letter-spacing: .05em; }
+.exam { background: var(--face); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+.exam .when { font-size: 13px; color: var(--muted); }
+.pill-ok { color: var(--approve); font-weight: 600; font-size: 13px; }
+.pill-no { color: var(--edit); font-weight: 600; font-size: 13px; }
+.empty { text-align: center; padding: 40px 10px; color: var(--muted); }
+.gate { max-width: 420px; margin: 12vh auto 0; background: var(--face); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+a.exam { display: block; color: inherit; text-decoration: none; }
+.back { display: inline-block; margin: 4px 0 8px; color: var(--accent); text-decoration: none; font-size: 15px; }
+.filters { display: flex; gap: 6px; margin: 10px 0 14px; }
+.filters button { flex: 1; min-height: 36px; padding: 6px 8px; font-size: 14px; }
+.filters button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.bar { height: 6px; border-radius: 3px; background: var(--chip); overflow: hidden; margin-top: 8px; }
+.bar > span { display: block; height: 100%; background: var(--approve); }
+.why { font-size: 14px; color: var(--muted); margin: 8px 0; border-left: 2px solid var(--line); padding-left: 10px; }
+.why .chip { margin: 0 4px 4px 0; }
+details.ctx { font-size: 14px; border: 1px dashed var(--line); border-radius: 10px; padding: 6px 10px; margin: 8px 0; }
+details.ctx .field { opacity: .75; }
+.said { border-left: 2px solid var(--reject); padding-left: 10px; margin-top: 6px; }
+.skip { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.skip:last-child { border-bottom: none; }
+.skip button { min-height: 34px; padding: 5px 10px; font-size: 13px; white-space: nowrap; }
+.skip button[aria-pressed="true"] { background: var(--approve); border-color: var(--approve); color: #fff; }
+.panel { background: var(--face); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin-bottom: 16px; }
+.toast { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom) + 18px); transform: translateX(-50%);
+         background: var(--ink); color: var(--ground); padding: 10px 16px; border-radius: 10px; font-size: 14px;
+         opacity: 0; transition: opacity .2s; pointer-events: none; max-width: 90vw; }
+.toast.show { opacity: 1; }
+.label { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 12px 0 2px; }
+.newcard { border-left: 3px solid var(--approve); padding-left: 10px; margin: 8px 0; }
+.stats { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.asked { font: 500 17px/1.4 var(--serif); }
+.sharper { border-left: 3px solid var(--accent); padding-left: 10px; margin: 8px 0; font-style: italic; }
+.tabs { overflow-x: auto; }
+.tab { white-space: nowrap; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <section id="gate" class="gate" hidden>
+    <h1>Mnemosyne review</h1>
+    <p class="muted small">This device needs mnemosyne's approve token once. It stays in this browser only.</p>
+    <form id="gate-form">
+      <input id="gate-token" type="password" autocomplete="current-password" placeholder="approve token" required>
+      <div class="row" style="margin-top:12px"><button class="approve grow" type="submit">Save</button></div>
+    </form>
+    <p id="gate-error" class="problems" hidden></p>
+  </section>
+
+  <section id="app" hidden>
+    <header class="top">
+      <div class="row">
+        <h1 class="grow">Mnemosyne</h1>
+        <a class="plain" href="/watch">Watch</a>
+        <button class="plain" id="refresh" type="button">Refresh</button>
+        <button class="plain" id="forget" type="button">Forget token</button>
+      </div>
+      <div id="summary" class="muted small"></div>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" id="tab-reviews" aria-selected="true" type="button">From Claude</button>
+        <button class="tab" role="tab" id="tab-cards" aria-selected="false" type="button">Waiting</button>
+        <button class="tab" role="tab" id="tab-questions" aria-selected="false" type="button">Questions</button>
+        <button class="tab" role="tab" id="tab-read" aria-selected="false" type="button">Read</button>
+        <button class="tab" role="tab" id="tab-leeches" aria-selected="false" type="button">Leeches</button>
+        <button class="tab" role="tab" id="tab-exams" aria-selected="false" type="button">Exams</button>
+      </div>
+    </header>
+    <div id="view-reviews"></div>
+    <div id="view-cards" hidden></div>
+    <div id="view-questions" hidden></div>
+    <div id="view-read" hidden></div>
+    <div id="view-leeches" hidden></div>
+    <div id="view-exams" hidden></div>
+  </section>
+</main>
+<div id="toast" class="toast" role="status"></div>
+
+<script>
+"use strict";
+const KEY = "mn-approve-token";
+const HIDDEN = new Set(["MnemosyneID", "Source", "SourceLink", "AudioFront", "AudioBack", "TargetAudio",
+                        "SoundAudio", "ExampleAudio", "PromptAudio", "Video"]);
+const OWNED = new Set(["MnemosyneID", "AudioFront", "AudioBack", "TargetAudio", "SoundAudio", "ExampleAudio",
+                       "PromptAudio", "Video"]);
+const $ = (id) => document.getElementById(id);
+let data = null;
+
+function token() { try { return localStorage.getItem(KEY) || ""; } catch { return ""; } }
+function setToken(t) { try { t ? localStorage.setItem(KEY, t) : localStorage.removeItem(KEY); } catch {} }
+
+async function api(path, opts = {}) {
+  const res = await fetch(path, { ...opts, headers: { "Authorization": "Bearer " + token(),
+                                                      "Content-Type": "application/json", ...(opts.headers || {}) } });
+  if (res.status === 401) { setToken(""); showGate("That token was refused."); throw new Error("unauthorized"); }
+  if (!res.ok) throw new Error(`${res.status}: ${(await res.text()).slice(0, 200)}`);
+  return res.json();
+}
+
+function toast(msg) {
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+// Card fields come from LLM output: escape everything, then allow a few attribute-free formatting tags back.
+function safe(html) {
+  const esc = String(html ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  return esc.replace(/&lt;(\/?)(b|i|u|em|strong|sub|sup|br|div|p|ul|ol|li)\s*\/?&gt;/gi, "<$1$2>");
+}
+function text(s) { return safe(s).replace(/<[^>]*>/g, ""); }
+function httpUrl(u) { try { const x = new URL(u); return /^https?:$/.test(x.protocol) ? x.href : null; } catch { return null; } }
+function courseName(c) { return c ? c.replace(/^([A-Z]+)(\d+)$/, "$1 $2") : ""; }
+function lecs(list) {
+  if (!list || !list.length) return "none yet";
+  const out = []; let a = list[0], b = list[0];
+  const push = () => out.push(a === b ? `L${String(a).padStart(2, "0")}` : `L${String(a).padStart(2, "0")}–L${String(b).padStart(2, "0")}`);
+  for (const n of list.slice(1)) { if (n === b + 1) b = n; else { push(); a = b = n; } }
+  push(); return out.join(", ");
+}
+function parseLecs(s) {
+  const out = new Set();
+  for (const part of String(s).toUpperCase().replace(/L/g, "").split(/[,\s]+/).filter(Boolean)) {
+    const m = part.match(/^(\d+)(?:[-–](\d+))?$/);
+    if (!m) throw new Error(`can't read "${part}"`);
+    const a = +m[1], b = m[2] ? +m[2] : a;
+    for (let n = Math.min(a, b); n <= Math.max(a, b); n++) out.add(n);
+  }
+  return [...out].sort((x, y) => x - y);
+}
+function typeset(el) { if (window.MathJax && MathJax.typesetPromise) MathJax.typesetPromise([el]).catch(() => {}); }
+
+function showGate(msg) {
+  $("app").hidden = true; $("gate").hidden = false;
+  $("gate-error").hidden = !msg; $("gate-error").textContent = msg || "";
+}
+
+async function load() {
+  if (!token()) return showGate();
+  $("gate").hidden = true; $("app").hidden = false;
+  try { data = await api("/review/queue"); } catch (e) { if (e.message !== "unauthorized") toast("Couldn't load: " + e.message); return; }
+  const cards = data.batches.reduce((n, b) => n + b.drafts.length, 0) + (data.stuck || []).length;
+  const failed = (data.documents || []).filter((d) => !d.waiting_on_gateway).length;
+  const unmapped = data.exams.filter((e) => e.kind === "exam" && !e.confirmed).length;
+  const open = data.reviews.filter((r) => r.status === "open").length;
+  const leeches = (data.leeches || []).length;
+  $("summary").textContent = `${open} review${open === 1 ? "" : "s"} from Claude · ${cards} card${cards === 1 ? "" : "s"} waiting · ${failed ? `${failed} document${failed === 1 ? "" : "s"} failed · ` : ""}${leeches} leech${leeches === 1 ? "" : "es"} · ${data.maps.length} map${data.maps.length === 1 ? "" : "s"} to confirm · ${unmapped} exam${unmapped === 1 ? "" : "s"} without coverage`;
+  $("tab-leeches").textContent = `Leeches${leeches ? ` (${leeches})` : ""}`;
+  const qn = (data.questions || []).length;
+  $("tab-questions").textContent = `Questions${qn ? ` (${qn})` : ""}`;
+  $("tab-reviews").textContent = `From Claude${open ? ` (${open})` : ""}`;
+  $("tab-cards").textContent = `Waiting${cards + failed ? ` (${cards + failed})` : ""}`;
+  $("tab-exams").textContent = `Exams${data.maps.length + unmapped ? ` (${data.maps.length + unmapped})` : ""}`;
+  renderCards(); renderExams(); renderLeeches(); renderQuestions();
+  await route();
+}
+
+// ---------- cards ----------
+
+function reasonBlocks(reason) {
+  if (!reason) return "";
+  return reason.split("; ").map((r) => {
+    const cls = r.startsWith("question:") ? "question" : /^(verify_failed|dedupe_duplicate)/.test(r) ? "failed" : "";
+    const label = r.replace(/^question: /, "Question for you: ").replace(/^dedupe_flagged \(([\d.]+)\): /, "Looks like an existing card ($1): ")
+      .replace(/^dedupe_duplicate \(([\d.]+)\): /, "Probably a duplicate of an existing card ($1): ")
+      .replace(/^merge_up \(([\d.]+)\): /, "The more fundamental version of an existing card ($1). Merge up rewrites that card in this wording, keeping its history: ")
+      .replace(/^verify_failed: /, "Number check failed: ").replace(/^verify_skipped: /, "Number not checked: ")
+      .replace(/^unchecked: /, "Not checked: ")
+      .replace(/^calibration: /, "Calibration: ");
+    return `<div class="reason ${cls}">${safe(label)}</div>`;
+  }).join("");
+}
+
+function cardHtml(b, d) {
+  const shown = Object.entries(d.fields).filter(([k, v]) => v && !HIDDEN.has(k) && !k.startsWith("Speak"));
+  const spoken = Object.entries(d.fields).filter(([k, v]) => v && k.startsWith("Speak"));
+  const tags = d.tags.filter((t) => !/^(gen|mode|status)::/.test(t));
+  return `<div class="card" id="c-${d.mnemosyne_id}" data-batch="${b.id}">
+    <div class="row small"><span class="chip">${text(d.note_type)}</span><span class="chip">${text(d.deck)}</span>
+      <span class="chip">${text(d.mode)}</span></div>
+    ${reasonBlocks(d.review_reason)}
+    ${shown.map(([k, v]) => `<div class="field"><div class="name">${text(k)}</div><div class="val">${safe(v)}</div></div>`).join("")}
+    ${mediaHtml(d.note_type, d.fields)}
+    ${spoken.length ? `<details><summary>Spoken</summary>${spoken.map(([k, v]) => `<div class="small"><b>${text(k)}:</b> ${text(v)}</div>`).join("")}</details>` : ""}
+    <details><summary>Tags · source</summary><div class="small muted">${tags.map(text).join(" · ")}</div>
+      ${d.fields.Source ? `<div class="small muted">${text(d.fields.Source)}</div>` : ""}</details>
+    <div class="actions">
+      <button class="approve" data-act="approve" type="button">Approve</button>
+      <button class="editb" data-act="edit" type="button">Edit</button>
+      <button class="reject" data-act="reject" type="button">Reject</button>
+      ${d.merge_up ? `<button class="approve" data-act="merge_up" type="button" title="Rewrite the existing card in this wording; it keeps its history and gains this card's tags">Merge up</button>` : ""}
+      ${d.merge_into ? `<button class="editb" data-act="merge" type="button" title="Keep the existing card as it is; it gains this card's course and topic tags">Merge</button>` : ""}
+    </div>
+    <div class="slot"></div>
+    <div class="verdict" hidden></div>
+  </div>`;
+}
+
+function writeError(e) {
+  if (/DUPLICATE_NOTE/.test(e)) return "Another note in Anki already has this exact front. Reword the front, or withdraw the card.";
+  if (/INVALID_ARGUMENT/.test(e)) return "Anki refused this card as written: " + e.replace(/^.*"message":"([^"]*)".*$/, "$1");
+  return "Anki couldn't be reached; it will retry. " + e.slice(0, 160);
+}
+
+function stuckHtml() {
+  const list = data.stuck || [];
+  if (!list.length) return "";
+  return `<section class="batch" id="stuck"><div class="head"><div class="title">Couldn't reach Anki</div>
+      <div class="small muted">${list.length} approved card${list.length === 1 ? "" : "s"} the write job keeps retrying. Fix or withdraw each.</div></div>
+    ${list.map((d, i) => `<div class="card" data-stuck="${i}">
+      <div class="row small"><span class="chip">${text(courseName(d.course))}${d.lecture ? ` · L${String(d.lecture).padStart(2, "0")}` : ""}</span>
+        <span class="chip">${text(d.note_type)}</span><span class="chip">${text(d.deck)}</span></div>
+      <div class="reason failed">${text(writeError(d.error))}</div>
+      ${faceHtml(d.fields)}
+      <div class="actions"><button class="editb" data-s="edit" type="button">Edit</button>
+        <button class="reject" data-s="withdraw" type="button">Withdraw</button></div>
+      <div class="slot"></div><div class="verdict"></div></div>`).join("")}</section>`;
+}
+
+const JOB_VERB = { paperless: "card", graded: "debrief", prep: "file", paper: "read" };
+function ago(iso) {
+  const m = Math.round((Date.now() - Date.parse(iso)) / 60000);
+  if (!(m >= 0)) return "";
+  if (m < 60) return `${m} min ago`;
+  if (m < 48 * 60) return `${Math.round(m / 60)} h ago`;
+  return `${Math.round(m / 1440)} days ago`;
+}
+
+function documentsHtml() {
+  const list = data.documents || [];
+  if (!list.length) return "";
+  const failed = list.filter((d) => !d.waiting_on_gateway).length;
+  return `<section class="batch" id="docs"><div class="head"><div class="title">${failed ? "Couldn't card" : "Waiting for the TAMU allowance"}</div>
+      <div class="small muted">${failed ? `${failed} document${failed === 1 ? "" : "s"} the pipeline couldn't finish.` : ""}
+        ${list.length - failed ? `${list.length - failed} waiting for the TAMU allowance; they try again on every poll.` : ""}</div></div>
+    ${list.map((d, i) => {
+      const name = d.title || `document ${d.doc_id}`, link = httpUrl(d.link);
+      const when = d.waiting_on_gateway ? `last tried ${ago(d.since)}` : `tried ${d.tries}×, last ${ago(d.since)}`
+        + (d.gave_up ? " · won't try again by itself" : " · tries once more on the next poll");
+      return `<div class="card" data-doc="${i}">
+      <div class="row small"><span class="chip">${text(name)}</span><span class="chip">${text(JOB_VERB[d.job] || d.job)}</span>
+        ${link ? `<a href="${link}" target="_blank" rel="noopener">Paperless</a>` : ""}</div>
+      <div class="reason ${d.waiting_on_gateway ? "" : "failed"}">${text(d.problem || d.error)}</div>
+      <div class="small muted">${text(when)}</div>
+      ${d.waiting_on_gateway ? "" : `<details><summary>The error</summary><div class="small muted">${text(d.error)}</div></details>
+      <div class="actions"><button class="approve" data-d="retry" type="button">Try again</button></div>`}
+      <div class="slot"></div><div class="verdict"></div></div>`;
+    }).join("")}</section>`;
+}
+
+function renderCards() {
+  const view = $("view-cards");
+  if (!data.batches.length) { view.innerHTML = (documentsHtml() + stuckHtml()) || `<div class="empty">Nothing waiting. 🎉</div>`; typeset(view); return; }
+  view.innerHTML = documentsHtml() + stuckHtml() + data.batches.map((b) => {
+    const where = [courseName(b.course), b.lecture ? `L${String(b.lecture).padStart(2, "0")}` : ""].filter(Boolean).join(" · ");
+    const added = Object.entries(b.counts).filter(([s]) => s !== "pending").reduce((n, [, v]) => n + v, 0);
+    const link = httpUrl(b.link);
+    const ref = (b.ref || "").replace(/^\s*[A-Z]{3,5}\s?\d{3}\s*(L\d+)?\s*[-–:]?\s*/i, "");
+    return `<section class="batch" id="b-${b.id}">
+      <div class="head">
+        <div class="title">${text(where || b.kind)}${ref ? ` <span class="muted small">${text(ref)}</span>` : ""}</div>
+        <div class="small muted">${b.drafts.length} waiting${added ? ` · ${added} already added` : ""} · ${text(b.kind)} via ${text(b.origin)} · batch ${text(b.id)}
+          ${link ? ` · <a href="${link}" target="_blank" rel="noopener">slides</a>` : ""}</div>
+        <div class="row" style="margin-top:10px">
+          <button class="approve grow" data-all="approve" type="button">Approve all ${b.drafts.length}</button>
+          <button class="reject grow" data-all="reject" type="button">Reject all</button>
+        </div>
+      </div>
+      ${b.drafts.map((d) => cardHtml(b, d)).join("")}
+    </section>`;
+  }).join("");
+  typeset(view);
+}
+
+function draftOf(batchId, mid) { return data.batches.find((b) => b.id === batchId).drafts.find((d) => d.mnemosyne_id === mid); }
+
+async function send(batchId, decisions) {
+  const res = await api(`/batches/${encodeURIComponent(batchId)}/cards`, { method: "POST", body: JSON.stringify({ decisions }) });
+  for (const d of decisions) {
+    const el = $(`c-${d.mnemosyne_id}`); if (!el) continue;
+    const probs = res.problems[d.mnemosyne_id];
+    el.querySelectorAll(".problems").forEach((p) => p.remove());
+    if (probs) { el.querySelector(".slot").insertAdjacentHTML("beforeend", `<div class="problems">${probs.map(text).join("<br>")}</div>`); continue; }
+    el.classList.add("done"); el.querySelector(".slot").innerHTML = "";
+    const v = el.querySelector(".verdict"); v.hidden = false;
+    v.textContent = { approve: "✓ Approved", edit: "✓ Edited and approved", reject: "✗ Rejected",
+                      merge: "✓ Merged: the existing card gained this one's tags",
+                      merge_up: "✓ Merged up: the existing card now reads like this one" }[d.action] + (d.note ? ` — ${d.note}` : "");
+    v.style.color = d.action === "reject" ? "var(--reject)" : "var(--approve)";
+  }
+  return res;
+}
+
+function openReject(el, batchId, mid) {
+  const slot = el.querySelector(".slot");
+  slot.innerHTML = `<label class="f">Why? (optional, helps tune the canon)</label><input type="text" class="reason-in" maxlength="300">
+    <div class="actions"><button class="reject" data-go="reject" type="button">Reject card</button><button data-go="cancel" type="button">Cancel</button></div>`;
+  slot.querySelector(".reason-in").focus();
+}
+
+function openEdit(el, batchId, mid) {
+  const d = draftOf(batchId, mid);
+  const slot = el.querySelector(".slot");
+  const fields = Object.entries(d.fields).filter(([k]) => !OWNED.has(k));
+  const tags = d.tags.filter((t) => !/^(gen|mode|status)::/.test(t)).join(" ");
+  slot.innerHTML = fields.map(([k, v]) => `<label class="f">${text(k)}</label><textarea data-field="${text(k)}" rows="${Math.min(6, Math.max(1, Math.ceil(v.length / 60)))}">${text(v)}</textarea>`).join("")
+    + `<label class="f">Tags</label><input type="text" class="tags" value="${text(tags)}">`
+    + `<label class="f">Deck</label><select class="deck">${data.decks.map((k) => `<option${k === d.deck ? " selected" : ""}>${text(k)}</option>`).join("")}</select>`
+    + `<label class="f">Note (optional)</label><input type="text" class="reason-in" maxlength="300">`
+    + `<div class="actions"><button class="approve" data-go="edit" type="button">Save and approve</button><button data-go="cancel" type="button">Cancel</button></div>`;
+  // textarea content is escaped for display; read raw values back from the element on save
+  slot.querySelectorAll("textarea").forEach((ta) => { ta.value = d.fields[ta.dataset.field]; });
+}
+
+$("view-cards").addEventListener("click", async (ev) => {
+  const btn = ev.target.closest("button"); if (!btn) return;
+  const docEl = btn.closest("[data-doc]");
+  if (docEl) {
+    const d = data.documents[+docEl.dataset.doc], verdict = docEl.querySelector(".verdict");
+    btn.disabled = true; btn.textContent = "Working… a lecture can take a few minutes";
+    try {
+      const res = await api(`/pipeline/document/${d.doc_id}?job=${encodeURIComponent(d.job)}`, { method: "POST" });
+      if (res.failed) {
+        verdict.textContent = (res.waiting_on_gateway ? "⏳ " : "✗ Failed again: ") + res.failed;
+        verdict.style.color = res.waiting_on_gateway ? "" : "var(--reject)";
+        btn.disabled = false; btn.textContent = "Try again";
+      } else {
+        docEl.classList.add("done"); btn.remove();
+        verdict.textContent = res.skipped ? "✓ Already done" : `✓ Done${res.created ? `: ${res.created} card${res.created === 1 ? "" : "s"}` : ""}${res.review ? `, ${res.review} to review` : ""}`;
+        verdict.style.color = "var(--approve)";
+        setTimeout(load, 3000);
+      }
+    } catch (e) { toast(e.message); btn.disabled = false; btn.textContent = "Try again"; }
+    return;
+  }
+  const stuckEl = btn.closest("[data-stuck]");
+  if (stuckEl) {
+    const d = data.stuck[+stuckEl.dataset.stuck], slot = stuckEl.querySelector(".slot");
+    const s = btn.dataset.s, go = btn.dataset.go;
+    try {
+      if (s === "edit") {
+        const tags = d.tags.filter((t) => !/^(gen|mode|status)::/.test(t)).join(" ");
+        slot.innerHTML = Object.keys(d.fields).filter((k) => !OWNED.has(k)).map((k) => `<label class="f">${text(k)}</label><textarea data-field="${text(k)}" rows="2"></textarea>`).join("")
+          + `<label class="f">Tags</label><input type="text" class="tags" value="${text(tags)}">`
+          + `<label class="f">Why the change?</label><input type="text" class="reason-in" maxlength="300" value="reworded to write to Anki">`
+          + `<div class="actions"><button class="approve" data-go="save" type="button">Save and retry</button><button data-go="cancel" type="button">Cancel</button></div>`;
+        slot.querySelectorAll("textarea").forEach((ta) => { ta.value = d.fields[ta.dataset.field]; });
+      } else if (s === "withdraw") {
+        slot.innerHTML = `<label class="f">Why? (optional)</label><input type="text" class="reason-in" maxlength="300">
+          <div class="actions"><button class="reject" data-go="withdraw" type="button">Withdraw card</button><button data-go="cancel" type="button">Cancel</button></div>`;
+      } else if (go === "cancel") slot.innerHTML = "";
+      else if (go === "withdraw") {
+        btn.disabled = true;
+        await api(`/drafts/${d.mnemosyne_id}/withdraw`, { method: "POST", body: JSON.stringify({ note: slot.querySelector(".reason-in").value.trim() }) });
+        stuckEl.classList.add("done"); slot.innerHTML = ""; stuckEl.querySelector(".verdict").textContent = "✗ Withdrawn";
+      } else if (go === "save") {
+        const fields = Object.fromEntries([...slot.querySelectorAll("textarea")].map((ta) => [ta.dataset.field, ta.value]));
+        const note = slot.querySelector(".reason-in").value.trim();
+        if (!note) { toast("Say why, briefly"); return; }
+        btn.disabled = true;
+        await api(`/drafts/${d.mnemosyne_id}/revise`, { method: "POST", body: JSON.stringify({ fields, note, by: "review-page",
+          tags: slot.querySelector(".tags").value.split(/\s+/).filter(Boolean) }) });
+        stuckEl.classList.add("done"); slot.innerHTML = ""; stuckEl.querySelector(".verdict").textContent = "✓ Saved; writing again";
+        setTimeout(load, 4000);
+      }
+    } catch (e) { toast(e.message); btn.disabled = false; }
+    return;
+  }
+  const section = btn.closest(".batch"); const batchId = section && section.id.slice(2);
+  if (btn.dataset.all) {
+    if (btn.dataset.armed !== "1") { btn.dataset.armed = "1"; const old = btn.textContent; btn.textContent = "Tap again to confirm";
+      setTimeout(() => { btn.dataset.armed = ""; btn.textContent = old; }, 3000); return; }
+    const open = [...section.querySelectorAll(".card:not(.done)")].map((c) => c.id.slice(2));
+    if (!open.length) return;
+    btn.disabled = true;
+    try { await send(batchId, open.map((mid) => ({ mnemosyne_id: mid, action: btn.dataset.all })));
+          toast(`${btn.dataset.all === "approve" ? "Approved" : "Rejected"} ${open.length}`); }
+    catch (e) { toast(e.message); } finally { btn.disabled = false; }
+    return;
+  }
+  const el = btn.closest(".card"); if (!el) return;
+  const mid = el.id.slice(2);
+  const act = btn.dataset.act, go = btn.dataset.go;
+  try {
+    if (act === "approve" || act === "merge" || act === "merge_up") { btn.disabled = true; await send(batchId, [{ mnemosyne_id: mid, action: act }]); }
+    else if (act === "reject") openReject(el, batchId, mid);
+    else if (act === "edit") openEdit(el, batchId, mid);
+    else if (go === "cancel") el.querySelector(".slot").innerHTML = "";
+    else if (go === "reject") { btn.disabled = true; await send(batchId, [{ mnemosyne_id: mid, action: "reject", note: el.querySelector(".reason-in").value.trim() }]); }
+    else if (go === "edit") {
+      const slot = el.querySelector(".slot");
+      const fields = {}; slot.querySelectorAll("textarea").forEach((ta) => { fields[ta.dataset.field] = ta.value; });
+      const tags = slot.querySelector(".tags").value.split(/\s+/).filter(Boolean);
+      btn.disabled = true;
+      const res = await send(batchId, [{ mnemosyne_id: mid, action: "edit", fields, tags, deck: slot.querySelector(".deck").value,
+                                         note: slot.querySelector(".reason-in").value.trim() }]);
+      if (!res.problems[mid]) {
+        const d = draftOf(batchId, mid); Object.assign(d.fields, fields);
+        el.querySelectorAll(".field").forEach((f) => { const k = f.querySelector(".name").textContent; if (k in fields) f.querySelector(".val").innerHTML = safe(fields[k]); });
+        typeset(el);
+      } else btn.disabled = false;
+    }
+  } catch (e) { toast(e.message); btn.disabled = false; }
+});
+
+// ---------- reviews from Claude (in-session batches) ----------
+
+let current = null;        // the open review, as GET /reviews/{id} returns it
+let filter = "all";
+
+function lectureOf(tags) {
+  const m = (tags || []).map((t) => t.match(/^course::[a-z0-9]+::l(\d+)/)).find(Boolean);
+  return m ? `L${m[1]}` : "";
+}
+// The recording or video a card gets when it's written (audio.py), playable before approving it
+const MEDIA = { "M-IPA": ["Symbol", "▶ Play the recording"], "M-Sign": ["Gloss", "▶ Show the video"] };
+function mediaHtml(noteType, fields) {
+  const spec = MEDIA[noteType], key = spec && fields ? text(fields[spec[0]] || "") : "";
+  return key ? `<div class="media"><button type="button" class="plain" data-media="${safe(noteType)}" data-key="${key.replace(/"/g, "&quot;")}">${spec[1]}</button></div>` : "";
+}
+
+async function playMedia(btn) {
+  const box = btn.parentElement;
+  btn.disabled = true; btn.textContent = "Loading…";
+  try {
+    const q = new URLSearchParams({ note_type: btn.dataset.media, key: btn.dataset.key });
+    const res = await fetch(`/media/preview?${q}`, { headers: { "Authorization": "Bearer " + token() } });
+    if (res.status === 404) { box.innerHTML = `<span class="small muted">No file for this card yet: it would be written without one.</span>`; return; }
+    if (!res.ok) throw new Error(String(res.status));
+    const blob = await res.blob(), url = URL.createObjectURL(blob);
+    const video = blob.type.startsWith("video/");
+    box.innerHTML = video
+      ? `<video controls autoplay muted playsinline loop src="${url}" style="width:100%;max-width:420px;border-radius:8px"></video>`
+      : `<audio controls autoplay src="${url}"></audio>`;
+  } catch (e) { btn.disabled = false; btn.textContent = "Couldn't load it — tap to retry"; }
+}
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest && e.target.closest("button[data-media]");
+  if (btn) { e.preventDefault(); e.stopPropagation(); playMedia(btn); }
+}, true);
+
+function faceHtml(fields) {
+  return Object.entries(fields || {}).filter(([k, v]) => v && !HIDDEN.has(k) && !k.startsWith("Speak"))
+    .map(([k, v]) => `<div class="field"><div class="name">${text(k)}</div><div class="val">${safe(v)}</div></div>`).join("");
+}
+function verdictText(it) {
+  if (!it.verdict) return "";
+  return { approve: it.reason ? "✓ Approved with a note" : "✓ Approved", edit: "✓ Edited", reject: "✗ Rejected" }[it.verdict]
+    + (it.reason ? ` — ${it.reason}` : "");
+}
+
+function renderReviewList() {
+  const view = $("view-reviews");
+  const list = data.reviews;
+  view.innerHTML = list.length ? `<h2>Batches Claude wrote for you</h2>` + list.map((r) => {
+    const pct = r.cards ? Math.round(100 * (r.decided || 0) / r.cards) : 0;
+    return `<a class="exam" href="#r/${encodeURIComponent(r.id)}">
+      <div class="row"><b class="grow">${text(r.title)}</b><span class="chip">${text(r.kind)}</span></div>
+      <div class="when">${r.decided || 0} of ${r.cards} decided · ${r.status === "reviewed" ? "finished, waiting for Claude" : "open"}</div>
+      <div class="bar"><span style="width:${pct}%"></span></div></a>`;
+  }).join("") : `<div class="empty">No batches from Claude right now. Ask for cards "reviewed on the page" in any session.</div>`;
+}
+
+function itemHtml(it, i) {
+  const c = it.card, g = c.golden || {}, d = it.draft;
+  const why = c.why || g.note, canon = c.canon || g.canon || [];
+  const fields = d ? d.fields : c.fields;
+  const spoken = Object.entries(fields || {}).filter(([k, v]) => v && k.startsWith("Speak"));
+  // the question has its own box, and "<kind> needs human review" is what this page is for
+  const checks = d && d.review_reason ? d.review_reason.split("; ")
+    .filter((r) => !r.startsWith("question:") && !/needs human review$/.test(r)).join("; ") : "";
+  const done = !!it.verdict, open = current.status === "open";
+  return `<div class="card${done ? " done" : ""}" data-i="${i}">
+    <div class="row small"><span class="chip">${text(d ? d.note_type : c.note_type)}</span><span class="chip">${text(d ? d.deck : c.deck)}</span>
+      ${lectureOf(c.tags) ? `<span class="chip">${lectureOf(c.tags)}</span>` : ""}
+      ${g.from === "annotation" ? `<span class="chip">from your notes</span>` : g.from ? `<span class="chip">${text(g.from)}</span>` : ""}
+      ${d && d.status === "written" ? `<span class="chip">already in Anki</span>` : ""}</div>
+    ${c.context ? `<details class="ctx" open><summary>${text(c.context.label || "Context")}</summary>
+      ${c.context.card ? faceHtml(c.context.card.fields) : ""}${c.context.reason ? `<div class="said">You said: ${text(c.context.reason)}</div>` : ""}</details>` : ""}
+    ${c.question ? `<div class="reason question"><b>Question for you.</b> ${safe(c.question)}</div>` : ""}
+    ${reasonBlocks(checks)}
+    ${it.problems && !it.mnemosyne_id ? `<div class="reason failed">Can't become a note: ${it.problems.map(text).join("; ")}</div>` : ""}
+    ${why || canon.length ? `<div class="why">${canon.map((n) => `<span class="chip">${text(n)} · ${text((current.canon || {})[n] || "canon")}</span>`).join("")}
+      ${why ? `<div>${safe(why)}</div>` : ""}</div>` : ""}
+    ${faceHtml(fields)}
+    ${mediaHtml(d ? d.note_type : c.note_type, fields)}
+    ${spoken.length ? `<details><summary>Spoken</summary>${spoken.map(([k, v]) => `<div class="small"><b>${text(k)}:</b> ${text(v)}</div>`).join("")}</details>` : ""}
+    ${!done && open ? `<div class="actions">
+      <button class="approve" data-r="approve" type="button">Approve</button>
+      <button class="editb" data-r="edit" type="button">Edit</button>
+      <button class="reject" data-r="reject" type="button">Reject</button></div>
+      <div class="row"><button class="plain" data-r="note" type="button">Approve with a note</button></div>` : ""}
+    <div class="slot"></div>
+    <div class="verdict" style="color:${it.verdict === "reject" ? "var(--reject)" : "var(--approve)"}">${text(verdictText(it))}</div>
+  </div>`;
+}
+
+function reviewHeadHtml() {
+  const r = current, n = r.items.length, dn = r.items.filter((i) => i.verdict).length;
+  const qs = r.items.filter((i) => i.card.question).length;
+  const src = r.source || {};
+  return `<a class="back" href="#reviews">← All batches</a>
+    <div class="panel"><div class="title" style="font:600 18px var(--serif)">${text(r.title)}</div>
+      <div class="small muted">${text(r.kind)}${src.course ? ` · ${text(courseName(src.course))}` : ""}${src.lecture ? ` · L${String(src.lecture).padStart(2, "0")}` : ""} · ${dn} of ${n} decided</div>
+      <div class="bar"><span style="width:${n ? Math.round(100 * dn / n) : 0}%"></span></div>
+      ${(r.signals || []).length ? `<details><summary>What Claude read from your notes (${r.signals.length})</summary><ul class="small">${r.signals.map((s) => `<li>${safe(s)}</li>`).join("")}</ul></details>` : ""}
+      <p class="small muted" style="margin:8px 0 0">Give a reason when you edit or reject: reasons become canon rules. Approving writes the card to Anki.</p>
+    </div>
+    <div class="filters">
+      <button type="button" data-f="all" aria-pressed="${filter === "all"}">All ${n}</button>
+      <button type="button" data-f="todo" aria-pressed="${filter === "todo"}">To do ${n - dn}</button>
+      <button type="button" data-f="ask" aria-pressed="${filter === "ask"}">Questions ${qs}</button>
+    </div>`;
+}
+
+function reviewTailHtml() {
+  const r = current, open = r.status === "open";
+  const skipped = r.skipped || [], promote = new Set(r.promote || []);
+  const left = r.items.filter((i) => !i.verdict).length;
+  return `${skipped.length ? `<div class="panel"><h2 style="margin-top:0">Left out (${skipped.length})</h2>
+      ${skipped.map((s, i) => `<div class="skip"><div class="grow"><div>${safe(s.what)}</div><div class="small muted">${safe(s.why || "")}</div></div>
+        <button type="button" data-promote="${i}" aria-pressed="${promote.has(i)}" ${open ? "" : "disabled"}>${promote.has(i) ? "Card it ✓" : "Should be a card"}</button></div>`).join("")}</div>` : ""}
+    <div class="panel"><h2 style="margin-top:0">Notes for this batch</h2>
+      <textarea id="rnotes" rows="4" ${open ? "" : "disabled"} placeholder="Answers to questions, cards you expected, cards that would never come up on an exam…"></textarea>
+      ${open ? `<div class="row" style="margin-top:8px"><button type="button" id="save-notes">Save notes</button><span id="notes-state" class="small muted"></span></div>` : ""}</div>
+    <div class="panel">${open
+      ? `<button class="approve" style="width:100%" type="button" id="finish">Finish review</button>
+         <p class="small muted" style="margin:8px 0 0">${left ? `${left} card${left === 1 ? "" : "s"} still undecided.` : "Every card has a decision."} Finish hands the batch back to Claude; then tell Claude you're done.</p>`
+      : r.status === "applied" ? `<b>Applied by Claude.</b>`
+      : `<b>Finished.</b> <span class="small muted">Tell Claude you're done if you haven't.</span>
+         <button type="button" id="reopen" style="width:100%;margin-top:8px">Undo finish: open it again</button>
+         <p class="small muted" style="margin:8px 0 0">Your decisions so far stay. Works until Claude applies the batch.</p>`}</div>`;
+}
+
+function renderReview() {
+  const view = $("view-reviews"), r = current;
+  const shown = r.items.map((it, i) => [it, i]).filter(([it]) =>
+    filter === "all" || (filter === "todo" && !it.verdict) || (filter === "ask" && it.card.question));
+  view.innerHTML = reviewHeadHtml()
+    + `<section class="batch">${shown.map(([it, i]) => itemHtml(it, i)).join("") || `<div class="empty">Nothing here.</div>`}</section>`
+    + reviewTailHtml();
+  const notes = $("rnotes"); if (notes) notes.value = r.notes || "";
+  typeset(view);
+}
+
+async function openReview(id) {
+  showTab("reviews");
+  try { current = await api(`/reviews/${encodeURIComponent(id)}`); } catch (e) { toast(e.message); location.hash = "#reviews"; return; }
+  renderReview(); window.scrollTo(0, 0);
+}
+
+function openItemForm(el, it, mode) {
+  const slot = el.querySelector(".slot");
+  const d = it.draft, fields = d ? d.fields : it.card.fields;
+  const label = { edit: "Why the edit? (optional, but it teaches the canon)", reject: "Why reject it?", note: "Note" }[mode];
+  let html = "";
+  if (mode === "edit") {
+    const tags = (d ? d.tags : it.card.tags || []).filter((t) => !/^(gen|mode|status)::/.test(t)).join(" ");
+    const deck = d ? d.deck : it.card.deck;
+    html = Object.keys(fields).filter((k) => !OWNED.has(k)).map((k) => `<label class="f">${text(k)}</label><textarea data-field="${text(k)}" rows="${Math.min(6, Math.max(1, Math.ceil(String(fields[k]).length / 60)))}"></textarea>`).join("")
+      + `<label class="f">Tags</label><input type="text" class="tags" value="${text(tags)}">`
+      + `<label class="f">Deck</label><select class="deck">${data.decks.map((k) => `<option${k === deck ? " selected" : ""}>${text(k)}</option>`).join("")}</select>`;
+  }
+  html += `<label class="f">${label}</label><input type="text" class="reason-in" maxlength="500">`
+    + `<div class="actions"><button class="${mode === "reject" ? "reject" : "approve"}" data-go="${mode}" type="button">${{ edit: "Save edit", reject: "Reject card", note: "Approve with note" }[mode]}</button>
+       <button data-go="cancel" type="button">Cancel</button></div>`;
+  slot.innerHTML = html;
+  slot.querySelectorAll("textarea").forEach((ta) => { ta.value = fields[ta.dataset.field]; });
+  (slot.querySelector("textarea") || slot.querySelector(".reason-in")).focus();
+}
+
+async function decideItem(el, it, body) {
+  const res = await api(`/reviews/${encodeURIComponent(current.id)}/items`, { method: "POST",
+    body: JSON.stringify({ decisions: [{ key: it.key, ...body }] }) });
+  el.querySelectorAll(".problems").forEach((p) => p.remove());
+  const probs = res.problems[it.key];
+  if (probs) { el.querySelector(".slot").insertAdjacentHTML("beforeend", `<div class="problems">${probs.map(text).join("<br>")}</div>`); return false; }
+  it.verdict = body.action; it.reason = body.reason || "";
+  if (body.action === "edit" && it.draft) Object.assign(it.draft.fields, body.fields || {});
+  else if (body.action === "edit") Object.assign(it.card.fields, body.fields || {});
+  const i = +el.dataset.i; el.outerHTML = itemHtml(it, i);
+  const fresh = document.querySelector(`.card[data-i="${i}"]`); typeset(fresh);
+  const n = current.items.length, dn = current.items.filter((x) => x.verdict).length;
+  document.querySelector("#view-reviews .panel .bar span").style.width = `${Math.round(100 * dn / n)}%`;
+  const s = data.reviews.find((r) => r.id === current.id); if (s) s.decided = dn;
+  return true;
+}
+
+async function saveNotes(promote) {
+  const notes = ($("rnotes") || {}).value || "";
+  const res = await api(`/reviews/${encodeURIComponent(current.id)}/notes`, { method: "PUT",
+    body: JSON.stringify({ notes, promote: promote ?? current.promote ?? [] }) });
+  if (!res.changed) throw new Error("This review is closed");
+  current.notes = notes.trim(); if (promote) current.promote = promote;
+}
+
+$("view-reviews").addEventListener("click", async (ev) => {
+  const btn = ev.target.closest("button"); if (!btn || !current || location.hash.slice(0, 3) !== "#r/") return;
+  try {
+    if (btn.dataset.f) { filter = btn.dataset.f; renderReview(); return; }
+    if (btn.dataset.promote !== undefined) {
+      const p = new Set(current.promote || []); const i = +btn.dataset.promote;
+      p.has(i) ? p.delete(i) : p.add(i);
+      btn.disabled = true; await saveNotes([...p].sort((a, b) => a - b));
+      btn.disabled = false; btn.setAttribute("aria-pressed", String(p.has(i))); btn.textContent = p.has(i) ? "Card it ✓" : "Should be a card";
+      return;
+    }
+    if (btn.id === "save-notes") { btn.disabled = true; await saveNotes(); $("notes-state").textContent = "Saved"; btn.disabled = false; return; }
+    if (btn.id === "reopen") {
+      btn.disabled = true;
+      const res = await api(`/reviews/${encodeURIComponent(current.id)}/reopen`, { method: "POST" });
+      if (res.changed) { toast("Open again"); current.status = "open"; }
+      else { toast("Claude already applied it"); btn.disabled = false; }
+      renderReview(); load();
+      return;
+    }
+    if (btn.id === "finish") {
+      const left = current.items.filter((i) => !i.verdict).length;
+      if (left && btn.dataset.armed !== "1") { btn.dataset.armed = "1"; btn.textContent = `${left} undecided — tap again to finish anyway`; return; }
+      btn.disabled = true;
+      if ($("rnotes") && $("rnotes").value.trim() !== (current.notes || "")) await saveNotes();
+      await api(`/reviews/${encodeURIComponent(current.id)}/finish`, { method: "POST" });
+      toast("Finished — tell Claude you're done"); current.status = "reviewed"; renderReview(); load();
+      return;
+    }
+    const el = btn.closest(".card"); if (!el) return;
+    const it = current.items[+el.dataset.i];
+    const r = btn.dataset.r, go = btn.dataset.go;
+    if (r === "approve") { btn.disabled = true; if (!await decideItem(el, it, { action: "approve" })) btn.disabled = false; }
+    else if (r === "edit" || r === "reject" || r === "note") openItemForm(el, it, r);
+    else if (go === "cancel") el.querySelector(".slot").innerHTML = "";
+    else if (go) {
+      const slot = el.querySelector(".slot"); const reason = slot.querySelector(".reason-in").value.trim();
+      if (go === "reject" && !reason) { toast("Say why, even briefly"); return; }
+      const body = go === "note" ? { action: "approve", reason } : go === "reject" ? { action: "reject", reason } : {
+        action: "edit", reason, deck: slot.querySelector(".deck").value,
+        tags: slot.querySelector(".tags").value.split(/\s+/).filter(Boolean),
+        fields: Object.fromEntries([...slot.querySelectorAll("textarea")].map((ta) => [ta.dataset.field, ta.value])) };
+      btn.disabled = true;
+      if (!await decideItem(el, it, body)) btn.disabled = false;
+    }
+  } catch (e) { toast(e.message); btn.disabled = false; }
+});
+
+// ---------- questions (config/annotations.yaml: a handwritten "?" on the slides) ----------
+
+const KIND = { clarify: "clarifying", mechanism: "why / how", predict: "what if", connect: "connection",
+               apply: "application", verify: "how do we know" };
+
+function questionHtml(q, i) {
+  const where = [courseName(q.course), q.lecture ? `L${String(q.lecture).padStart(2, "0")}` : "", q.page ? `p. ${q.page}` : ""].filter(Boolean).join(" · ");
+  return `<div class="card" data-q="${i}">
+    <div class="row small"><span class="chip">${text(KIND[q.kind] || q.kind)}</span>${where ? `<span class="chip">${text(where)}</span>` : ""}
+      ${q.about ? `<span class="chip">${text(q.about)}</span>` : ""}${q.origin === "session" ? `<span class="chip">from a session</span>` : ""}
+      ${q.hyperion_id ? `<span class="chip">Hyperion ✓</span>` : ""}</div>
+    <div class="asked" style="margin-top:8px">${safe(q.asked)}</div>
+    ${q.answer ? `<div class="label">A short answer</div><div>${safe(q.answer)}</div>` : ""}
+    ${q.sharper ? `<div class="label">Asked sharper</div><div class="sharper">${safe(q.sharper)}</div>` : ""}
+    ${q.card ? `<details><summary>A card from the answer</summary>${faceHtml(q.card.fields)}</details>`
+      : q.no_card ? `<div class="small muted" style="margin-top:6px">No card: ${safe(q.no_card)}</div>` : ""}
+    <div class="actions">
+      <button class="approve" data-qa="answered" type="button">Got it</button>
+      ${q.card ? `<button class="editb" data-qa="card" type="button">Card it</button>`
+        : `<button class="editb" data-qw="1" type="button">${q.no_card ? "Write one anyway" : "Write a card"}</button>`}
+      <button data-qa="hyperion" type="button" ${q.hyperion_id ? "disabled" : ""}>Ask Hyperion</button>
+      <button class="reject" data-qa="dropped" type="button">Drop</button></div>
+    <div class="slot"></div><div class="verdict"></div></div>`;
+}
+
+function renderQuestions() {
+  const view = $("view-questions"), list = data.questions || [], st = data.question_stats || {};
+  const mix = Object.entries(st.kinds || {}).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${n} ${KIND[k] || k}`).join(" · ");
+  view.innerHTML = `<div class="panel"><div class="small"><b>This week you asked ${st.asked || 0}</b>${mix ? `: ${text(mix)}` : ""}.
+      ${st.deep_share != null ? `${Math.round(100 * st.deep_share)}% went past “what does it mean”.` : ""} ${st.open || 0} open.</div>
+      ${st.example ? `<div class="small" style="margin-top:8px">You asked: “${safe(st.example.asked)}”<div class="sharper">${safe(st.example.sharper)}</div></div>` : ""}
+      <details class="small"><summary>How questions get sharper</summary>
+        <div class="muted">Clarifying (what does it say?) → why / how (what makes it true?) → what if (change a variable, take a limit)
+        → connection (where else does this appear?) → how do we know (what measurement or argument settles it?).
+        Every question counts: a sharper one just gets you further per question.</div></details></div>`
+    + (list.length ? `<section class="batch">${list.map(questionHtml).join("")}</section>`
+                   : `<div class="empty">No open questions. Write one on a slide, ending in “?”, and it lands here after the lecture is filed.</div>`);
+  typeset(view);
+}
+
+$("view-questions").addEventListener("click", async (ev) => {
+  const btn = ev.target.closest("button"); if (!btn) return;
+  const el = btn.closest(".card"); if (!el) return;
+  const i = +el.dataset.q, q = (data.questions || [])[i]; if (!q) return;
+  if (btn.dataset.qw) {
+    btn.disabled = true; btn.textContent = "Writing…";
+    try {
+      const res = await api(`/questions/${q.id}/card`, { method: "POST" });
+      data.questions[i] = res.question;
+      el.outerHTML = questionHtml(res.question, i);
+      typeset($("view-questions"));
+    } catch (e) { toast(e.message); btn.disabled = false; btn.textContent = "Write a card"; }
+    return;
+  }
+  const action = btn.dataset.qa; if (!action) return;
+  btn.disabled = true;
+  try {
+    const res = await api(`/questions/${q.id}/decision`, { method: "POST", body: JSON.stringify({ action }) });
+    const v = el.querySelector(".verdict");
+    if (action === "hyperion") { v.textContent = res.hyperion_id ? `✓ Hyperion is looking into it (${res.hyperion_id})` : "Hyperion didn't take it"; return; }
+    el.classList.add("done");
+    v.textContent = { answered: "✓ Got it", card: "✓ Carded", dropped: "✗ Dropped" }[action];
+    data.questions = data.questions.filter((x) => x.id !== q.id);
+    $("tab-questions").textContent = `Questions${data.questions.length ? ` (${data.questions.length})` : ""}`;
+  } catch (e) { toast(e.message); btn.disabled = false; }
+});
+
+// ---------- read: textbook sections, from the ebook in Calibre or a scan of your copy in Paperless ----------
+
+let reads = null;
+const READ_STATUS = { done: "✓ carded", error: "✗ failed", running: "carding…" };
+
+async function loadReadings() {
+  const view = $("view-read");
+  if (!reads) view.innerHTML = `<div class="empty">Loading…</div>`;
+  try { reads = await api("/readings"); }
+  catch (e) { if (e.message !== "unauthorized") view.innerHTML = `<div class="empty">Couldn't load: ${text(e.message)}</div>`; return; }
+  renderReadings();
+}
+
+function bookOptions(selected, ebooksOnly) {
+  return reads.books.filter((b) => !ebooksOnly || b.ebook).map((b) =>
+    `<option value="${text(b.key)}"${b.key === selected ? " selected" : ""}>${text(b.name)} · ${text(b.title)}</option>`).join("");
+}
+
+function renderReadings() {
+  const view = $("view-read"), ebooks = reads.books.filter((b) => b.ebook);
+  const scans = reads.scans.map((d, i) => `<div class="card" data-scan="${i}">
+      <div class="row small"><b class="grow">${text(d.title)}</b><span class="chip">${text(String(d.added).slice(0, 10))}</span></div>
+      ${httpUrl(d.link) ? `<div class="small"><a href="${httpUrl(d.link)}" target="_blank" rel="noopener">Open in Paperless</a></div>` : ""}
+      <label class="f">Book</label><select class="book">${bookOptions(d.book, false)}</select>
+      <label class="f">Section, chapter, or pages</label>
+      <input type="text" class="where" value="${text(d.where || "")}" placeholder="2.3 · ch 2 · p 39-47">
+      <div class="actions"><button class="approve" data-rd="scan" type="button">Card it</button></div><div class="verdict"></div></div>`).join("");
+  const recent = reads.recent.map((r) => `<div class="row small" style="margin:4px 0"><span class="grow">${text(r.ref)}</span>
+      <span class="${r.status === "error" ? "pill-no" : "pill-ok"}">${text(READ_STATUS[r.status] || r.status)}</span></div>
+      ${r.status === "error" && r.error ? `<div class="reason failed">${text(r.error.slice(0, 300))}</div>` : ""}`).join("");
+  view.innerHTML = `<div class="panel"><h2>From the ebook</h2>
+      ${ebooks.length ? `<label class="f">Book</label><select id="rd-book">${bookOptions(ebooks[0].key, true)}</select>
+        <label class="f">Section</label><select id="rd-section"><option value="">Loading the outline…</option></select>
+        <label class="f">Or type it (pages as printed in the book)</label><input type="text" id="rd-where" placeholder="2.3 · ch 2 · p 39-47">
+        <div class="actions"><button class="approve" data-rd="ebook" type="button">Card it</button></div><div class="verdict" id="rd-verdict"></div>`
+      : `<div class="small muted">None of the books in config/books.yaml are in Calibre.</div>`}</div>
+    <h2>Scans of your copy</h2>
+    ${scans ? `<section class="batch">${scans}</section>`
+            : `<div class="empty">Scan pages into Paperless and give them the <b>mnemosyne</b> tag, now or whenever you want them carded.
+               Title the scan like “Chen 2.3” and it's carded within 5 minutes; otherwise it waits here for a book and section.</div>`}
+    ${recent ? `<h2>Lately</h2><div class="panel">${recent}</div>` : ""}
+    <p class="small muted">Cards from a reading always wait for you on the Waiting tab. On a scan, your marks lead; when the book is in
+      Calibre, the ebook's text rides along so the printed text is read right.</p>`;
+  if (ebooks.length) { $("rd-book").onchange = () => loadOutline($("rd-book").value); loadOutline(ebooks[0].key); }
+}
+
+async function loadOutline(key) {
+  const sel = $("rd-section"); if (!sel) return;
+  try {
+    const list = await api(`/readings/books/${encodeURIComponent(key)}/outline`);
+    if (!list.length) { sel.innerHTML = `<option value="">No outline: type the pages below</option>`; return; }
+    sel.innerHTML = `<option value="">Pick one, or type it below</option>` + list.map((s) =>
+      `<option value="${text(s.where)}">${s.level > 1 ? "— " : ""}${text(s.title)} · p. ${s.page}</option>`).join("");
+  } catch { sel.innerHTML = `<option value="">No outline: type pages below</option>`; }
+}
+
+$("view-read").addEventListener("click", async (ev) => {
+  const btn = ev.target.closest("button[data-rd]"); if (!btn) return;
+  let body, verdict;
+  if (btn.dataset.rd === "ebook" || btn.dataset.rdFor === "ebook") {
+    const where = $("rd-where").value.trim() || $("rd-section").value;
+    if (!where) { toast("Pick a section, or type one"); return; }
+    body = { book: $("rd-book").value, where }; verdict = $("rd-verdict");
+  } else {
+    const el = btn.closest(".card"), where = el.querySelector(".where").value.trim();
+    if (!where) { toast("Which section or pages is it?"); return; }
+    body = { book: el.querySelector(".book").value, where, doc_id: reads.scans[+el.dataset.scan].id };
+    verdict = el.querySelector(".verdict");
+  }
+  if (btn.dataset.rd === "again") body.again = true;
+  btn.disabled = true;
+  try {
+    const res = await api("/readings", { method: "POST", body: JSON.stringify(body) });
+    if (res.already) {
+      verdict.innerHTML = `Already carded. <button type="button" data-rd="again" data-rd-for="${btn.dataset.rd === "ebook" ? "ebook" : "scan"}">Card it again</button>`;
+      btn.disabled = false; return;
+    }
+    verdict.textContent = `✓ Carding ${res.book} ${res.label}${res.pages ? ` (PDF pages ${res.pages[0]}–${res.pages[1]})` : ""}. `
+      + "The cards land on the Waiting tab in a couple of minutes.";
+    verdict.style.color = "var(--approve)";
+  } catch (e) { toast(e.message); btn.disabled = false; }
+});
+
+// ---------- leeches (the leech doctor, PLAN §9) ----------
+
+const DIAGNOSIS = { ambiguous_cue: "Ambiguous cue", not_atomic: "Two things at once", interference: "Confused with another card",
+                    missing_prerequisite: "Missing a prerequisite", too_long: "Too long to recall", fine: "The card is fine" };
+const ACTION = { rewrite: "Reword it in place (keeps its history)", replace: "Replace it (the old card gets suspended)",
+                 add: "Keep it, and add a card", keep: "No change" };
+
+function leechHtml(c, i) {
+  const s = c.signals || {}, p = c.proposal || {};
+  const stats = [`${s.lapses} lapses`, s.retrievability != null ? `R ${s.retrievability}` : "", s.difficulty != null ? `D ${s.difficulty}/10` : "",
+                 s.average_answer_seconds ? `${s.average_answer_seconds} s a try` : "", s.marked ? "you marked it" : ""].filter(Boolean).join(" · ");
+  const proposal = c.action === "rewrite" ? `<div class="label">Proposed</div><div class="newcard">${faceHtml(p.fields)}</div>`
+    : (p.cards || []).map((n, k) => `<div class="label">New card ${k + 1} · ${text(n.note_type)} · ${text(n.deck)}</div><div class="newcard">${faceHtml(n.fields)}</div>`).join("");
+  return `<div class="card" data-l="${i}">
+    <div class="row small"><span class="chip">${text(DIAGNOSIS[c.diagnosis] || c.diagnosis)}</span><span class="chip">${text(c.deck)}</span>
+      ${c.in_ledger ? "" : `<span class="chip">older card</span>`}</div>
+    <div class="why"><div>${safe(c.explanation || "")}</div></div>
+    <div class="label">Now</div>${faceHtml(c.fields)}
+    <div class="stats">${text(stats)}</div>
+    ${(s.recent_reviews || []).length ? `<details><summary>Last ${s.recent_reviews.length} answers</summary><div class="stats">${s.recent_reviews.map(text).join("<br>")}</div></details>` : ""}
+    ${(s.similar_notes || []).length ? `<details><summary>Closest cards in your collection</summary><div class="small">${s.similar_notes.map(text).join("<br>")}</div></details>` : ""}
+    <div class="label">${text(ACTION[c.action] || c.action)}</div>${proposal}
+    ${(c.problems || []).length ? `<div class="reason failed">Needs fixing before it can be applied: ${c.problems.map(text).join("; ")}</div>` : ""}
+    <div class="actions">
+      ${c.action !== "keep" ? `<button class="approve" data-lv="apply" type="button">Apply</button><button class="editb" data-lv="edit" type="button">Edit</button>` : ""}
+      <button data-lv="keep" type="button">Keep as is</button>
+      <button class="reject" data-lv="dismiss" type="button">Dismiss</button></div>
+    <div class="slot"></div><div class="verdict"></div></div>`;
+}
+
+function renderLeeches() {
+  const view = $("view-leeches"), list = data.leeches || [];
+  view.innerHTML = `<p class="small muted">Cards you keep failing, diagnosed against the canon. Nothing changes until you press Apply.
+      A rewrite edits the card in place and keeps its history; a replacement is written first, and only then is the old card suspended.</p>`
+    + (list.length ? `<section class="batch">${list.map(leechHtml).join("")}</section>`
+                   : `<div class="empty">No leeches waiting. The doctor looks again each morning; mark a card with * on the controller to send it here.</div>`);
+  typeset(view);
+}
+
+function leechEdit(el, c) {
+  const slot = el.querySelector(".slot"), p = c.proposal || {};
+  const box = (fields, k) => Object.keys(fields).filter((f) => !OWNED.has(f)).map((f) =>
+    `<label class="f">${k != null ? `Card ${k + 1} · ` : ""}${text(f)}</label><textarea data-card="${k ?? ""}" data-field="${text(f)}" rows="2"></textarea>`).join("");
+  slot.innerHTML = (c.action === "rewrite" ? box(p.fields || {}, null) : (p.cards || []).map((n, k) => box(n.fields, k)).join(""))
+    + `<label class="f">Note (optional)</label><input type="text" class="reason-in" maxlength="500">`
+    + `<div class="actions"><button class="approve" data-lgo="apply" type="button">Save and apply</button><button data-lgo="cancel" type="button">Cancel</button></div>`;
+  slot.querySelectorAll("textarea").forEach((ta) => {
+    const src = ta.dataset.card === "" ? p.fields : p.cards[+ta.dataset.card].fields; ta.value = src[ta.dataset.field] || "";
+  });
+}
+
+async function leechSend(el, c, body) {
+  const res = await api(`/leeches/${c.id}/decision`, { method: "POST", body: JSON.stringify(body) });
+  el.classList.add("done"); el.querySelector(".slot").innerHTML = "";
+  const v = el.querySelector(".verdict");
+  v.textContent = { fixed: "✓ Applied", applying: "✓ Applied; the old card is suspended once the new one reaches Anki",
+                    kept: "✓ Kept as is", dismissed: "✗ Dismissed" }[res.status] + (body.note ? ` — ${body.note}` : "");
+  v.style.color = res.status === "dismissed" ? "var(--reject)" : "var(--approve)";
+  data.leeches = data.leeches.filter((x) => x.id !== c.id);
+  $("tab-leeches").textContent = `Leeches${data.leeches.length ? ` (${data.leeches.length})` : ""}`;
+}
+
+$("view-leeches").addEventListener("click", async (ev) => {
+  const btn = ev.target.closest("button"); if (!btn) return;
+  const el = btn.closest(".card"); if (!el) return;
+  const c = (data.leeches || [])[+el.dataset.l]; if (!c) return;
+  const lv = btn.dataset.lv, go = btn.dataset.lgo, slot = el.querySelector(".slot");
+  try {
+    if (lv === "apply") { btn.disabled = true; await leechSend(el, c, { verdict: "apply" }); }
+    else if (lv === "keep") { btn.disabled = true; await leechSend(el, c, { verdict: "keep" }); }
+    else if (lv === "edit") leechEdit(el, c);
+    else if (lv === "dismiss") {
+      slot.innerHTML = `<label class="f">What's wrong with the proposal?</label><input type="text" class="reason-in" maxlength="500">
+        <div class="actions"><button class="reject" data-lgo="dismiss" type="button">Dismiss</button><button data-lgo="cancel" type="button">Cancel</button></div>`;
+      slot.querySelector(".reason-in").focus();
+    } else if (go === "cancel") slot.innerHTML = "";
+    else if (go === "dismiss") {
+      const note = slot.querySelector(".reason-in").value.trim();
+      if (!note) { toast("Say why, even briefly"); return; }
+      btn.disabled = true; await leechSend(el, c, { verdict: "dismiss", note });
+    } else if (go === "apply") {
+      const note = slot.querySelector(".reason-in").value.trim();
+      const body = { verdict: "apply", note };
+      if (c.action === "rewrite") body.fields = Object.fromEntries([...slot.querySelectorAll("textarea")].map((ta) => [ta.dataset.field, ta.value]));
+      else body.cards = c.proposal.cards.map((n, k) => ({ ...n, fields: { ...n.fields, ...Object.fromEntries(
+        [...slot.querySelectorAll(`textarea[data-card="${k}"]`)].map((ta) => [ta.dataset.field, ta.value])) } }));
+      btn.disabled = true; await leechSend(el, c, body);
+    }
+  } catch (e) { toast(e.message); btn.disabled = false; }
+});
+
+// ---------- exams ----------
+
+// Cards are tagged course::<code>::lNN-<slug>; a filtered deck takes this search as-is (built on Desktop, PLAN §5.2).
+function deckSearch(e) {
+  const code = e.course.toLowerCase();
+  const tags = e.lectures.map((n) => `tag:course::${code}::l${String(n).padStart(2, "0")}*`);
+  return `(${tags.join(" OR ")}) -is:suspended`;
+}
+
+function covered(course, lectures) {
+  const cov = (data.coverage || {})[course] || {};
+  return (lectures || []).reduce((n, l) => n + (cov[String(l)] || 0), 0);
+}
+
+function when(iso) {
+  // a bare date is a calendar day in Texas, not UTC midnight
+  const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso) ? iso + "T12:00:00" : iso); if (isNaN(d)) return iso;
+  const days = Math.ceil((d - Date.now()) / 86400000);
+  const day = d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", timeZone: "America/Chicago" });
+  return `${day} · ${days <= 0 ? "today" : days === 1 ? "tomorrow" : `in ${days} days`}`;
+}
+
+// The exam's calendar day in Texas, as the date input wants it (YYYY-MM-DD).
+function chicagoDay(iso) {
+  const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso) ? iso + "T12:00:00" : iso);
+  return isNaN(d) ? "" : d.toLocaleDateString("en-CA", { timeZone: "America/Chicago" });
+}
+
+function dayName(iso) {
+  const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(iso) ? iso + "T12:00:00" : iso);
+  return isNaN(d) ? iso : d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", timeZone: "America/Chicago" });
+}
+
+function renderExams() {
+  const view = $("view-exams");
+  const maps = data.maps.map((m) => `<div class="exam" data-map="${text(m.course)}">
+      <div class="title"><b>${text(courseName(m.course))}</b> <span class="muted small">proposed from the syllabus</span></div>
+      ${m.detail.exams.map((e) => `<label class="f">${text(e.title)} · ${text(when(e.starts_at))}</label>
+        <input type="text" data-title="${text(e.title)}" value="${text(e.lectures.length ? lecs(e.lectures) : "")}" placeholder="e.g. 2-6">
+        ${e.topics ? `<div class="small muted">${text(e.topics)}</div>` : ""}`).join("")}
+      ${m.detail.notes ? `<div class="reason">${text(m.detail.notes)}</div>` : ""}
+      <div class="actions"><button class="approve" data-map-go="confirm" type="button">Confirm</button>
+        <button class="reject" data-map-go="reject" type="button">Wrong</button></div>
+    </div>`).join("");
+  const exams = data.exams.filter((e) => e.kind === "exam").map((e) => {
+    const n = covered(e.course, e.lectures);
+    const mapped = e.confirmed && e.lectures && e.lectures.length;
+    const search = mapped ? deckSearch(e) : "";
+    return `<div class="exam" data-exam="${e.id}">
+      <div class="row"><b class="grow">${text(courseName(e.course))} · ${text(e.title)}</b>
+        <span class="${mapped ? "pill-ok" : "pill-no"}">${mapped ? "mapped" : "not mapped"}</span></div>
+      <div class="when">${text(when(e.starts_at))}</div>
+      ${e.date_set_by ? `<div class="small muted">Moved by you${e.calendar_starts_at && chicagoDay(e.calendar_starts_at) !== chicagoDay(e.starts_at)
+        ? ` · the calendar still says ${text(dayName(e.calendar_starts_at))}` : ""}</div>` : ""}
+      <div class="small" style="margin-top:6px">Covers ${text(lecs(e.lectures))}${e.lectures && e.lectures.length ? ` · ${n} card${n === 1 ? "" : "s"}` : ""}</div>
+      ${search ? `<details class="small" style="margin-top:6px"><summary>Anki filtered-deck search</summary>
+        <textarea class="search" rows="3" readonly>${text(search)}</textarea>
+        <div class="row"><button type="button" class="plain" data-copy>Copy</button>
+          <span class="muted">Deck name <code>~Exam::${text(e.course)}-${text(e.title.replace(/\s+/g, "-"))}</code>, order “Retrievability ascending”, reschedule on.</span></div></details>` : ""}
+      <div class="row" style="margin-top:8px"><input type="text" class="grow lec" style="flex:1;width:auto" placeholder="lectures, e.g. 2-6, 9"
+        value="${text(e.lectures && e.lectures.length ? lecs(e.lectures) : "")}"><button data-exam-go="save" type="button">Save</button></div>
+      <div class="row" style="margin-top:8px"><input type="date" class="grow day" style="flex:1;width:auto" aria-label="Exam date"
+        value="${text(chicagoDay(e.starts_at))}"><button data-exam-go="date" type="button">Move</button></div>
+    </div>`;
+  }).join("");
+  view.innerHTML = (maps ? `<h2>Maps to confirm</h2>${maps}` : "")
+    + `<h2>Upcoming exams</h2>${exams || `<div class="empty">No exams on the calendar.</div>`}`
+    + `<p class="small muted">Saving lectures for an exam confirms it. Exam decks use these ranges. Moving an exam keeps its
+      time; the calendar sync leaves your date alone until the calendar agrees.</p>`;
+}
+
+$("view-exams").addEventListener("click", async (ev) => {
+  const btn = ev.target.closest("button"); if (!btn) return;
+  if (btn.dataset.copy !== undefined) {
+    const ta = btn.closest("details").querySelector(".search");
+    try { await navigator.clipboard.writeText(ta.value); toast("Copied"); }
+    catch { ta.focus(); ta.select(); toast("Selected: copy it from the box"); }
+    return;
+  }
+  try {
+    if (btn.dataset.mapGo) {
+      const box = btn.closest("[data-map]"); const lectures = {};
+      box.querySelectorAll("input[data-title]").forEach((i) => { if (i.value.trim()) lectures[i.dataset.title] = parseLecs(i.value); });
+      if (btn.dataset.mapGo === "confirm" && !Object.values(lectures).some((l) => l.length)) { toast("Fill in the lectures first"); return; }
+      btn.disabled = true;
+      const res = await api(`/exams/map/${encodeURIComponent(box.dataset.map)}/decision`, { method: "POST",
+        body: JSON.stringify({ action: btn.dataset.mapGo, lectures }) });
+      toast(res.changed ? (btn.dataset.mapGo === "confirm" ? "Map confirmed" : "Map marked wrong") : "Already decided");
+      await load(); showTab("exams");
+    } else if (btn.dataset.examGo === "date") {
+      const box = btn.closest("[data-exam]"); const day = box.querySelector(".day").value;
+      if (!day) { toast("Pick a date first"); return; }
+      btn.disabled = true;
+      await api(`/exams/${box.dataset.exam}/date`, { method: "PUT", body: JSON.stringify({ date: day }) });
+      toast("Moved"); await load(); showTab("exams");
+    } else if (btn.dataset.examGo) {
+      const box = btn.closest("[data-exam]"); const lectures = parseLecs(box.querySelector(".lec").value);
+      btn.disabled = true;
+      await api(`/exams/${box.dataset.exam}/lectures`, { method: "PUT", body: JSON.stringify({ lectures }) });
+      toast("Saved"); await load(); showTab("exams");
+    }
+  } catch (e) { toast(e.message); btn.disabled = false; }
+});
+
+// ---------- shell ----------
+
+const TABS = ["reviews", "cards", "questions", "read", "leeches", "exams"];
+function showTab(which) {
+  for (const t of TABS) {
+    $(`tab-${t}`).setAttribute("aria-selected", String(t === which));
+    $(`view-${t}`).hidden = t !== which;
+  }
+  if (which === "cards") typeset($("view-cards"));
+  if (which === "leeches") typeset($("view-leeches"));
+  if (which === "questions") typeset($("view-questions"));
+}
+
+// #reviews, #r/<id>, #waiting, #questions, #read, #leeches, #exams. With no hash, open Claude's batches if there are any, else what's waiting.
+async function route() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h.startsWith("r/")) return openReview(h.slice(2));
+  current = null;
+  if (h === "exams") return showTab("exams");
+  if (h === "waiting") return showTab("cards");
+  if (h === "leeches") return showTab("leeches");
+  if (h === "questions") return showTab("questions");
+  if (h === "read") { showTab("read"); return loadReadings(); }
+  renderReviewList();
+  showTab(h === "reviews" || data.reviews.some((r) => r.status === "open") ? "reviews" : "cards");
+}
+$("tab-reviews").onclick = () => { location.hash = "#reviews"; };
+$("tab-cards").onclick = () => { location.hash = "#waiting"; };
+$("tab-leeches").onclick = () => { location.hash = "#leeches"; };
+$("tab-questions").onclick = () => { location.hash = "#questions"; };
+$("tab-read").onclick = () => { location.hash = "#read"; };
+$("tab-exams").onclick = () => { location.hash = "#exams"; };
+window.addEventListener("hashchange", () => { if (data) route(); });
+$("refresh").onclick = () => load();
+$("forget").onclick = () => { setToken(""); showGate(); };
+$("gate-form").onsubmit = (ev) => { ev.preventDefault(); setToken($("gate-token").value.trim()); $("gate-token").value = ""; load(); };
+window.addEventListener("load", () => typeset(document.body));
+document.addEventListener("visibilitychange", () => {
+  const unsaved = $("rnotes") && current && $("rnotes").value.trim() !== (current.notes || "");
+  if (!document.hidden && token() && !document.querySelector(".slot:not(:empty)") && !unsaved) load();
+});
+load();
+</script>
+</body>
+</html>

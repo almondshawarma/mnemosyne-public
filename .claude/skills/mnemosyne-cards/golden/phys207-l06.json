@@ -1,0 +1,744 @@
+{
+ "status": "reviewed",
+ "reviewed_by": "aman",
+ "source": {
+  "kind": "slides",
+  "course": "PHYS207",
+  "lecture": 6,
+  "ref": "PHYS 207 L06 - Potential (annotated)",
+  "link": "http://<obelisk>:8000/documents/442/details"
+ },
+ "signals": [
+  "red 'why is this perpendicular? level sets?' at E = -grad V (slide 12)",
+  "red '??' at the conducting-sphere setup (slide 14) and 'why physically?' at V inside = kQ/r0 (slide 16)",
+  "Slide 6 sign table error: q = −, ΔV = − is listed as ΔU = −, but (−)(−) gives ΔU = +",
+  "Slide 20: 'But! This is work done by the conservative Coulomb force', a trap the professor flagged"
+ ],
+ "cards": [
+  {
+   "key": "bd704ffb5f",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Electric potential difference \\(V_b-V_a\\) in terms of potential energy",
+    "Back": "\\(V_b-V_a=\\dfrac{U_b-U_a}{q}\\): potential energy per unit charge (1 V = 1 J/C)",
+    "SpeakFront": "electric potential difference, V b minus V a, in terms of potential energy",
+    "SpeakBack": "U b minus U a, divided by q; potential energy per unit charge. One volt is one joule per coulomb",
+    "Elaboration": "Only differences are physical; \\(V=0\\) can be placed anywhere, like \\(U_{grav}=0\\).",
+    "Source": "PHYS207 L06 slides 3–4",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::definition",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     1,
+     6
+    ],
+    "from": "slides 3–4",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:57:35.890Z"
+   }
+  },
+  {
+   "key": "1ec8113425",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Potential difference from the electric field: \\(V_b-V_a=\\,?\\)",
+    "Back": "\\(-\\displaystyle\\int_a^b\\vec E\\cdot d\\vec l\\)",
+    "SpeakFront": "potential difference from the electric field, V b minus V a",
+    "SpeakBack": "minus the line integral from a to b of E dot d l",
+    "Elaboration": "Follows from \\(U_b-U_a=-\\int\\vec F\\cdot d\\vec l\\) divided by \\(q\\). The field is conservative, so the path doesn't matter.",
+    "Source": "PHYS207 L06 slide 9",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     1,
+     6
+    ],
+    "from": "slide 9",
+    "note": ""
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:57:43.530Z"
+   }
+  },
+  {
+   "key": "dc48e16c1a",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Electric field from the potential (vector form)",
+    "Back": "\\(\\vec E=-\\nabla V\\): the field points toward decreasing \\(V\\)",
+    "SpeakFront": "electric field from the potential, in vector form",
+    "SpeakBack": "E equals minus the gradient of V; it points toward decreasing potential",
+    "Elaboration": "In a uniform field this reduces to \\(E=V/d\\) between plates.",
+    "Source": "PHYS207 L06 slides 11, 30–31",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     1
+    ],
+    "from": "slides 30–31",
+    "note": "The uniform-field special case goes in Elaboration, not a separate card."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:57:47.629Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "Level sets of \\(V(x,y,z)\\)",
+    "Elaboration": "So everything true of level sets applies, including \\(\\nabla V\\perp\\) them.",
+    "Front": "Equipotential surfaces, in multivariable-calculus terms",
+    "Source": "PHYS207 L06 slides 12, 27",
+    "SourceLink": "",
+    "SpeakBack": "level sets of V",
+    "SpeakFront": "equipotential surfaces, in multivariable calculus terms"
+   },
+   "golden": {
+    "canon": [
+     15
+    ],
+    "from": "review",
+    "note": "Revision: map the physics onto the general math. Your red 'level sets?' note was right."
+   },
+   "key": "4322332939",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys207::l06-potential",
+    "course::math251",
+    "topic::math::calculus::multivariable",
+    "topic::physics::em::potential",
+    "type::definition",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "great! tags should probably relate it to math 251/ calc III",
+    "at": "2026-09-26T00:11:43+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Back": "Perpendicular to them, pointing toward increasing \\(f\\)",
+    "Elaboration": "Along a level set \\(df=\\nabla f\\cdot d\\vec l=0\\). Physics: \\(\\vec E=-\\nabla V\\) is perpendicular to equipotentials.",
+    "Front": "Direction of \\(\\nabla f\\) relative to the level sets of \\(f\\)",
+    "Source": "PHYS207 L06 slides 12, 27",
+    "SourceLink": "",
+    "SpeakBack": "perpendicular to them, pointing toward increasing f",
+    "SpeakFront": "direction of the gradient of f relative to the level sets of f"
+   },
+   "golden": {
+    "canon": [
+     15
+    ],
+    "from": "review",
+    "note": "Revision: the general principle goes to Core; 'field lines ⊥ equipotentials' becomes a consequence, not a separate fact."
+   },
+   "key": "98d7de7a83",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys207::l06-potential",
+    "course::math251",
+    "topic::math::calculus::multivariable",
+    "type::result",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:11:52+00:00"
+   }
+  },
+  {
+   "key": "fca955e28d",
+   "note_type": "M-Error",
+   "deck": "Now",
+   "fields": {
+    "Situation": "A negative charge moves to a point of lower potential (\\(\\Delta V<0\\)). Does its potential energy rise or fall?",
+    "Trap": "Assuming a charge always loses potential energy when \\(V\\) drops. Slide 6's sign table even lists (−)(−) → −.",
+    "Fix": "\\(\\Delta U=q\\Delta V\\): \\((-)(-)>0\\), so its potential energy rises",
+    "Why": "Negative charges move on their own toward higher \\(V\\). \"Downhill\" means \\(\\Delta U<0\\), not \\(\\Delta V<0\\).",
+    "SpeakSituation": "a negative charge moves to lower potential. Does its potential energy rise or fall?",
+    "SpeakFix": "delta U equals q delta V; negative times negative is positive, so its potential energy rises",
+    "Source": "PHYS207 L06 slide 6 (table error)",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::trap",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     9,
+     11
+    ],
+    "from": "slide 6",
+    "note": "An error on the slide becomes a trap card. Error cards default to human review (PLAN §4.6)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T04:58:14.088Z"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "\\(V=\\dfrac{kQ}{r}\\)",
+    "Elaboration": "It falls as \\(1/r\\), one power slower than the field's \\(1/r^2\\).",
+    "Front": "Potential of a point charge \\(Q\\) at distance \\(r\\) (with \\(V=0\\) at \\(\\infty\\))",
+    "Source": "PHYS207 L06 slide 19",
+    "SourceLink": "",
+    "SpeakBack": "k Q over r",
+    "SpeakFront": "potential of a point charge Q at distance r, with V equal to zero at infinity"
+   },
+   "golden": {
+    "canon": [
+     9
+    ],
+    "from": "review",
+    "note": "Revision: written with k so every PHYS207 card uses one notation. The equivalence is carded once, below."
+   },
+   "key": "4cdbd958aa",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::result",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:11:58+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Back": "\\(k=\\dfrac{1}{4\\pi\\epsilon_0}\\)",
+    "Elaboration": "Slides switch between \\(kQ/r\\) and \\(\\dfrac{1}{4\\pi\\epsilon_0}\\dfrac{Q}{r}\\); they're the same thing.",
+    "Front": "Coulomb's constant \\(k\\) in terms of \\(\\epsilon_0\\)",
+    "Source": "PHYS207 L06 slides 17, 19",
+    "SourceLink": "",
+    "SpeakBack": "one over four pi epsilon naught",
+    "SpeakFront": "Coulomb's constant k in terms of epsilon naught"
+   },
+   "golden": {
+    "canon": [
+     9
+    ],
+    "from": "review",
+    "note": "Answers your 'k or 1/4πε₀?' question: one notation per course, and the equivalence carded once."
+   },
+   "key": "fed58b4868",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::constants",
+    "type::definition",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:12:33+00:00"
+   }
+  },
+  {
+   "checks": [
+    {
+     "quantity": "1/(4 pi epsilon_0)",
+     "tolerance": "0.1%",
+     "value": "8.988e9 N m^2/C^2"
+    }
+   ],
+   "confidence": 0.9,
+   "deck": "Core",
+   "fields": {
+    "Back": "\\(8.99\\times10^{9}\\ \\text{N·m}^2/\\text{C}^2\\)",
+    "Elaboration": "",
+    "Front": "Coulomb's constant \\(k\\) (3 sig figs)",
+    "Source": "PHYS207 L06 slide 17",
+    "SourceLink": "",
+    "SpeakBack": "eight point nine nine times ten to the nine newton meters squared per coulomb squared",
+    "SpeakFront": "Coulomb's constant k, to three significant figures"
+   },
+   "golden": {
+    "canon": [
+     7
+    ],
+    "from": "review",
+    "note": "The value, split from the definition."
+   },
+   "key": "8e5d1dc662",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::constants",
+    "type::anchor",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:12:45+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Back": "From \\(\\infty\\) (where \\(V=0\\)) to \\(r\\): \\(V(r)=-\\int_\\infty^r\\vec E\\cdot d\\vec l\\)",
+    "Elaboration": "The lower limit is the reference point. Swap the limits and you get \\(-V\\).",
+    "Front": "Finding \\(V(r)\\) outside a charge from \\(\\vec E\\): the limits of integration",
+    "Source": "PHYS207 L06 slide 15",
+    "SourceLink": "",
+    "SpeakBack": "from infinity, where V is zero, to r",
+    "SpeakFront": "finding V of r outside a charge from the field: the limits of integration"
+   },
+   "golden": {
+    "canon": [
+     2
+    ],
+    "from": "review",
+    "note": "Revision: asks for the limits, which are the thing to recall, instead of 'why these limits'."
+   },
+   "key": "43267d7075",
+   "mode": "audio",
+   "note_type": "M-Basic",
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:12:51+00:00"
+   }
+  },
+  {
+   "checks": [],
+   "confidence": 0.9,
+   "deck": "Now",
+   "fields": {
+    "Fix": "\\(V=kQ/r_0\\) throughout: the surface value",
+    "Situation": "Potential inside a charged conducting sphere (radius \\(r_0\\), charge \\(Q\\))",
+    "Source": "PHYS207 L06 slides 14–17",
+    "SourceLink": "",
+    "SpeakFix": "k Q over r naught throughout, the surface value",
+    "SpeakSituation": "potential inside a charged conducting sphere of radius r naught and charge Q",
+    "Trap": "\\(\\vec E=0\\) inside, so \\(V=0\\)",
+    "Why": "\\(\\vec E=0\\) means \\(V\\) doesn't change inside, not that it's zero."
+   },
+   "golden": {
+    "canon": [
+     11
+    ],
+    "from": "review",
+    "note": "Revision: trimmed."
+   },
+   "key": "9a553a44f5",
+   "mode": "audio",
+   "note_type": "M-Error",
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::trap",
+    "src::slides"
+   ],
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-26T00:13:07+00:00"
+   }
+  },
+  {
+   "key": "753a3bd497",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "Potential on the axis of a charged ring (radius \\(R\\), charge \\(Q\\)) at distance \\(x\\) from its center",
+    "Back": "\\(V=\\dfrac{kQ}{\\sqrt{x^2+R^2}}\\)",
+    "SpeakFront": "potential on the axis of a charged ring of radius R and charge Q, at distance x from its center",
+    "SpeakBack": "k Q over the square root of x squared plus R squared",
+    "Elaboration": "Every \\(dq\\) is the same distance \\(\\sqrt{x^2+R^2}\\) from P, so \\(\\int dq\\) just gives \\(Q\\).",
+    "Source": "PHYS207 L06 slide 24",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.85,
+   "golden": {
+    "canon": [
+     6
+    ],
+    "from": "slide 24",
+    "note": "Kept because the ring is the building block for the disk (slides 25–26) and the field examples (34)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:04:25.194Z"
+   }
+  },
+  {
+   "key": "42cbed7c51",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "Field on the axis of a uniformly charged disk (surface density \\(\\sigma\\), radius \\(R_0\\)) at distance \\(x\\)",
+    "Back": "\\(E=\\dfrac{\\sigma}{2\\epsilon_0}\\left(1-\\dfrac{x}{\\sqrt{x^2+R_0^2}}\\right)\\)",
+    "SpeakFront": "field on the axis of a uniformly charged disk, surface density sigma, radius R naught, at distance x",
+    "SpeakBack": "sigma over two epsilon naught, times one minus x over the square root of x squared plus R naught squared",
+    "Elaboration": "From \\(E=-dV/dx\\) with \\(V=\\frac{2kQ}{R_0^2}(\\sqrt{x^2+R_0^2}-x)\\). As \\(R_0\\to\\infty\\) it becomes \\(\\sigma/2\\epsilon_0\\), the infinite sheet.",
+    "Source": "PHYS207 L06 slides 26, 35",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::field",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.8,
+   "golden": {
+    "canon": [
+     3,
+     6
+    ],
+    "from": "slide 35",
+    "note": "Borderline for canon 3 (long). Kept because the sheet limit is a load-bearing check. Aman: reject it if you'd rather derive it."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:04:33.877Z"
+   }
+  },
+  {
+   "key": "7cc42ad715",
+   "note_type": "M-Error",
+   "deck": "Now",
+   "fields": {
+    "Situation": "Minimum work an external agent does to bring charge \\(Q_2\\) from \\(\\infty\\) to distance \\(d\\) from \\(Q_1\\)",
+    "Trap": "Reporting the Coulomb force's work \\(W=-\\Delta U\\), which has the wrong sign for like charges",
+    "Fix": "\\(W_{ext}=+\\Delta U=\\dfrac{kQ_1Q_2}{d}\\)",
+    "Why": "The agent works against the conservative force: \\(W_{ext}=-W_{Coul}\\).",
+    "SpeakSituation": "the minimum work an external agent does to bring charge Q two from infinity to distance d from charge Q one",
+    "SpeakFix": "external work equals plus delta U, which is k Q one Q two over d",
+    "Source": "PHYS207 L06 slide 20",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::trap",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     11
+    ],
+    "from": "slide 20",
+    "note": "The professor's 'But!' marks the trap."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:04:47.221Z"
+   }
+  },
+  {
+   "key": "d5ad82d77c",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Electric potential energy of two point charges \\(Q_1, Q_2\\) a distance \\(r_{12}\\) apart",
+    "Back": "\\(U=\\dfrac{1}{4\\pi\\epsilon_0}\\dfrac{Q_1Q_2}{r_{12}}\\)",
+    "SpeakFront": "electric potential energy of two point charges Q one and Q two, a distance r one two apart",
+    "SpeakBack": "one over four pi epsilon naught, times Q one Q two over r one two",
+    "Elaboration": "Bringing the first charge in is free; the second costs \\(Q_2V_1\\).",
+    "Source": "PHYS207 L06 slide 36",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     14
+    ],
+    "from": "slide 36",
+    "note": "'Energy of two charges' vs 'potential of a point charge' prompts guard against interference."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "",
+    "at": "2026-09-25T05:05:26.987Z"
+   }
+  }
+ ],
+ "skipped": [
+  {
+   "what": "1 eV = 1.6e-19 J (slide 38)",
+   "why": "Already in Core, and it's a SKILL.md golden example: dedupe."
+  },
+  {
+   "what": "CRT electron numbers (ΔU ≈ −8e-16 J, v ≈ 4.2e7 m/s)",
+   "why": "Worked-example arithmetic: practice, not recall. Also the slide has a typo (9.11×20^−31)."
+  },
+  {
+   "what": "Two-charge potential at points A and B, V(x,y,z) gradient example",
+   "why": "Practice problems; the methods are carded as results."
+  },
+  {
+   "what": "'Four electrostatic quantities' square",
+   "why": "A diagram of relations whose individual edges are already carded; visual-only and a set (canon 13)."
+  },
+  {
+   "what": "'Equipotentials are always closed surfaces'",
+   "why": "Not true in general (an infinite plane has open equipotentials). Left uncarded rather than card something imprecise."
+  }
+ ],
+ "rejected": [],
+ "superseded": [
+  {
+   "key": "c8c08fd429",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Why are electric field lines always perpendicular to equipotential surfaces?",
+    "Back": "Along an equipotential \\(dV=-\\vec E\\cdot d\\vec l=0\\), so \\(\\vec E\\perp d\\vec l\\). Equivalently, \\(-\\nabla V\\) is normal to the level sets of \\(V\\).",
+    "SpeakFront": "why are electric field lines always perpendicular to equipotential surfaces?",
+    "SpeakBack": "moving along an equipotential, d V equals minus E dot d l equals zero, so E is perpendicular to the direction of motion; the gradient is normal to level sets",
+    "Elaboration": "That's also why moving a charge along an equipotential takes no work.",
+    "Source": "PHYS207 L06 slides 12, 27",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     15,
+     16
+    ],
+    "from": "annotation",
+    "note": "The red 'level sets?' guessed right; the card confirms the math behind it."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "good to know, but if i already understand that equipotential surfaces are level sets (maybe that should be a card), then should it be a cal III card that grad is perp to level sets?",
+    "at": "2026-09-25T04:59:43.662Z"
+   },
+   "replaced_by": [
+    "4322332939",
+    "98d7de7a83"
+   ]
+  },
+  {
+   "key": "d5f58142bd",
+   "note_type": "M-Basic",
+   "deck": "Core",
+   "fields": {
+    "Front": "Potential of a point charge \\(Q\\) at distance \\(r\\) (with \\(V=0\\) at \\(\\infty\\))",
+    "Back": "\\(V=\\dfrac{1}{4\\pi\\epsilon_0}\\dfrac{Q}{r}\\)",
+    "SpeakFront": "potential of a point charge Q at distance r, with V equal to zero at infinity",
+    "SpeakBack": "one over four pi epsilon naught, times Q over r",
+    "Elaboration": "It falls as \\(1/r\\), one power slower than the field's \\(1/r^2\\).",
+    "Source": "PHYS207 L06 slide 19",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::result",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.95,
+   "golden": {
+    "canon": [
+     2,
+     14
+    ],
+    "from": "slide 19",
+    "note": "'Potential' plus the stated reference keeps it apart from the pair-energy card (interference)."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "good, maybe something to consider is whether I should use k or 1/4piepsilon_0, and then a card saying what k is? is that a more general principle to consider?",
+    "at": "2026-09-25T05:01:52.532Z"
+   },
+   "replaced_by": [
+    "4cdbd958aa",
+    "fed58b4868",
+    "8e5d1dc662"
+   ]
+  },
+  {
+   "key": "00f634823f",
+   "note_type": "M-Basic",
+   "deck": "Now",
+   "fields": {
+    "Front": "When finding \\(V(r)\\) outside a charge, why integrate from \\(\\infty\\) to \\(r\\)?",
+    "Back": "Because \\(V(\\infty)=0\\) is the reference: \\(V(r)=V(r)-V(\\infty)=-\\int_\\infty^r\\vec E\\cdot d\\vec l\\)",
+    "SpeakFront": "when finding V of r outside a charge, why integrate from infinity to r?",
+    "SpeakBack": "because the reference is V equals zero at infinity, so V of r equals V of r minus V at infinity, which is minus the integral from infinity to r of E dot d l",
+    "Elaboration": "The limits encode the reference point. Swap them and you get \\(-V\\).",
+    "Source": "PHYS207 L06 slide 15",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::fundamental",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.85,
+   "golden": {
+    "canon": [
+     15
+    ],
+    "from": "slide 15",
+    "note": "The slide asks this question itself: a professor's rhetorical question is a free why-card."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "fine, but maybe asking what to integrate from is better, since thats the thing to recall?",
+    "at": "2026-09-25T05:03:37.752Z"
+   },
+   "replaced_by": [
+    "43267d7075"
+   ]
+  },
+  {
+   "key": "9e90a16176",
+   "note_type": "M-Error",
+   "deck": "Now",
+   "fields": {
+    "Situation": "Finding the potential inside a charged conducting sphere (radius \\(r_0\\), charge \\(Q\\))",
+    "Trap": "\\(\\vec E=0\\) inside, so concluding \\(V=0\\) inside",
+    "Fix": "\\(V=kQ/r_0\\) everywhere inside: constant, equal to the surface value",
+    "Why": "\\(\\Delta V=-\\int\\vec E\\cdot d\\vec l=0\\) only says \\(V\\) doesn't change from the surface inward. Physically, no work is needed to move a charge around inside.",
+    "SpeakSituation": "finding the potential inside a charged conducting sphere of radius r naught and charge Q",
+    "SpeakFix": "it is k Q over r naught everywhere inside, constant and equal to the surface value",
+    "Source": "PHYS207 L06 slides 14–17",
+    "SourceLink": ""
+   },
+   "tags": [
+    "course::phys207::l06-potential",
+    "topic::physics::em::potential",
+    "type::trap",
+    "src::slides"
+   ],
+   "mode": "audio",
+   "checks": [],
+   "confidence": 0.9,
+   "golden": {
+    "canon": [
+     11,
+     16
+    ],
+    "from": "annotation",
+    "note": "Answers '??' and 'why physically?'. The slide itself asks 'Is it zero? No', a sure sign the professor sees this trap often."
+   },
+   "review": {
+    "verdict": "approve",
+    "reason": "maybe a bit verbose",
+    "at": "2026-09-25T05:04:21.714Z"
+   },
+   "replaced_by": [
+    "9a553a44f5"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,6 @@
+<div class="q">{{Question}}</div>
+<hr id="answer">
+<div class="a">{{Answer}}</div>
+{{#Anchor}}<div class="label">derive from</div><div class="elab">{{Anchor}}</div>{{/Anchor}}
+{{#SpeakAnswer}}{{tts en_US speed=1.15:SpeakAnswer}}{{/SpeakAnswer}}
+{{#Source}}<div class="src">{{#SourceLink}}<a href="{{text:SourceLink}}">{{/SourceLink}}{{Source}}{{#SourceLink}}</a>{{/SourceLink}}</div>{{/Source}}

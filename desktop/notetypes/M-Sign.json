@@ -1,0 +1,25 @@
+{
+  "name": "M-Sign",
+  "kind": "standard",
+  "css": "shared.css",
+  "fields": [
+    "Video",
+    "Gloss",
+    "Notes",
+    "Source",
+    "SourceLink",
+    "MnemosyneID"
+  ],
+  "templates": [
+    {
+      "name": "Gloss to sign",
+      "front": "M-Sign/gloss-to-sign.front.html",
+      "back": "M-Sign/gloss-to-sign.back.html"
+    },
+    {
+      "name": "Sign to gloss",
+      "front": "M-Sign/sign-to-gloss.front.html",
+      "back": "M-Sign/sign-to-gloss.back.html"
+    }
+  ]
+}

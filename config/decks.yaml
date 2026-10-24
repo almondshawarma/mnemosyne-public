@@ -1,0 +1,27 @@
+# PLAN §3.1. The P1 migration creates these; after that, the P4 load governor owns new_per_day.
+# Every new_per_day starts at 0 for the backlog clear (budget.yaml backlog_clear). New walk cards,
+# starting with the multiplication facts (PLAN §5.5), come in through the ~Walk::New filtered deck
+# (limit 10, "order due"), which draws from the front of the repositioned new queue.
+presets:
+  Now:        {desired_retention: 0.90, new_per_day: 0,  max_reviews_per_day: 400}
+  Core:       {desired_retention: 0.90, new_per_day: 0,  max_reviews_per_day: 400}
+  Lang-major: {desired_retention: 0.90, new_per_day: 0,  max_reviews_per_day: 400}
+  Lang-minor: {desired_retention: 0.88, new_per_day: 0,  max_reviews_per_day: 150}
+  Reservoir:  {desired_retention: 0.85, new_per_day: 0,  max_reviews_per_day: 40}
+decks:
+  Now: Now
+  Core: Core
+  Lang::Spanish: Lang-major
+  Lang::Hindi: Lang-minor
+  Lang::French: Lang-minor
+  Lang::IPA: Core
+  Lang::ASL: Lang-minor          # created on Desktop (docs/desktop-sessions/2026-10-asl.md)
+  Reservoir: Reservoir
+# Legacy deck → target (PLAN §3.4, audit migration map). Prefix match on whole path segments; first match wins.
+migration:
+  - {from: "Math::Calculus::Multivariable::3D Conics", to: Reservoir}
+  - {from: "Science::Chemistry", to: Reservoir}
+  - {from: "Languages::Hindi", to: "Lang::Hindi"}
+  - {from: "Languages::Random Foreign Phrases", to: Core}
+  - {from: "Math", to: Core}
+  - {from: "Science", to: Core}

@@ -1,0 +1,194 @@
+# Curated constants for the verify gate, beyond scipy's CODATA table (which it checks second).
+# Names match case-insensitively inside a check's quantity. Nuclear data comes from NNDC; cite the source.
+constants:
+  Wien displacement constant:
+    value: 2.897771955e-3 m K
+    source: CODATA 2018 (scipy calls it "Wien wavelength displacement law constant")
+  speed of light:
+    value: 299792458 m/s
+    source: exact (SI)
+  energy released per U-235 fission:
+    value: 202.5 MeV
+    source: total recoverable energy per thermal U-235 fission, ~200 MeV (NNDC/ENDF; lecture rounds to 200)
+  kinetic energy of U-235 fission fragments:
+    value: 168 MeV
+    source: NNDC/ENDF-B, fragments' kinetic energy per thermal fission
+  specific heat of water:
+    value: 4186 J/(kg K)
+    source: Young & Freedman 15e Table 17.3 (water at 15 °C); CRC gives 4.1855 kJ/(kg K)
+  latent heat of fusion of water:
+    value: 3.34e5 J/kg
+    source: Young & Freedman 15e Table 17.4 (333.55 kJ/kg, CRC)
+  triple point of water:
+    value: 273.16 K
+    source: the pre-2019 definition of the kelvin; still 273.16 K to within 0.1 mK
+  # --- Core fluency packs (2026-09-26). Standard reference values; each names its source. ---
+  nuclear radius parameter r0:
+    value: 1.2 fm
+    source: Krane, Introductory Nuclear Physics, §3.1 (R = R0 A^(1/3), R0 ≈ 1.2 fm)
+  binding energy per nucleon of ni-62:
+    value: 8.7945 MeV
+    source: AME2020 (Wang et al., Chin. Phys. C 45, 030003)
+  binding energy per nucleon of fe-56:
+    value: 8.7903 MeV
+    source: AME2020
+  binding energy per nucleon of u-235:
+    value: 7.5909 MeV
+    source: AME2020
+  neutron separation energy of u-236:
+    value: 6.545 MeV
+    source: AME2020 (excitation when U-235 absorbs a thermal neutron)
+  neutron separation energy of u-239:
+    value: 4.806 MeV
+    source: AME2020 (excitation when U-238 absorbs a thermal neutron)
+  u-235 thermal nu-bar:
+    value: 2.43
+    source: ENDF/B-VIII.0, total neutrons per thermal fission of U-235 (2.43)
+  u-235 delayed neutron fraction:
+    value: 0.0065
+    source: Keepin, Physics of Nuclear Kinetics (thermal fission of U-235)
+  pu-239 delayed neutron fraction:
+    value: 0.0021
+    source: Keepin, Physics of Nuclear Kinetics (thermal fission of Pu-239)
+  mean energy of u-235 prompt fission neutrons:
+    value: 2.0 MeV
+    source: ENDF/B-VIII.0 prompt fission neutron spectrum, thermal U-235 (mean ≈ 2.0 MeV)
+  u-235 thermal fission cross section:
+    value: 585 barn
+    source: ENDF/B-VIII.0 at 2200 m/s (585.1 b)
+  xe-135 thermal absorption cross section:
+    value: 2.65e6 barn
+    source: ENDF/B-VIII.0 at 2200 m/s
+  b-10 thermal n-alpha cross section:
+    value: 3840 barn
+    source: ENDF/B-VIII.0 at 2200 m/s (3837 b)
+  h-1 thermal capture cross section:
+    value: 0.332 barn
+    source: ENDF/B-VIII.0 at 2200 m/s
+  h-2 thermal capture cross section:
+    value: 5.19e-4 barn
+    source: ENDF/B-VIII.0 at 2200 m/s
+  u-235 half-life:
+    value: 7.04e8 year
+    source: NNDC NuDat 3
+  u-238 half-life:
+    value: 4.468e9 year
+    source: NNDC NuDat 3
+  pu-239 half-life:
+    value: 24110 year
+    source: NNDC NuDat 3
+  co-60 half-life:
+    value: 5.2714 year
+    source: NNDC NuDat 3
+  cs-137 half-life:
+    value: 30.08 year
+    source: NNDC NuDat 3
+  i-131 half-life:
+    value: 8.0252 day
+    source: NNDC NuDat 3
+  h-3 half-life:
+    value: 12.32 year
+    source: NNDC NuDat 3
+  c-14 half-life:
+    value: 5700 year
+    source: NNDC NuDat 3 (5700 ± 30 y)
+  xe-135 half-life:
+    value: 9.14 hour
+    source: NNDC NuDat 3
+  free neutron mean lifetime:
+    value: 878.4 s
+    source: PDG 2024
+  worldwide average natural background dose:
+    value: 2.4 mSv/year
+    source: UNSCEAR 2008 Report, Annex B
+  us occupational dose limit:
+    value: 50 mSv/year
+    source: 10 CFR 20.1201 (5 rem/yr total effective dose equivalent)
+  us public dose limit:
+    value: 1 mSv/year
+    source: 10 CFR 20.1301 (100 mrem/yr)
+  acute whole-body ld50/60 without treatment:
+    value: 4 Gy
+    source: IAEA/WHO medical management guidance (LD50/60 ≈ 3.5–4.5 Gy without treatment)
+  d-t ignition triple product:
+    value: 3e21 keV*s/m^3
+    source: Wesson, Tokamaks, 4th ed., §1.5 (n T τE ≳ 3×10^21 keV s m^-3)
+  d-t optimum ignition temperature:
+    value: 14 keV
+    source: Wesson, Tokamaks, §1.5 (minimum of the ignition n T τE near 14 keV)
+  typical tokamak core density:
+    value: 1e20 m^-3
+    source: Wesson, Tokamaks (core electron densities ~10^20 m^-3)
+  typical tokamak coulomb logarithm:
+    value: 17
+    source: Wesson, Tokamaks, §2.1 (ln Λ ≈ 17 for tokamak cores)
+  solar core temperature:
+    value: 1.57e7 K
+    source: standard solar model (Bahcall et al.)
+  solar core power density:
+    value: 276.5 W/m^3
+    source: standard solar model, peak core power density (as quoted in Wikipedia "Sun")
+  solar constant:
+    value: 1361 W/m^2
+    source: Kopp & Lean, GRL 38, L01706 (2011)
+  peak ground-level solar irradiance:
+    value: 1000 W/m^2
+    source: IEC 60904-3 standard test conditions (AM1.5, 1000 W/m^2)
+  gasoline heating value:
+    value: 45 MJ/kg
+    source: US DOE/EIA (LHV ≈ 43.4, HHV ≈ 46.5 MJ/kg)
+  world primary energy consumption 2023:
+    value: 620 EJ
+    source: Energy Institute, Statistical Review of World Energy 2024
+  us electricity consumption 2023:
+    value: 4000 TWh
+    source: EIA Electric Power Monthly (≈4.0 trillion kWh in 2023)
+  us nuclear share of electricity 2023:
+    value: 0.186
+    source: EIA (18.6% of US utility-scale generation in 2023)
+  lwr net thermal efficiency:
+    value: 0.33
+    source: typical PWR/BWR net plant efficiency (Lamarsh & Baratta, Introduction to Nuclear Engineering)
+  # --- Core fluency follow-up (Aman's review, 2026-09-26) ---
+  earth surface magnetic field:
+    value: 5e-5 T
+    source: NOAA/BGS World Magnetic Model (25–65 μT at the surface)
+  cs-137 gamma energy:
+    value: 661.657 keV
+    source: NNDC NuDat 3 (via Ba-137m)
+  co-60 lower gamma energy:
+    value: 1.1732 MeV
+    source: NNDC NuDat 3
+  co-60 upper gamma energy:
+    value: 1.3325 MeV
+    source: NNDC NuDat 3
+  tc-99m half-life:
+    value: 6.0067 hour
+    source: NNDC NuDat 3
+  i-135 half-life:
+    value: 6.58 hour
+    source: NNDC NuDat 3
+  u-235 natural abundance:
+    value: 0.007204
+    source: IUPAC / NNDC (atom fraction in natural uranium)
+  age of the earth:
+    value: 4.54e9 year
+    source: Dalrymple, Geol. Soc. London Spec. Publ. 190 (2001)
+  iter toroidal field on axis:
+    value: 5.3 T
+    source: ITER Organization, design parameters (iter.org)
+  iter major radius:
+    value: 6.2 m
+    source: ITER Organization, design parameters
+  iter design fusion power:
+    value: 500 MW
+    source: ITER Organization, design parameters (from 50 MW of heating)
+  iter design fusion gain:
+    value: 10
+    source: ITER Organization, design parameters (Q ≥ 10)
+  chest x-ray effective dose:
+    value: 0.02 mSv
+    source: Mettler et al., Radiology 248, 254 (2008), PA chest radiograph
+  chest ct effective dose:
+    value: 7 mSv
+    source: Mettler et al., Radiology 248, 254 (2008)
