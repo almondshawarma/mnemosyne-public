@@ -145,6 +145,16 @@ def parse(raw: str) -> dict[str, Any]:
     return dict(loaded)  # pyright: ignore[reportUnknownArgumentType]
 
 
+def parse_error(e: Exception) -> str:
+    """A parse failure with the reply quoted where it broke. "line 31 column 5" alone can't be found in a 20k-character
+    reply: the retry wrote the same broken card again (PHYS 221 L07, 2026-10-28, a card one closing brace short)."""
+    if not isinstance(e, json.JSONDecodeError):
+        return str(e)
+    before, after = e.doc[max(0, e.pos - 300):e.pos], e.doc[e.pos:e.pos + 80]
+    return (f"{e}. The reply broke here (⟪HERE⟫ marks the spot; the mistake is usually just before it, such as a "
+            f"missing closing brace or bracket, or a trailing comma): …{before}⟪HERE⟫{after}…")
+
+
 def uncomputable(card: CardIn, anchors: Path | None) -> list[str]:
     """Number checks the verify gate can't even evaluate. They're the model's syntax, so they go back for the retry
     instead of reaching Aman as 'number not checked'."""
@@ -221,7 +231,7 @@ async def generate(llm: LLM, route: str, skill_md: str, golden: str, lec: Lectur
         doc = parse(raw)
         payload, problems = check(doc, lec, schema, ctx.anchors)
     except (ValueError, TypeError) as e:
-        doc, payload, problems = {}, None, [{"index": None, "problems": [f"unparseable output: {e}"]}]
+        doc, payload, problems = {}, None, [{"index": None, "problems": [f"unparseable output: {parse_error(e)}"]}]
     if problems:
         fix = ("Your previous reply had these problems. Reply again with the complete corrected payload "
                "(all cards, not just the fixed ones):\n" + json.dumps([{k: p[k] for k in ("index", "problems")}
@@ -232,7 +242,7 @@ async def generate(llm: LLM, route: str, skill_md: str, golden: str, lec: Lectur
             doc = parse(raw)
             payload, problems = check(doc, lec, schema, ctx.anchors)
         except (ValueError, TypeError) as e:
-            problems = [{"index": None, "problems": [f"unparseable output after retry: {e}"]}]
+            problems = [{"index": None, "problems": [f"unparseable output after retry: {parse_error(e)}"]}]
     skipped: list[dict[str, str]] = []
     items: list[Any] = doc.get("skipped") or []
     for item in items:

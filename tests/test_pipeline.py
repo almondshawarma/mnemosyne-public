@@ -3,6 +3,7 @@ with fake Paperless / LLM / anki-core / embedder."""
 import asyncio
 import hashlib
 import json
+import re
 import sqlite3
 from collections.abc import Iterator
 from pathlib import Path
@@ -97,17 +98,20 @@ def test_numeric_card_without_checks_is_skipped() -> None:
 # ---------- dedupe ----------
 
 class BagEmbedder:
-    """Deterministic bag-of-words vectors: same words, same vector; disjoint words, orthogonal-ish."""
+    """Deterministic bag-of-words vectors: same words, same vector; disjoint words, orthogonal-ish. It reads only a
+    card's prompt (whole-card text up to the first " | ", without topics), so these tests stay about the pipeline;
+    what the whole-card text holds is tested in test_neighbors."""
 
     def __init__(self) -> None:
-        self.calls = 0
+        self.calls, self.model = 0, "bag"
 
     async def embed(self, texts: list[str]) -> list[list[float]]:
         self.calls += 1
         out: list[list[float]] = []
         for t in texts:
             v = np.zeros(256, dtype=np.float32)
-            for w in t.removeprefix("clustering: ").split():
+            prompt = re.sub(r" \(topics: .*\)$", "", t.removeprefix("clustering: ")).split(" | ")[0]
+            for w in dedupe.normalize(prompt).split():
                 v[int(hashlib.md5(w.encode()).hexdigest(), 16) % 256] += 1
             out.append((v + 1e-6).tolist())
         return out
@@ -188,6 +192,14 @@ def test_generate_retries_once_with_the_problems(schema: Schema) -> None:
     assert any(part["type"] == "image_url" for part in first_user), "page images go to the model"
     assert "exam: binding energy curve" in first_user[0]["text"] and "mass defect definition" in first_user[0]["text"]
     assert "CANON" in llm.prompts[0][0]
+
+
+def test_generate_retry_quotes_where_the_json_broke(schema: Schema) -> None:
+    llm = ScriptedLLM('```json\n{"cards": [],\n}\n```', fenced([card("fixed")]))
+    got = asyncio.run(generate(llm, "lecture", "CANON", "", lecture(), schema))
+    assert got.payload is not None and [c.fields["Front"] for c in got.payload.cards] == ["fixed"]
+    retry_text = llm.prompts[1][1][-1]["text"]
+    assert r'\"cards\": [],\n⟪HERE⟫}' in retry_text, "the retry is shown where the reply broke, not just a line number"
 
 
 def test_generate_reports_what_stays_invalid(schema: Schema) -> None:

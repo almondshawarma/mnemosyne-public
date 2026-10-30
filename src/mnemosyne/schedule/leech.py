@@ -26,6 +26,7 @@ import numpy as np
 import structlog
 from pydantic import ValidationError
 
+from mnemosyne import neighbors
 from mnemosyne.anki.core_client import AnkiCoreError, Caller, Core, reads
 from mnemosyne.cards import PIPELINE_OWNED, SPEECH, CardIn, Payload, Schema, Source
 from mnemosyne.generate.llm import LLM, text
@@ -327,9 +328,10 @@ async def run(d: Doctor, limit: int = PER_NIGHT, dry_run: bool = False) -> dict[
     near: dict[int, list[str]] = {}
     if found and d.embedder is not None:
         try:
-            notes = await dedupe.existing_notes(d.core)
+            notes = await dedupe.existing_notes(d.core, d.con)
             ids, matrix = await dedupe.index(d.con, notes, d.embedder)
-            firsts = [dedupe.normalize(next(iter(note_fields(f["note"]).values()), "")) for f in found]
+            firsts = [neighbors.note_text(str(f["note"].get("note_type_name") or ""), note_fields(f["note"]),
+                                          f["note"].get("tags") or []) for f in found]
             vecs = np.asarray(await d.embedder.embed(firsts), dtype=np.float32)
             vecs = vecs / np.linalg.norm(vecs, axis=1, keepdims=True)
             for f, first, vec in zip(found, firsts, vecs, strict=True):

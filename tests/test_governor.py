@@ -248,7 +248,20 @@ def test_the_real_budget_s_focus_decks() -> None:
 
     real = yaml.safe_load((Path(__file__).parent.parent / "config" / "budget.yaml").read_text(encoding="utf-8"))
     budget = gv.Budget.from_yaml(real)
-    assert [f.name for f in budget.focus] == ["Fresh", "Plasma", "Metis"]
-    metis = budget.focus[2]
+    assert [f.name for f in budget.focus] == ["Fresh", "Circuits", "Plasma", "Metis"]
+    metis = budget.focus[3]
     assert metis.search == "tag:course::metis*" and metis.new_deck == "~Focus::Metis::New"
-    assert focus.reserved(list(budget.focus)) == 8, "Plasma's 5 and Metis's 3 come out of the day's total"
+    assert focus.reserved(list(budget.focus)) == 23, "Circuits' 15, Plasma's 5, and Metis's 3 come out of the total"
+    assert budget.focus[1].starts == date(2026, 10, 31)
+
+
+def test_a_focus_builds_nothing_before_it_starts(con: Any) -> None:
+    from mnemosyne.schedule import focus
+    budget = gv.Budget.from_yaml({**YAML, "focus": [
+        {"name": "Circuits", "search": "tag:course::phys207::l07*", "new_per_day": 4, "starts": "2026-10-31"}]})
+    assert focus.live(list(budget.focus), date(2026, 10, 30)) == []
+    assert [f.name for f in focus.live(list(budget.focus), date(2026, 10, 31))] == ["Circuits"]
+    core = GovCore()
+    out = asyncio.run(gv.run(con, core, budget, AFTER))
+    assert not any(a["name"].startswith("~Focus::Circuits") for t, a in core.calls if t == "anki_filtered_decks_upsert")
+    assert out["applied"]["focus"]["new"] == 0 and out["plan"]["total"] == 25, "it takes none of the day's 25 yet"

@@ -35,6 +35,7 @@ TAG_RE = re.compile(r"<[^>]+>")
 def plain(value: str, limit: int = 240) -> str:
     """Field HTML as readable text; MathJax stays as TeX, which Claude reads fine."""
     value = re.sub(r"<img[^>]*>", " [image] ", value, flags=re.IGNORECASE)
+    value = re.sub(r"\[sound:[^\]]*\.(?:mp4|webm|mov|mkv)\]", " [video] ", value, flags=re.IGNORECASE)
     value = re.sub(r"\[sound:[^\]]*\]", " [audio] ", value)
     out = html.unescape(TAG_RE.sub(" ", value.replace("<br>", " ").replace("<br/>", " ")))
     out = re.sub(r"\s+", " ", out).strip()

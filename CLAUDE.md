@@ -95,7 +95,7 @@ scenes/          Manim scenes, by course, on mn_style.py (house style + layout c
                  bench/ (render-cost benchmarks), tests/ (`uv run --with manim==0.21.0 pytest scenes/tests`)
 config/          courses.yaml approval.yaml budget.yaml decks.yaml llm.yaml topics.yaml (tag vocabulary) annotations.yaml (Aman's slide marks) books.yaml (textbooks) clips.yaml (how long a clip keeps its video)
 data/            anchors.yaml (curated constants, NNDC-sourced nuclear data)
-scripts/         audit.py retag.py migrate.py speakify.py anki_apply.py (runs inside Anki Desktop) calibre_tags.py (on the Obelisk) render.py (renders a scene in the Obelisk's sandbox) render_runner.py (the host's render queue: chats' scenes, re-renders) watch.py (watches a lecture video there; --study dissects a span, here by default)
+scripts/         audit.py retag.py migrate.py speakify.py anki_apply.py (runs inside Anki Desktop) calibre_tags.py (on the Obelisk) render.py (renders a scene in the Obelisk's sandbox; --publish adds cues.py's Resolve sound kit: marker EDL + tone WAVs) render_runner.py (the host's render queue: chats' scenes, re-renders) watch.py (watches a lecture video there; --study dissects a span, here by default)
 desktop/         notetypes/ (M-* fields, templates, CSS; created on Desktop via anki_apply.notetypes)
 docs/            audit-*.md (collection state) desktop-sessions/ runs/ weekly/ (the weekly audits' records)
 drafts/          legacy: batches reviewed in the old claude.ai viewer before P2 (reviews now live in the Ledger)

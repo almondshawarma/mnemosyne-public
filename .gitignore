@@ -22,6 +22,8 @@ mnemosyne-cards.zip
 # Manim renders copied back for checking (scripts/render.py); the clips live on the Obelisk
 /.render/
 /.watch/
+# 1080p60 exports to upload (scripts/render.py --publish): big, and the Obelisk keeps a copy
+/exports/
 
 # Aman's design tokens, generated from helios_tokens.yaml (generate_tokens.py); never committed
 /scenes/brand.py

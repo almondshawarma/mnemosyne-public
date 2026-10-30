@@ -35,6 +35,7 @@ class Focus:
     new_per_day: int | None = 5    # None: all of them (`new_per_day: all`), outside the governor's total
     recall_below: float = 0.9  # seen cards come in once they're due, or their recall drops below this
     due_limit: int = 60
+    starts: date | None = None     # no decks before this day (Circuits waits out an exam week)
 
     @property
     def new_deck(self) -> str:
@@ -60,7 +61,17 @@ def quota(raw: Any) -> int | None:
 def from_budget(budget: dict[str, Any]) -> list[Focus]:
     raw: list[dict[str, Any]] = budget.get("focus") or []
     return [Focus(str(f["name"]), str(f["search"]), quota(f.get("new_per_day", 5)), float(f.get("recall_below", 0.9)),
-                  int(f.get("due_limit", 60))) for f in raw]
+                  int(f.get("due_limit", 60)), starts(f.get("starts"))) for f in raw]
+
+
+def starts(raw: Any) -> date | None:
+    """YAML reads an unquoted 2026-10-31 as a date already; a quoted one is a string."""
+    return None if raw is None else raw if isinstance(raw, date) else date.fromisoformat(str(raw))
+
+
+def live(focuses: list[Focus], today: date) -> list[Focus]:
+    """The focuses that have started: one that hasn't yet builds no decks and takes no new cards from the day."""
+    return [f for f in focuses if f.starts is None or f.starts <= today]
 
 
 def reserved(focuses: list[Focus]) -> int:

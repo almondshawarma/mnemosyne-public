@@ -27,6 +27,15 @@ focus:                    # ~Focus::<name>::New and ::Due, rebuilt at 04:15 (sch
     new_per_day: all        # no cap (Aman, 2026-10-20): burn through them when there's time; not out of the total
     recall_below: 0.90
     due_limit: 60
+  # Circuits (Aman, 2026-10-27): PHYS 207's capacitor and circuit basics (L07–L09), mostly never studied, which cost
+  # him Exam II. Starts after the MEEN 221 exam (Oct 30); ahead of Plasma and Metis, so it gets its share first.
+  # Done when ::New stops building; take it out then.
+  - name: Circuits
+    search: "tag:course::phys207::l07* OR tag:course::phys207::l08* OR tag:course::phys207::l09*"
+    new_per_day: 15         # out of the day's governed total
+    recall_below: 0.90
+    due_limit: 60
+    starts: 2026-10-31
   - name: Plasma
     search: "tag:topic::plasma* OR tag:src::book::chen* OR tag:topic::nuclear::fusion*"
     new_per_day: 5          # out of the day's governed total (max_new_per_day), not on top of it

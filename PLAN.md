@@ -511,6 +511,10 @@ Held with A pointing up and the ring and pointer fingers on L/R. The final map w
   - The writer attaches each recording (`mnemosyne/audio.py`).
   - Example-word audio waits for P5's TTS.
   - **Reviewed 2026-10-07:** all 93 approved and written with their recordings. Aman's note asked for both directions to practice transcription. Each sound already has both (symbol → sound, sound → symbol). Whole-word transcription (hear a word, write its IPA) would be a new M-Lang template, a Desktop change; it's proposed for when words have audio.
+  - **Later, sound features for IPA and languages** (Aman, 2026-10-29), the same idea as ASL's form:
+    - **Features:** PanPhon's articulatory feature vectors and PHOIBLE's inventories give each segment its features, so neighbours can find confusable sounds (ɾ/r, dental/retroflex) by distance in feature space, not by the glyph, which embedding models collapse (every IPA glyph scored 1.00 against घ).
+    - **Pronunciation:** later, a phoneme recognizer on his own recordings could check pronunciation.
+    - **Data:** contributing recordings or transcriptions to open sets (Wikimedia Commons, Tatoeba audio) is the low-effort version of giving back.
 - **IPA in every language's cards** (canon 23, Aman 2026-10-07):
   - Broad transcription in slashes in each M-Lang card's `IPA`, in one standard per language.
   - The native script stays on the front for reading.
@@ -525,6 +529,14 @@ Held with A pointing up and the ring and pointer fingers on L/R. The final map w
   - **Cards:** go to `Lang::ASL`, created on Desktop (`docs/desktop-sessions/2026-10-asl.md`). Grammar (space, classifiers, facial expression) needs a class or Deaf signers, not cards.
   - **Reviewed 2026-10-07:** all 48 approved and written with their videos. The remaining ~100 signs are fetched and staged on request.
   - **Later:** a camera checker for production (MediaPipe + an isolated-sign model) is possible as its own tailnet page. It's parked.
+  - **Later, form as well as meaning** (Aman, 2026-10-29; `docs/embeddings.md`): an M-Sign card is embedded from its gloss alone, so the video adds nothing to search or dedupe.
+    - ASL-LEX 2.0 codes each sign's form: handshape, selected fingers, flexion, location, movement, and iconicity. `data/asl.yaml` already matches each sign by its ASL-LEX/Signbank id.
+    - Adding a "form" line to each sign's embedding text needs no Desktop change. It would let neighbours find look-alike signs (minimal pairs that differ in one parameter: ASL's version of the ±1σ cards) and families: initialized signs, and meaning carried by location (thinking at the forehead).
+    - The tutor could then teach in families, not one sign at a time.
+  - **Later, contributing to an ASL database** (Aman and a friend in SLP grad school with an ASL minor, 2026-10-29): a passion project, not a P-phase.
+    - Where hearing learners can help without speaking for the language: tools and data infrastructure for Deaf-led projects (ASL-LEX, ASL Signbank, STEM sign glossaries), and coding or checking under a Deaf researcher.
+    - Production data itself has to come from fluent Deaf signers.
+    - The first step is an email to a lab, not building anything.
 - **On the review page**, IPA and sign cards have a player (`GET /media/preview`) for the recording or video the card will get, so the match can be checked before approving.
 
 ## 8. Fluency outside Anki

@@ -3,6 +3,13 @@
     uv run scripts/render.py scenes/phys207/gauss_flux.py            # draft: 480p15, fast, for checking
     uv run scripts/render.py scenes/phys207/gauss_flux.py --final    # 720p30, published on /watch
     uv run scripts/render.py scenes/phys207/gauss_flux.py --hq       # 720p30 as a draft: what the runner would take
+    uv run scripts/render.py scenes/phys207/gauss_flux.py --publish  # 1080p60 + title/end cards, to upload elsewhere
+
+An export (--publish) never touches /watch: it lands in media/render/.exports/<slug>/ on the Obelisk and comes back to
+exports/<slug>-1080p60.mp4 here, with exports/<slug>.txt: a title, description, credits and chapters to paste into the
+upload form. It also brings the sound kit for Resolve (scripts/cues.py): <slug>-markers.edl, a marker at every cue the
+scene made (its flares and hits, sections, captions, cards), and <slug>-tone-<name>.wav, one stem per computed tone.
+`--kit` writes the same kit for a draft, into .render/<slug>/, to check it before a long export.
 
 Run it from a Claude Code session (it uses the `obelisk` ssh alias). Scene code is model-written Python, so it runs
 only inside a throwaway container: no network, read-only root, no capabilities, capped CPU, memory, processes, and
@@ -48,6 +55,8 @@ RECORD = "python3 ~/helios/mnemosyne/scripts/helios_jobs.py"   # the Jobs page's
 HELIOS_JOBS = "/mnt/data/helios/jobs"
 TIMEOUT = 300                              # seconds for a draft; a scene that needs longer is too long for a clip
 TIMEOUT_720 = 900                          # at 720p30, the same cap scripts/render_runner.py gives a chat's clip
+TIMEOUT_PUBLISH = 3600                     # 1080p60 is 4.5x the frames' pixels, and the look runs on every one
+EXPORTS = ROOT / "exports"                 # where an export lands here: the file to upload (gitignored)
 
 
 def scene_class(path: Path) -> str:
@@ -87,7 +96,7 @@ def sandbox(job: str, scene: str, cls: str, quality: str) -> str:
     """The docker command, as one shell line for the Obelisk. The name lets a timeout kill the container itself:
     killing the docker client alone would leave it running."""
     name = f"mn-render-{Path(scene).stem.replace('_', '-')}"
-    limit = TIMEOUT_720 if quality == "final" else TIMEOUT
+    limit = {"final": TIMEOUT_720, "publish": TIMEOUT_PUBLISH}.get(quality, TIMEOUT)
     run = docker_args(name, f"$HOME/{job}/in", f"$HOME/{job}/out", scene, cls, quality, manim_timeout=limit - 30)
     line = " ".join(a if a.startswith("$HOME") else shlex.quote(a) for a in run)
     return (f"docker rm -f {name} >/dev/null 2>&1; timeout --signal=KILL {limit} {line}; rc=$?; "
@@ -125,21 +134,28 @@ def main() -> int:
     ap.add_argument("--final", action="store_true", help="720p30, published on /watch")
     ap.add_argument("--hq", action="store_true",
                     help="720p30 like --final, but kept as a draft: to time a clip against the runner's cap")
+    ap.add_argument("--publish", action="store_true",
+                    help="1080p60 with title and end cards, to post elsewhere: lands in exports/ here, not on /watch")
     ap.add_argument("--amanim", type=Path, help="a local amanim checkout to use instead of the Obelisk's")
+    ap.add_argument("--kit", action="store_true",
+                    help="write the Resolve sound kit (marker EDL, tone WAVs) for a draft too, into .render/<slug>/; "
+                         "--publish always writes it into exports/")
     args = ap.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")  # pyright: ignore[reportAttributeAccessIssue]  -- Windows consoles
     scene: Path = args.scene.resolve()
     cls = scene_class(scene)
     slug = scene.stem.replace("_", "-")
-    quality = "final" if args.final or args.hq else "draft"
+    quality = "publish" if args.publish else "final" if args.final or args.hq else "draft"
     job = f"{REMOTE}/.jobs/{slug}"
-    dest = f"{REMOTE}/{slug}" if args.final else f"{REMOTE}/.drafts/{slug}"
+    dest = (f"{REMOTE}/{slug}" if args.final else f"{REMOTE}/.exports/{slug}" if args.publish
+            else f"{REMOTE}/.drafts/{slug}")
 
     ssh(f"rm -rf ~/{job} && mkdir -p ~/{job}/in ~/{job}/out && chmod 777 ~/{job}/out")
     subprocess.run(["scp", "-q", str(scene), str(STYLE), str(JOB), *([str(BRAND)] if BRAND.exists() else []),
                     f"{HOST}:{job}/in/"], check=True)
     send_amanim(job, args.amanim)
-    kind = "published" if args.final else "720p draft" if args.hq else "draft"
+    kind = ("published" if args.final else "1080p60 export" if args.publish else "720p draft" if args.hq
+            else "draft")
     record = helios_record(slug, cls, kind)
     print(f"rendering {cls} ({quality}) on {HOST} ...", flush=True)
     # The sandbox's output goes to the Jobs page's log as it comes (tee), and comes back here too.
@@ -157,7 +173,7 @@ def main() -> int:
         f"rm -rf ~/{dest} && mkdir -p $(dirname ~/{dest}) && mv ~/{job}/out ~/{dest} && rm -rf ~/{job}")
     ssh(f"{RECORD} finish {record} ok ~/{dest}/stills", check=False)
 
-    local = ROOT / ".render" / slug
+    local = ROOT / ".render" / (f"{slug}-export" if args.publish else slug)   # an export keeps /watch's stills
     local.mkdir(parents=True, exist_ok=True)
     for old in local.glob("stills/*.png"):
         old.unlink()
@@ -169,7 +185,52 @@ def main() -> int:
         print(f"  {w}")
     for s in meta["sections"]:
         print(f"  {s['start']:6.1f}s  {s['name']:<24} {local / 'stills' / s['still']}")
+    if args.publish:
+        EXPORTS.mkdir(exist_ok=True)
+        video = EXPORTS / f"{slug}-1080p60.mp4"
+        subprocess.run(["scp", "-q", f"{HOST}:{dest}/clip.mp4", str(video)], check=True)
+        text = EXPORTS / f"{slug}.txt"
+        text.write_text(upload_text(meta), encoding="utf-8")
+        print(f"to upload: {video}\n           {text}")
+    if args.publish or args.kit:
+        # here, not at the top: render_runner.py imports docker_args from this file under the Obelisk's
+        # bare python3, which has no numpy (cues.py needs it). A top-level import stopped the queue on 10-28.
+        from cues import write_kit  # beside this script: the marker EDL and tone stems
+        folder = EXPORTS if args.publish else local
+        folder.mkdir(exist_ok=True)
+        rate = re.search(r"p(\d+)$", str(meta.get("resolution", "")))     # "1080p60": markers land on its frames
+        for f in write_kit(meta, folder, slug, int(rate.group(1)) if rate else 60):
+            print(f"for Resolve: {f}")
     return 0
+
+
+def stamp(seconds: float) -> str:
+    m, s = divmod(round(seconds), 60)
+    return f"{m}:{s:02d}"
+
+
+def upload_text(meta: dict) -> str:
+    """A title, a description and chapters to paste into an upload form, from the scene's CLIP and its sections.
+
+    YouTube shows chapters only when the first starts at 0:00, there are at least three, and each is 10 s or longer,
+    so they're included only then. The credits are the scene's own CLIP['credits']."""
+    title = str(meta.get("title") or meta.get("scene"))
+    parts = [title, "", str(meta.get("watch_for") or "").strip(), ""]
+    sections = [s for s in meta.get("sections", []) if s.get("duration", 0) > 0]
+    named = [dict(s) for s in sections]
+    if len(named) > 1 and named[0]["name"].lower() in ("autocreated", "start"):    # the title card's own section:
+        first = named.pop(0)                                                       # fold it into the first chapter
+        named[0]["start"], named[0]["duration"] = first["start"], named[0]["duration"] + first["duration"]
+    if len(named) >= 3 and all(s["duration"] >= 10 for s in named) and named[0]["start"] == 0:
+        parts += ["Chapters"] + [f"{stamp(s['start'])} {s['name']}" for s in named] + [""]
+    else:
+        parts += ["(No chapters: YouTube needs every chapter to be 10 s or longer.)", ""]
+    parts += ["Every number in this clip is computed, and checked against an independent result."]
+    credits = meta.get("credits") or []
+    if credits:
+        parts += ["", "Sources and credits"] + [f"- {c}" for c in credits]
+    parts += ["", "Made with Manim Community Edition and amanim."]
+    return "\n".join(parts) + "\n"
 
 
 if __name__ == "__main__":

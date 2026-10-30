@@ -49,6 +49,10 @@ set), and the audit's record is committed there too.
      and pipeline-written vs other. `lapsed` lists the worst ones.
    - `leeches`: the leech doctor's diagnoses this week, and how many of those cards the pipeline wrote.
    - `skipped`: what lecture generation left out, and why.
+   - `dedupe`: what the duplicate check did. It covers every card it checked, the cards it **dropped** without him
+     seeing them, and what he did with the ones it flagged. Each drop comes with the note it matched and its whole
+     card (`payload`). Reviewing the drops here is how wrong drops get caught (Aman, 2026-10-29): dedupe scores the
+     whole card, and no threshold is precise (`docs/embeddings.md`, E1).
    - `questions`, `mistakes`, `probes`: where his understanding caught. Questions answered with no card, graded
      mistakes never retried, probes he missed (a card he recalls but can't use).
    - `exams`: the next three weeks, with readiness and lectures that have no cards.
@@ -86,6 +90,8 @@ Write findings in four groups. Each finding gets a number, its evidence, and how
    - a source or course whose cards fail more than the rest;
    - leech diagnoses that cluster (`not_atomic`, `ambiguous_cue`…) on pipeline cards;
    - many cards waiting for one reason (`held_because`);
+   - dedupe drops that weren't repeats. A minimal pair (±1σ vs ±2σ, n_e→0 vs T_e→0), a limit card, and the reverse
+     of a card are all distinct facts. Count them against `dropped`; that share is dedupe's error rate this week;
    - spot-check problems.
 4. **Gaps:**
    - lectures without cards before an exam;
@@ -112,6 +118,9 @@ The levers:
   - `topics.yaml`: missing vocabulary that cards keep needing;
   - `annotations.yaml`: marks the pipeline misreads;
   - `llm.yaml`: routes and limits, with the TAMU cost said out loud.
+  - **dedupe's thresholds** (`DUPLICATE`, `FLAG` in `verify/dedupe.py`, a code change):
+    - raise `DUPLICATE` when wrong drops keep showing up;
+    - raise `FLAG` when flagged cards are nearly all approved (`flagged_outcomes`).
 - **Cards:**
   - **New cards for gaps:** write them by the canon and propose them through the checked path (`stuck.md`, step
     4: `POST /inbox` with `checks: true`, run on the Obelisk). They go through the number checks, dedupe, and the
@@ -120,6 +129,9 @@ The levers:
     (Ctrl+K). The leech doctor diagnoses each one the next morning, and he applies the fix on the Leeches tab. The
     audit never rewrites a card in Anki itself.
   - **Questions to card:** name the question ids. He cards them from the review page.
+  - **Restoring a wrong drop:** propose its `payload` again with `mnemosyne_propose_cards`, with its `source`. It
+    comes back held, with its match shown, and he approves it on the review page. List the drops you'd restore
+    together, so he decides them as one item.
 - **Code:** a small, clear fix (a prompt line, a threshold, a filter) can be made in this session with tests, once
   he approves it. Anything larger becomes a task chip (spawn a task) or a line in `PLAN.md` §11, with the phase it
   belongs to.

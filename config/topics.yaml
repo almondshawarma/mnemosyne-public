@@ -39,7 +39,7 @@ domains:
     optics: [geometric, wave]
     constants: []
   nuclear: [structure, mass-energy, decay, fission, fusion, reactor-physics, cross-sections, dosimetry, detection]
-  plasma: [fundamentals, magnetic-confinement, fusion, units]
+  plasma: [fundamentals, magnetic-confinement, fusion, units, waves, diagnostics]   # waves, diagnostics: the Faraday clip (2026-10-24)
   mechanics:               # engineering mechanics: the MEEN framing (FBDs, supports, trusses)
     statics: [equilibrium, supports, moments, trusses, frames, friction, distributed-loads, centroids]
     dynamics: []

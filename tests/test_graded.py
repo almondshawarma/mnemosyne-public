@@ -201,6 +201,42 @@ def test_a_returned_exam_end_to_end(con: sqlite3.Connection, schema: Schema, tmp
     assert {m["question"]: m["confirmed"] for m in graded.mistakes_for(con, 466)}["7"], "approving its card confirms it"
 
 
+class TaggingPaperless(ExamPaperless):
+    async def add_tag(self, doc_id: int, tag: int) -> None:
+        self.tagged.append((doc_id, tag))
+
+    async def remove_tag(self, doc_id: int, tag: int) -> None:
+        self.tagged.append((doc_id, -tag))
+
+
+def test_a_debrief_written_in_a_session_is_checked_strictly_then_lands_like_the_models(
+        con: sqlite3.Connection, schema: Schema) -> None:
+    from mnemosyne.pipeline import Rejected, debrief_written, job_attempts, record_job
+    con.execute("INSERT INTO exam (id, course, kind, title, starts_at, lectures, confirmed) VALUES "
+                "(16, 'PHYS207', 'exam', 'Exam II', '2026-10-21T10:20:00-05:00', '[3]', 1)")
+    seed_lecture_cards(con, schema)
+    record_job(con, 526, "error", 2, "the reply hit max_tokens 16000", kind="graded")
+    paperless = TaggingPaperless()
+    svc = Services(con, schema, FakeCore({}), ScriptedLLM(), BagEmbedder(), paperless, ROOT,  # type: ignore[arg-type]
+                   ROOT / ".claude" / "skills" / "mnemosyne-cards")
+    doc = Doc(526, "PHYS 207 Exam 02", frozenset({5}), 3, "2026-10-27")
+
+    bad = json.loads(reply([miss("2", "conceptual", "key_only", [error_card("x", tags=[LTAG, "type::trap"])])])
+                     .strip("`json\n"))
+    with pytest.raises(Rejected) as e:
+        asyncio.run(debrief_written(svc, doc, TAGS, bad))
+    assert "src::exam" in json.dumps(e.value.problems)
+    assert graded.work_for(con, 526) is None and paperless.tagged == [], "a rejected debrief writes nothing"
+
+    good = json.loads(reply([miss("2", "conceptual", "key_only", [error_card("An emf in a Kirchhoff loop")]),
+                             miss("1", "careless", "key_only", [], concept="circle area")]).strip("`json\n"))
+    out = asyncio.run(debrief_written(svc, doc, TAGS, good))
+    assert out.created == 1 and out.approved == 0, "held for review, like every graded card"
+    assert {m["question"] for m in graded.mistakes_for(con, 526)} == {"1", "2"}
+    assert (graded.work_for(con, 526) or {})["exam_id"] == 16
+    assert job_attempts(con, 526, "graded")[0] == "done" and (526, TAGS.done) in paperless.tagged
+    assert (526, -TAGS.error) in paperless.tagged
+
 
 def test_fresh_problems_are_kept_right_or_wrong(con: sqlite3.Connection) -> None:
     stamp = now()

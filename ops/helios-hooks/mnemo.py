@@ -62,6 +62,15 @@ def search_cards(query, limit=20):
     return _read("/learner/search?" + urllib.parse.urlencode({"q": query, "limit": int(limit)}))
 
 
+def neighbors(query="", card_id=0, k=10):
+    params = {"k": int(k)}
+    if card_id:
+        params["card_id"] = int(card_id)
+    else:
+        params["q"] = query
+    return _read("/learner/neighbors?" + urllib.parse.urlencode(params))
+
+
 def exam_status(days=60):
     return {"exams": _read(f"/learner/exams?days={int(days)}")}
 

@@ -59,8 +59,9 @@ class Compton(MnScene):
         theta = ValueTracker(np.radians(60))
         flow = ValueTracker(0.0)                 # phase of the travelling waves
 
-        electron = VGroup(Circle(radius=0.17, color=FLOW, fill_opacity=1, stroke_width=0),
-                          tex("-", size=SMALL - 4, color=GROUND)).move_to(E_AT)
+        sign = tex("-", size=SMALL - 4, color=GROUND)
+        sign.backdrop = True                     # the charge's sign is part of the icon, not text to read
+        electron = VGroup(Circle(radius=0.17, color=FLOW, fill_opacity=1, stroke_width=0), sign).move_to(E_AT)
         axis = DashedLine(E_AT + 3.1 * LEFT, E_AT + 3.3 * RIGHT, color=MUTED, stroke_width=2, dash_length=0.1)
 
         def incoming() -> VMobject:

@@ -6,8 +6,8 @@ themselves every poll and are carded after the reset, without losing a try. When
 stuck lectures", or Telegram's ⏳ nudge), card them here, on his own Claude account.
 
 1. **Find them:** `mnemosyne_stuck_documents`. Lectures are `job: paperless`. Work only the ones he asks for, or
-   all `waiting_on_gateway` lectures when he says "all". Graded work, prep material, and papers wait for the
-   pipeline: they write more than cards.
+   all `waiting_on_gateway` lectures when he says "all". Prep material and papers wait for the pipeline: they write
+   more than cards. Graded work the pipeline gave up on has its own path, below.
 2. **Read each deck:** `mnemosyne_doc_read(doc_id, pages)`, 8 pages a call, images on. His handwriting, stars, and
    questions are on the images: they lead, as the canon says ("Aman's marks and questions").
 3. **Check what he has:** `mnemosyne_search_cards` with `tag:course::<code>::lNN*` for that lecture, the topic,
@@ -36,3 +36,17 @@ stuck lectures", or Telegram's ⏳ nudge), card them here, on his own Claude acc
 7. **Tell him** in one line per lecture: how many cards, and the questions kept.
 
 A deck he's still annotating is fine to card now: send it again when he's done and only what's new gets carded.
+
+## Debriefing graded work in a session
+
+When a returned exam or homework is tagged `mnemosyne-error` (the gateway gave up, as when the reply ran past the
+`graded` route's max_tokens), debrief it here, in Claude Code on the laptop:
+
+1. Read every page (`mnemosyne_doc_read`, images on). Re-solve each question that lost points before reading his work.
+2. Write the debrief in exactly the format the pipeline asks the model for: `DEBRIEF` in `src/mnemosyne/graded.py`,
+   with this skill's canon for the cards (M-Error for conceptual and fact misses only; `src::exam` or `src::homework`,
+   the lecture's tag, `type::trap`, deck Now).
+3. `POST /graded/<doc_id>/written` with the JSON as the body and the approve token, run on the Obelisk over ssh.
+   It is checked like the model's but strictly: any problem comes back as a 422 and nothing is written. Fix and
+   send it again. Once accepted, the cards wait on the review page, the mistakes reach the tutor, the stub gets the
+   debrief, and the document is tagged done.

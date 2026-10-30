@@ -31,7 +31,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_valida
 from mnemosyne.cards import CardIn, Schema
 from mnemosyne.extract import Page
 from mnemosyne.generate.llm import LLM, Content, image, text
-from mnemosyne.generate.propose import Context, parse, uncomputable
+from mnemosyne.generate.propose import Context, parse, parse_error, uncomputable
 from mnemosyne.ledger.db import now
 from mnemosyne.schedule import exam_decks
 
@@ -319,7 +319,7 @@ async def diagnose(llm: LLM, skill_md: str, ctx: Context, work: Work, pages: lis
     try:
         debrief, problems = check(parse(raw), work, schema, ctx.anchors)
     except (ValueError, TypeError) as e:
-        debrief, problems = None, [{"problems": [f"unparseable output: {e}"]}]
+        debrief, problems = None, [{"problems": [f"unparseable output: {parse_error(e)}"]}]
     if problems:
         fix = ("Your previous reply had these problems. Reply again with the complete corrected debrief (every miss, "
                "not just the fixed ones):\n" + json.dumps(problems, ensure_ascii=False) + "\n\nPrevious reply:\n"
@@ -328,7 +328,7 @@ async def diagnose(llm: LLM, skill_md: str, ctx: Context, work: Work, pages: lis
         try:
             debrief, problems = check(parse(raw), work, schema, ctx.anchors)
         except (ValueError, TypeError) as e:
-            problems = [{"problems": [f"unparseable output after retry: {e}"]}]
+            problems = [{"problems": [f"unparseable output after retry: {parse_error(e)}"]}]
     if debrief is not None:
         for miss in debrief.misses:
             miss.cards = [c for c in miss.cards if miss.kind in CARDED and not card_problems(c, work, schema, ctx.anchors)]

@@ -2,7 +2,8 @@
 
 > **This is the public cut** of a private repo. The code, canon, skills, and docs are all here. Aman's own record
 > is not: the collection's audits and run diffs, his status and exam dates, weekly audit records, and the exam
-> skill's examples, which are built from his courses' material. Links to those go nowhere.
+> prep (the exam skill's examples and `docs/exam-prep/`), which is built from his courses' material. The design
+> docs keep their method and results without his own review numbers. Links to what's left out go nowhere.
 
 Aman's memory system: a [Helios](https://github.com/almondshawarma/homelab) module that generates, verifies, schedules, and surfaces Anki cards. Anki is only the review surface: AnkiMobile on the phone for walks, and Desktop on the ThinkPad. This repo holds everything else.
 

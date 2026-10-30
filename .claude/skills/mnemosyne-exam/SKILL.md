@@ -18,6 +18,13 @@ first. What fails, and what has no card at all, gets the most space.
 Read `mnemosyne-tutor` for how to teach to his memory (retrieval first, derivation-led, his mistakes) and
 `mnemosyne-books` for his textbooks. This skill is the exam-shaped version of both.
 
+**Iterative prep.** When he asks to build the set as lectures arrive (PHYS 221 Exam 3 was the first), keep the
+sources in `docs/exam-prep/<course>-<exam>/` with a `STATUS.md`: the iterations so far, the steps for the next one,
+open items, the build commands, and the cram sheet's Artifact URL (republish to it). Each iteration adds the new
+lectures' examples, guide sections, kernels, sheet lines, and drills, then re-maps his cards: hooks move from
+other courses' cards to this exam's own as he reviews them, and probes start once a lecture's cards are mostly
+seen. When the practice problems arrive, the set is finalized around them (§3).
+
 ## 1. The pack
 
 Start with **`mnemosyne_exam_pack(course, exam)`** (`exam` like "Exam II"; empty means the next one). It returns:

@@ -218,13 +218,14 @@ async def run(con: sqlite3.Connection, core: Core, b: Budget, today: date, apply
     governed = [d for d in b.weights if d in decks]
     m = await measure(core, b, today)
     if not apply:
-        reserved = min(new_total(b, m), focus_decks.reserved(list(b.focus)))
+        reserved = min(new_total(b, m), focus_decks.reserved(focus_decks.live(list(b.focus), today)))
         available, audio = await availability(core, governed)
         p = plan(b, m, available, audio, today, reserved)
         return {"measure": asdict(m), "available": available, "audio": audio, "plan": asdict(p),
                 "focus_new": reserved, "applied": None}
     # Focus decks first: their new cards come out of today's total, and their due cards stay off walks
-    focused = await focus_decks.sync(core, today, list(b.focus), new_total(b, m)) if b.focus else None
+    focused = (await focus_decks.sync(core, today, focus_decks.live(list(b.focus), today), new_total(b, m))
+               if b.focus else None)
     available, audio = await availability(core, governed)
     p = plan(b, m, available, audio, today, int(focused["new"]) if focused else 0)
     applied: dict[str, Any] = {"focus": focused, "walk": await walk.sync(core, today, p.walk_new), "limits": {}}

@@ -406,13 +406,13 @@ def approved_tags(con: sqlite3.Connection) -> list[list[str]]:
             con.execute("SELECT tags_json FROM card_draft WHERE status IN ('approved', 'written')")]
 
 
-def open_draft_prompts(con: sqlite3.Connection) -> dict[int, str]:
-    """Drafts not in Anki yet (waiting for Aman, or approved and not written): draft id → first field. Dedupe checks
-    new cards against these too, or two courses' lectures carded a day apart both land in the queue."""
-    out: dict[int, str] = {}
-    for r in con.execute("SELECT id, fields_json FROM card_draft WHERE status IN ('pending', 'approved')"):
-        fields: dict[str, str] = json.loads(r["fields_json"])
-        out[int(r["id"])] = next(iter(fields.values()), "")
+def open_drafts(con: sqlite3.Connection) -> dict[int, tuple[str, dict[str, str], list[str]]]:
+    """Drafts not in Anki yet (waiting for Aman, or approved and not written): draft id → (note type, fields, tags).
+    Dedupe checks new cards against these too, or two courses' lectures carded a day apart both land in the queue."""
+    out: dict[int, tuple[str, dict[str, str], list[str]]] = {}
+    for r in con.execute("SELECT id, note_type, fields_json, tags_json FROM card_draft"
+                         " WHERE status IN ('pending', 'approved')"):
+        out[int(r["id"])] = (str(r["note_type"]), json.loads(r["fields_json"]), json.loads(r["tags_json"]))
     return out
 
 

@@ -19,3 +19,9 @@ limits:
   chunk_pages: 24                         # a lecture's page images per request: the gateway allows 100k tokens a minute
   image_dpi: 110
   graded_max_px: 1568                     # graded work: each page's long edge, the most the model reads (handwriting)
+embeddings:                               # semantic neighbours and dedupe, both on whole-card text (docs/embeddings.md)
+  neighbors: true                         # the /learner/neighbors endpoint and the 04:15 index (Aman, 2026-10-29)
+  model: nomic-embed-text                 # an Ollama model on helios-ollama
+  reranker: http://reranker:8094          # helios-reranker (TEI, bge-reranker-v2-m3); remove to skip reranking
+  pool: 25
+  dedupe_model: nomic-embed-text          # dedupe's model; its thresholds (verify/dedupe.py) are calibrated for it, so a change means recalibrating (docs/embeddings.md)

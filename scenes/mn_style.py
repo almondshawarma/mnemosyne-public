@@ -12,6 +12,15 @@ brings in all of manim. They render in a sandbox on the Obelisk and play on /wat
   stills show the rest.
 - It also checks each section's last frame, which /watch shows as the section's still: nearly empty, nothing left but
   the caption, or ended on a fade-out or a camera move back. Clean up at the start of a section, never the end.
+- Motion: `self.clock()` is the scene's clock (the drawn frame's own time, so it never stalls at a play), and every
+  play is checked for freezing something that was moving: FadeIn/FadeOut pause a mobject's updaters, so it stands
+  still and then snaps. Those print as `MN-MOTION ...`, which render.json collects too. Fade moving things through a
+  tracker (amanim's `fader`).
+- Text below SMALL is reported too, scaled or not.
+- Sound: `self.cue(label, at=, kind=, strength=)` marks a moment for a sound (a flare, a hit), and `self.tone(name,
+  fn)` samples a computed pitch every frame. Sections, captions, and the cards are cued by themselves. They print as
+  `MN-CUE` / `MN-TONE` lines; job.py keeps them in render.json, and `scripts/render.py --publish` turns them into a
+  marker EDL for Resolve and one WAV stem per tone (scripts/cues.py).
 - `MnScene3D` is the same for a 3D camera. Its caption, `pin()`ned overlays, and `label()`s stay readable however the
   camera turns, and the check runs on what the camera draws (projected), not on world coordinates.
 
@@ -21,12 +30,19 @@ stays clear), because Aman learns Manim from them too.
 Tests: `uv run --with manim==0.21.0 pytest scenes/tests` (manim isn't one of mnemosyne's own dependencies).
 """
 
+import json
+import math
+import os
+import re
+import sys
 from collections.abc import Callable, Iterable, Sequence
 from itertools import combinations
 from typing import Any, TypeVar
 
 import numpy as np
 from manim import *
+from manim.animation.animation import prepare_animation
+from manim.mobject.mobject import _AnimationBuilder
 
 # ---------- colors: Aman's design tokens, when brand.py sits beside this file ----------
 # brand.py is generated from his helios_tokens.yaml (gitignored; every render copies it in). Its PALETTE names roles,
@@ -69,6 +85,10 @@ SAFE = 0.3       # text keeps this far from the frame's edge
 LABEL_Z = 5
 PIN_Z = 10
 
+# ---------- an export's cards ----------
+CARDS = os.environ.get("MN_CARDS") == "1"   # set by job.py for `scripts/render.py --publish` only
+CHANNEL = ""                                # the channel's name on the title card, once Aman picks one
+
 M = TypeVar("M", bound=Mobject)
 
 
@@ -78,8 +98,10 @@ def tex(*parts: str, size: float = BODY, color: ManimColor = INK, **kw: object) 
 
 
 def words(text: str, size: float = BODY, color: ManimColor = INK, **kw: object) -> Tex:
-    """A line of text, set by LaTeX so it matches the math beside it. Inline math goes in $...$ here."""
-    return Tex(text, font_size=size, color=color, **kw)
+    """A line of text, set by LaTeX so it matches the math beside it. Inline math goes in $...$ here. A bare % is
+    escaped: in LaTeX it starts a comment, which ate the rest of a caption ("within 1% of ...") and failed the
+    render."""
+    return Tex(re.sub(r"(?<!\\)%", r"\\%", text), font_size=size, color=color, **kw)
 
 
 def backed(m: Mobject, opacity: float = 0.88, buff: float = 0.12) -> VGroup:
@@ -92,6 +114,30 @@ def backed(m: Mobject, opacity: float = 0.88, buff: float = 0.12) -> VGroup:
 
 TEXT_TYPES = (DecimalNumber, SingleStringMathTex, Text, MarkupText)
 Box = tuple[float, float, float, float]
+
+
+def _state(m: Mobject) -> np.ndarray:
+    """Everything an updater can change that shows: every point of the family, and every opacity."""
+    fam = m.family_members_with_points()
+    if not fam:
+        return np.zeros(0)
+    parts = [f.points.ravel() for f in fam]
+    parts += [np.array([f.get_fill_opacity(), f.get_stroke_opacity()]) for f in fam if isinstance(f, VMobject)]
+    return np.concatenate(parts)
+
+
+def _leaf_animations(args: Iterable[object]) -> list[Animation]:
+    """The animations a play() will run, groups (LaggedStart, Succession) opened up and `.animate` built."""
+    out: list[Animation] = []
+    for a in args:
+        if isinstance(a, Wait) or not isinstance(a, (Animation, _AnimationBuilder)):
+            continue
+        anim = prepare_animation(a)
+        if isinstance(anim, AnimationGroup):
+            out.extend(_leaf_animations(anim.animations))
+        else:
+            out.append(anim)
+    return out
 
 
 def _texts(mobs: Iterable[Mobject]) -> list[Mobject]:
@@ -180,6 +226,57 @@ class MnScene(Scene):
         self._caption: Mobject | None = None
         self._section = "start"
         self._begin_section()
+        if CARDS:
+            self.title_card()
+
+    # -- an export's cards (MN_CARDS=1, set by job.py for `render.py --publish`): /watch's clips never get them --
+
+    def clip_info(self) -> dict[str, Any]:
+        """The scene module's CLIP block: the title, the credits."""
+        clip = getattr(sys.modules.get(type(self).__module__), "CLIP", None)
+        return clip if isinstance(clip, dict) else {}
+
+    def title_card(self) -> None:
+        """The opening card: the title (its part before a colon, large; the rest beneath), and the channel's name
+        once it has one. It fades out before the scene starts, and its section counts for no still."""
+        head, _, rest = str(self.clip_info().get("title") or type(self).__name__).partition(":")
+        main = words(head.strip(), size=TITLE + 8)
+        half = max(main.width, 3.0) / 2
+        line = Line(half * LEFT, half * RIGHT, color=ACCENT, stroke_width=3)
+        parts: list[Mobject] = [main, line]
+        if rest.strip():
+            parts.append(words(rest.strip(), size=BODY, color=MUTED))
+        if CHANNEL:
+            parts.append(words(CHANNEL, size=SMALL, color=MUTED))
+        card = self._on_screen(VGroup(*parts).arrange(DOWN, buff=0.3))
+        self.cue(head.strip(), kind="title")
+        self.play(FadeIn(card[0], shift=0.15 * UP), Create(card[1]), *(FadeIn(p) for p in card[2:]), run_time=1.2)
+        self.wait(1.8)
+        self.play(FadeOut(card), run_time=0.6)
+        self._begin_section()          # the card's own section ends empty on purpose
+
+    def end_card(self) -> None:
+        """The closing card. The scene keeps moving under a cover that fades in (a FadeOut of everything would
+        freeze it: MN-MOTION), then: every number computed, the clip's CLIP['credits'], and the tools."""
+        cover = FullScreenRectangle(fill_color=GROUND, fill_opacity=0.0, stroke_width=0)
+        cover = self._on_screen(cover).set_z_index(PIN_Z + 1)
+        rows: list[Mobject] = [words("Every number in this clip is computed,", size=BODY),
+                               words("and checked against an independent result.", size=BODY)]
+        credits = [str(c) for c in self.clip_info().get("credits") or []]
+        if credits:
+            rows.append(words("Sources and credits", size=SMALL + 4, color=ACCENT))
+            rows += [words(c, size=SMALL, color=MUTED) for c in credits]
+        rows.append(words("Made with Manim Community Edition and amanim", size=SMALL, color=MUTED))
+        card = VGroup(*rows).arrange(DOWN, buff=0.22)
+        card[2:].shift(0.25 * DOWN)
+        card = self._on_screen(card.move_to(ORIGIN)).set_z_index(PIN_Z + 2)
+        self.add(cover)
+        self.play(cover.animate.set_fill(opacity=1.0), run_time=0.8)
+        self.remove(*[m for m in self.mobjects if m is not cover          # hidden now: nothing under it is drawn,
+                      and not getattr(m, "mn_sound", False)])              # but the sound keeps sampling
+        self._caption = None
+        self.play(FadeIn(card, shift=0.1 * UP), run_time=0.8)
+        self.wait(4.5)
 
     def _begin_section(self) -> None:
         self._plays = 0
@@ -269,6 +366,7 @@ class MnScene(Scene):
     def note(self, text: str, run_time: float = 0.6) -> None:
         """Set the caption line at the bottom, replacing the last one. One caption at a time keeps the eye free."""
         new = self._on_screen(backed(words(text, size=SMALL + 4, color=MUTED)).to_edge(DOWN, buff=SAFE))
+        self.cue(text, kind="caption")                  # raw TeX: scripts/cues.py makes the marker's name plain
         if self._caption is None:
             self.play(FadeIn(new, shift=0.2 * UP), run_time=run_time)
         else:
@@ -286,6 +384,10 @@ class MnScene(Scene):
             self._caption = None
         self._clear = [c for c in self._clear if c in kept]
         self._placed = [p for p in self._placed if p in kept]
+
+    def _zoom(self) -> float:
+        """World units per screen unit: 1 unless the frame is zoomed (MnZoomScene)."""
+        return 1.0
 
     def _on_screen(self, m: M) -> M:
         """Ready `m` to be drawn in screen space. A 2D camera already draws that way; MnScene3D pins it."""
@@ -310,9 +412,13 @@ class MnScene(Scene):
         self.check_still()
         self._section = name
         self._begin_section()
+        self.cue(name, kind="credits" if CARDS and name == "credits" else "section")   # the end card's own section
         super().next_section(name, *args, **kwargs)  # pyright: ignore[reportArgumentType]
 
     def tear_down(self) -> None:
+        if CARDS:
+            self.next_section("credits")   # checks the scene's last section first, then the card's
+            self.end_card()
         self.check_layout()
         self.check_still()
         super().tear_down()
@@ -320,8 +426,10 @@ class MnScene(Scene):
     # -- the still: each section's last frame is what /watch shows for it --
 
     def play(self, *args: Any, **kwargs: Any) -> None:
+        frozen = self.frozen_candidates(args)
         before = self._ink_last
         super().play(*args, **kwargs)
+        self.report_frozen(frozen)
         moves = [a for a in args if not isinstance(a, Wait)]
         if moves:   # a wait doesn't change what kind of ending this is
             self._last_kind = "fade-out" if all(isinstance(a, FadeOut) for a in moves) else "other"
@@ -331,6 +439,98 @@ class MnScene(Scene):
             self._plays += 1
             self._ink_last = ink
             self._ink_peak = max(self._ink_peak, ink)
+
+    # -- motion: one clock, and an animation pauses the updaters of what it animates --
+
+    def clock(self) -> ValueTracker:
+        """The scene's clock, added to the scene: its value is the time of the frame being drawn. Drive everything
+        that moves physically from it (positions, phases, pulses).
+
+        Not the usual `tracker.add_updater(lambda m, dt: m.increment_value(dt))`: Manim steps each play through
+        t = 0, 1/fps, ..., so every play's first frame comes with dt = 0. A dt clock then repeats a frame at every
+        play, wait and caption, and loses 1/fps of physics each time (study mode saw it as a dip in the motion curve
+        at each one, in the second Faraday draft). The renderer's own time counts the frames written, so this one
+        advances exactly 1/fps per frame.
+
+        The updater takes dt (and ignores it) on purpose: Manim renders a wait() as one frozen frame unless some
+        mobject has a time-based updater (Scene.should_update_mobjects), so a clock without one froze every wait
+        (the first draft of this clock did, in all four clips)."""
+        # It starts at the renderer's time, not 0: an export's title card has already run before construct(), so a
+        # scene that plans ahead from clock.get_value() (compton-light's photon timeline) would otherwise plan 3.6 s
+        # in the past, and everything driven by it would jump at the first frame.
+        c = ValueTracker(self.renderer.time)
+        c.add_updater(lambda m, dt: m.set_value(self.renderer.time))
+        self.add(c)
+        return c
+
+    # -- sound: moments and pitches for an exported video's sound, kept by job.py and used by render.py --publish --
+
+    def cue(self, label: str, at: float | None = None, kind: str = "hit", strength: float = 1.0) -> None:
+        """Mark a moment that wants a sound: a flare, a hit, a reveal. `at` is on the scene clock (the video's own
+        time, title card included; default now), so a moment computed ahead (an amanim `Flare`) can be cued when it's
+        built. `kind` picks the marker's colour in Resolve (hit, absorb, emit, move, reveal; section, caption, title
+        and credits are cued by themselves), and `strength` (an energy fraction, like a Flare's) goes in its name so
+        the sound can be sized to it."""
+        t = self.renderer.time if at is None else float(at)
+        print("MN-CUE " + json.dumps({"t": round(t, 4), "kind": kind, "label": str(label)[:160],
+                                      "strength": round(float(strength), 3)}), flush=True)
+
+    def tone(self, name: str, fn: Callable[[], float | tuple[float, float] | None], base_hz: float = 293.66,
+             voice: str = "tone") -> None:
+        """A computed pitch, sampled every frame, for a WAV stem: `fn()` returns a frequency ratio (to `base_hz`), or
+        (ratio, loudness 0-1), or None for silence. Make the ratio the physics (a photon's energy over E₀) and the
+        loudness what's on screen (how much of the packet is still in frame), so what's heard is as computed as
+        what's seen. The default base is D4 (293.66 Hz); retune it in Resolve if the bed is in another key.
+        `voice="buzz"` makes it an ambient bed instead (a faint harmonic hum and air, scripts/cues.py), for the
+        energy in the scene: give it a low base (D2, 73.42 Hz) and a loudness that follows what's held. It keeps
+        sounding under the end card."""
+        print("MN-TONE-TRACK " + json.dumps({"name": str(name)[:40], "base_hz": float(base_hz), "voice": voice}),
+              flush=True)
+
+        def sample(m: Mobject, dt: float) -> None:
+            v = fn()
+            ratio, amp = (None, 0.0) if v is None else (v if isinstance(v, tuple) else (v, 1.0))
+            if ratio is not None and not (math.isfinite(ratio) and ratio > 0):
+                ratio, amp = None, 0.0
+            print("MN-TONE " + json.dumps([str(name)[:40], round(self.renderer.time, 4),
+                                           None if ratio is None else round(float(ratio), 6),
+                                           round(float(amp), 4)]), flush=True)
+
+        probe = Mobject()              # no points: never drawn, never checked; it's only here for its updater
+        probe.mn_sound = True          # the end card keeps it, so a bed plays on under the credits
+        probe.add_updater(sample)
+        self.add(probe)
+
+    # -- motion: an animation pauses the updaters of what it animates --
+
+    def frozen_candidates(self, args: Sequence[object]) -> list[tuple[str, Mobject, np.ndarray]]:
+        """Animations about to freeze something with updaters, each with a snapshot of it. Manim suspends the
+        updaters of an animation's mobject until it ends (Animation.begin/finish), so a moving thing brought in with
+        FadeIn stands still for the fade, then snaps to where its clock says it should be (the first Faraday clip:
+        the wave at 1.6 s, the phasors at 7.8 s, the electrons at 17 s)."""
+        out = []
+        for anim in _leaf_animations(args):
+            mob = getattr(anim, "mobject", None)
+            if mob is None or not getattr(anim, "suspend_mobject_updating", False) or isinstance(mob, ValueTracker):
+                continue
+            if any(f.updaters for f in mob.get_family()):
+                ghost = mob.copy()                  # never animated: its updaters say where the real one should be
+                ghost.update(0)
+                out.append((type(anim).__name__, ghost, _state(ghost)))
+        return out
+
+    def report_frozen(self, frozen: list[tuple[str, Mobject, np.ndarray]]) -> None:
+        """Report the frozen ones that were alive: run each one's un-animated copy forward over the play, and if its
+        updaters changed it (moved, redrew, re-lit), the real one stood still for the animation and then snapped.
+        One that would have sat still anyway froze invisibly: not reported. The fix: fade it through a tracker
+        (amanim's `fader`, `pulse(..., gain=)`, or a tracker inside the always_redraw function)."""
+        for name, ghost, before in frozen:
+            ghost.update(getattr(self, "duration", 0.0))   # dt updaters (a drift) need the play's length
+            after = _state(ghost)
+            if after.shape != before.shape or np.abs(after - before).max() > 1e-3:
+                print(f"MN-MOTION [{self._section}] {name} froze a {type(ghost).__name__} that was moving: it stood "
+                      "still for the animation, then snapped. Fade it through a tracker its updater reads (fader)",
+                      flush=True)
 
     def _ink(self) -> float | None:
         """How much of the frame just drawn isn't background: a share of pixels, 0 to 1."""
@@ -411,6 +611,11 @@ class MnScene(Scene):
             x0, x1, y0, y1 = boxes[id(t)]
             if x0 < -half_w or x1 > half_w or y0 < -half_h or y1 > half_h:
                 print(f"MN-LAYOUT [{self._section}] off the frame: {_name(t)}", flush=True)
+            size = getattr(t, "font_size", None)       # tracks scaling: a 40 scaled by 0.8 is 32
+            size = None if size is None else size / self._zoom()   # as drawn: a zoomed-in frame enlarges text
+            if size is not None and size < SMALL - 0.5:
+                print(f"MN-LAYOUT [{self._section}] text below the SMALL floor ({size:.0f} < {SMALL}): {_name(t)}",
+                      flush=True)
         for a, b in combinations(texts, 2):
             if _overlap(boxes[id(a)], boxes[id(b)]) > 0.01 and not _related(a, b):
                 print(f"MN-LAYOUT [{self._section}] text overlaps text: {_name(a)} x {_name(b)}", flush=True)
@@ -584,6 +789,9 @@ class MnZoomScene(MnScene, MovingCameraScene):
             x.set_z_index(PIN_Z)
             x.add_updater(follow)
         return m
+
+    def _zoom(self) -> float:
+        return self.camera.frame.width / config.frame_width
 
     def _on_screen(self, m: M) -> M:
         # The caption is built for the full frame; scale it to the frame as it is now, then keep it there.

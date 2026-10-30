@@ -14,6 +14,7 @@ MnScene3D and amanim's views and shapes. Every number on screen is computed from
 
 from amanim import (
     edge_on_view,
+    fader,
     flow_dots,
     line_through,
     nudge,
@@ -129,7 +130,10 @@ class FourSubspaces3D(MnScene3D):
         self.view = oblique_view(normal, show=show)
         self.set_camera_orientation(*self.view, zoom=ZOOM)
         ax, labels = self.axes(names)
-        self.inset = self.pin(triangle_graph().scale(0.8).to_corner(UL, buff=SAFE + 0.15))
+        inset = triangle_graph().scale(0.8)
+        for t in [m for m in inset.get_family() if isinstance(m, MathTex)]:
+            t.scale(1 / 0.8)                           # the drawing shrinks, its labels stay at SMALL
+        self.inset = self.pin(inset.to_corner(UL, buff=SAFE + 0.15))
         self.heading = self.pin(words(heading, size=SMALL, color=MUTED).to_corner(UR, buff=SAFE + 0.05))
         self.play(Create(ax), FadeIn(labels), FadeIn(self.inset), FadeIn(self.heading))
         return ax, labels
@@ -249,7 +253,11 @@ class FourSubspaces3D(MnScene3D):
         clock = ValueTracker(0)
         dots = self.pin(flow_dots(loop, clock, current=1.0, n=6, speed=1.2, color=C_LNUL))
         y_lab = self.pin(tex(rf"y={fmt(NAT)}", size=SMALL, color=C_LNUL).next_to(self.inset, DOWN, buff=0.2))
-        self.play(FadeIn(dots), FadeIn(y_lab), clock.animate(rate_func=linear).set_value(1), run_time=1)
+        show_dots = ValueTracker(0.0)                  # they flow while they fade in: FadeIn would freeze them
+        dots.add_updater(fader(dots, show_dots.get_value))
+        self.add(dots)
+        self.play(show_dots.animate.set_value(1.0), FadeIn(y_lab), clock.animate(rate_func=linear).set_value(1),
+                  run_time=1)
         self.note(r"$N(A^T)$: currents with $A^Ty=0$. Nothing piles up at a node: KCL.")
         self.play(clock.animate.set_value(3.5), rate_func=linear, run_time=2.5)
 

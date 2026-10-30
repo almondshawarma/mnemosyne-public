@@ -1,9 +1,12 @@
 """MnScene3D keeps a real 3D camera, and the layout check runs on what the camera draws, not on world coordinates."""
 
+import json
+
 import numpy as np
 import pytest
 from manim import (
     DEGREES,
+    DOWN,
     OUT,
     RIGHT,
     UP,
@@ -12,14 +15,18 @@ from manim import (
     DecimalNumber,
     FadeIn,
     FadeOut,
+    LaggedStart,
     Line,
+    Mobject,
     MovingCameraScene,
     Square,
+    Tex,
     Text,
     ThreeDCamera,
     ThreeDScene,
     ValueTracker,
     VGroup,
+    tempconfig,
 )
 from mn_style import MnScene, MnScene3D, words
 
@@ -144,6 +151,235 @@ def test_a_zoomed_frame_puts_text_off_it(capsys: pytest.CaptureFixture[str]) -> 
 
 def still_lines(capsys: pytest.CaptureFixture[str]) -> list[str]:
     return [ln for ln in layout_lines(capsys) if "clean up at the start" in ln]
+
+
+def test_the_scene_clock_steps_one_frame_per_frame_across_plays() -> None:
+    # a dt clock stalls for a frame at every play (Manim's first frame of a play has dt = 0); self.clock() doesn't
+    seen: dict[str, list[float]] = {"dt": [], "scene": []}
+
+    class S(MnScene):
+        def construct(self) -> None:
+            old = ValueTracker(0.0).add_updater(lambda m, dt: m.increment_value(dt))
+            self.add(old)
+            new = self.clock()
+            probe = Square().add_updater(lambda m: (seen["dt"].append(old.get_value()),
+                                                    seen["scene"].append(new.get_value())))
+            self.add(probe)
+            for _ in range(3):
+                self.play(FadeIn(Circle()), run_time=0.5)
+                self.wait(0.5)
+
+    with tempconfig({"dry_run": False, "write_to_movie": False, "frame_rate": 10}):
+        S().render()
+    steps_dt, steps_scene = np.diff(seen["dt"]), np.diff(seen["scene"])
+    assert np.isclose(steps_dt, 0).sum() >= 5                        # the stall this replaces, at each play
+    moving = steps_scene[steps_scene > 1e-9]
+    assert np.allclose(moving, 0.1) and (steps_scene > 1e-9).sum() >= 0.9 * 30
+
+
+def test_things_on_the_scene_clock_keep_moving_through_a_wait() -> None:
+    # with no dt updater anywhere, Manim renders a wait as one frozen frame; the scene clock must not allow that
+    seen: list[float] = []
+
+    class S(MnScene):
+        def construct(self) -> None:
+            clock = self.clock()
+            dot = Circle(radius=0.2).add_updater(lambda m: m.move_to((clock.get_value(), 0, 0)))
+            dot.add_updater(lambda m: seen.append(m.get_center()[0]))
+            self.add(dot)
+            self.wait(1.0)
+
+    with tempconfig({"dry_run": False, "write_to_movie": False, "frame_rate": 10}):
+        S().render()
+    steps = np.diff(seen)
+    assert len(seen) >= 9 and np.allclose(steps[steps > 1e-9], 0.1) and (steps > 1e-9).sum() >= 8
+
+
+def test_text_below_the_floor_is_caught(capsys: pytest.CaptureFixture[str]) -> None:
+    class S(MnScene):
+        def construct(self) -> None:
+            self.add(words("fine", size=32).shift(2 * UP), words("too small", size=26),
+                     words("scaled down", size=40).scale(0.6).shift(2 * DOWN), words("scaled ok", size=40)
+                     .scale(0.8).shift(3 * RIGHT))
+
+    S().render()
+    lines = [ln for ln in layout_lines(capsys) if "SMALL floor" in ln]
+    assert len(lines) == 2 and any("too small" in ln for ln in lines) and any("scaled down" in ln for ln in lines)
+
+
+def test_a_zoomed_scene_judges_text_size_as_drawn(capsys: pytest.CaptureFixture[str]) -> None:
+    # the caption is scaled down with the frame so it stays the same size on screen: not below the floor
+    from mn_style import MnZoomScene
+
+    class S(MnZoomScene):
+        def construct(self) -> None:
+            self.add(Square(side_length=0.5))
+            self.play(self.camera.frame.animate.scale(0.4))
+            self.note("a caption in a zoomed frame")
+
+    S().render()
+    assert [ln for ln in layout_lines(capsys) if "SMALL floor" in ln] == []
+
+
+CLIP = {"title": "A test clip: with a subtitle", "credits": ["A. Author, A Book (2026), ch. 1"]}
+
+
+@pytest.mark.parametrize("base", ["2d", "3d"])
+def test_an_export_opens_with_the_title_and_closes_with_the_credits(
+        capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch, base: str) -> None:
+    import mn_style
+
+    monkeypatch.setattr(mn_style, "CARDS", True)
+    seen: dict[str, list[str]] = {}
+
+    class S(MnScene if base == "2d" else MnScene3D):
+        def construct(self) -> None:
+            seen["at start"] = [t.tex_string for t in self.mobjects if isinstance(t, Tex)]
+            self.next_section("the content")
+            clock = self.clock()
+            self.add(Square(side_length=3, fill_opacity=1).add_updater(lambda m: m.move_to((clock.get_value(), 0, 0))))
+            self.wait(0.5)
+
+        def tear_down(self) -> None:
+            super().tear_down()
+            seen["at end"] = [t.tex_string for top in self.mobjects for t in top.get_family() if isinstance(t, Tex)]
+
+    S().render()
+    assert seen["at start"] == []                                  # the title card has come and gone
+    assert any("computed" in s for s in seen["at end"])
+    assert any("A. Author" in s for s in seen["at end"])           # the scene module's CLIP credits
+    out = capsys.readouterr().out.splitlines()
+    assert [ln for ln in out if ln.startswith(("MN-LAYOUT", "MN-MOTION"))] == []
+    kinds = [json.loads(ln.split(" ", 1)[1])["kind"] for ln in out if ln.startswith("MN-CUE ")]
+    assert kinds[0] == "title" and kinds.count("credits") == 1 and "section" in kinds   # the cards cue themselves
+
+
+def test_a_sound_bed_keeps_sampling_under_the_end_card(capsys: pytest.CaptureFixture[str],
+                                                      monkeypatch: pytest.MonkeyPatch) -> None:
+    import mn_style
+
+    monkeypatch.setattr(mn_style, "CARDS", True)
+
+    class S(MnScene):
+        def construct(self) -> None:
+            self.tone("ambience", lambda: (1.0, 0.4), base_hz=73.42, voice="buzz")
+            self.wait(0.3)
+
+    S().render()
+    out = capsys.readouterr().out.splitlines()
+    credits = next(json.loads(ln.split(" ", 1)[1])["t"] for ln in out
+                   if ln.startswith("MN-CUE ") and '"credits"' in ln)
+    last = max(json.loads(ln.split(" ", 1)[1])[1] for ln in out if ln.startswith("MN-TONE "))
+    assert last > credits + 4.0                                     # through the card's 6 s, not cut at its cover
+    assert any('"voice": "buzz"' in ln for ln in out if ln.startswith("MN-TONE-TRACK"))
+
+
+def test_the_clock_starts_at_the_video_time_after_a_title_card(monkeypatch: pytest.MonkeyPatch) -> None:
+    # compton-light plans its photon from clock.get_value() in construct(); after the export's title card a clock
+    # that started at 0 put the plan 3.6 s in the past, and the photon jumped
+    import mn_style
+
+    monkeypatch.setattr(mn_style, "CARDS", True)
+    seen: dict[str, float] = {}
+
+    class S(MnScene):
+        def construct(self) -> None:
+            seen["clock"] = self.clock().get_value()
+            seen["renderer"] = self.renderer.time
+            self.wait(0.2)
+
+    S().render()
+    assert seen["renderer"] > 3.0                                   # the title card ran first
+    assert seen["clock"] == pytest.approx(seen["renderer"])
+
+
+def test_cues_and_tones_print_on_the_scene_clock(capsys: pytest.CaptureFixture[str]) -> None:
+    class S(MnScene):
+        def construct(self) -> None:
+            clock = self.clock()
+            self.cue("absorb", at=1.25, kind="absorb", strength=0.6)
+            self.tone("photon", lambda: None if clock.get_value() < 0.5 else (2 / 3, 0.8))
+            self.wait(1.0)
+            self.note(r"A photon ($\lambda_0$) arrives.")
+            self.wait(0.2)
+
+    S().render()
+    out = capsys.readouterr().out.splitlines()
+    cues = [json.loads(ln.split(" ", 1)[1]) for ln in out if ln.startswith("MN-CUE ")]
+    assert {"t": 1.25, "kind": "absorb", "label": "absorb", "strength": 0.6} in cues
+    caption = next(c for c in cues if c["kind"] == "caption")
+    assert caption["label"] == r"A photon ($\lambda_0$) arrives." and caption["t"] == pytest.approx(1.0, abs=0.1)
+    tones = [json.loads(ln.split(" ", 1)[1]) for ln in out if ln.startswith("MN-TONE ")]
+    times = [t for _, t, _, _ in tones]
+    assert times == sorted(times) and times[-1] > 1.0              # sampled every frame, through the wait and caption
+    assert all(r is None for _, t, r, _ in tones if t < 0.45)
+    assert all(r == pytest.approx(2 / 3) and a == 0.8 for _, t, r, a in tones if t > 0.55)
+
+
+def test_watch_clips_get_no_cards() -> None:
+    seen: list[list[Mobject]] = []
+
+    class S(MnScene):
+        def construct(self) -> None:
+            seen.append(list(self.mobjects))                # nothing before the scene's own content
+            self.next_section("only this")
+            self.add(Square(side_length=3, fill_opacity=1))
+            self.wait(0.2)
+
+        def tear_down(self) -> None:
+            super().tear_down()
+            seen.append([f for top in self.mobjects for f in top.get_family()])
+
+    S().render()
+    assert seen[0] == [] and not any(isinstance(f, Tex) for f in seen[1]) and len(seen[1]) > 0
+
+
+def test_a_percent_in_words_is_text_not_a_latex_comment() -> None:
+    assert words("within 1% of the centre").tex_string == r"within 1\% of the centre"
+    assert words(r"already 1\% escaped").tex_string == r"already 1\% escaped"
+
+
+def motion_lines(capsys: pytest.CaptureFixture[str]) -> list[str]:
+    return [ln for ln in capsys.readouterr().out.splitlines() if ln.startswith("MN-MOTION")]
+
+
+def test_fading_in_something_with_updaters_is_caught(capsys: pytest.CaptureFixture[str]) -> None:
+    class S(MnScene):
+        def construct(self) -> None:
+            clock = ValueTracker(0.0).add_updater(lambda m, dt: m.increment_value(dt))
+            self.add(clock)
+            dot = Circle(radius=0.2).add_updater(lambda m: m.move_to((clock.get_value(), 0, 0)))
+            self.play(LaggedStart(FadeIn(Square()), FadeIn(dot)))       # inside a group counts too
+
+    S().render()
+    assert len(motion_lines(capsys)) == 1
+
+
+def test_fading_in_a_live_thing_that_happens_to_be_still_is_fine(capsys: pytest.CaptureFixture[str]) -> None:
+    # a label that follows a dot by an updater, while nothing moves: frozen, but invisibly; don't cry wolf
+    class S(MnScene):
+        def construct(self) -> None:
+            dot = Circle(radius=0.2)
+            label = words("here").add_updater(lambda m: m.next_to(dot, UP))
+            self.add(dot)
+            self.play(FadeIn(label))
+
+    S().render()
+    assert motion_lines(capsys) == []
+
+
+def test_animating_trackers_and_still_things_is_fine(capsys: pytest.CaptureFixture[str]) -> None:
+    class S(MnScene):
+        def construct(self) -> None:
+            clock, appear = ValueTracker(0.0).add_updater(lambda m, dt: m.increment_value(dt)), ValueTracker(0.0)
+            self.add(clock)
+            dot = Circle(radius=0.2).add_updater(lambda m: m.set_stroke(opacity=appear.get_value()))
+            self.add(dot)
+            self.play(appear.animate.set_value(1.0), FadeIn(Square()))   # the fix: fade the tracker
+            self.play(clock.animate.set_value(3.0))                       # a tracker with a dt updater: its own call
+
+    S().render()
+    assert motion_lines(capsys) == []
 
 
 def test_a_section_that_ends_on_a_fade_out_is_caught(capsys: pytest.CaptureFixture[str]) -> None:

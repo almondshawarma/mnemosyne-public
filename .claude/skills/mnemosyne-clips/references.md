@@ -22,6 +22,12 @@ from it so far is the taste guide, `TASTE.md` in the amanim repo.
   - A navy-to-black gradient that fades the field out where the equations sit.
   - Quick cuts through cases in the hook (1.6 s each), then one long explaining shot.
 
+- **FloatHeadPhysics** ([YouTube](https://www.youtube.com/@FloatHeadPhysics)): *I finally understand the Pauli
+  exclusion principle!* (`S5TCzvfJntA`). Studied 2026-10-25 (taste guide 20–28).
+  - Manim-looking diagrams on a navy-to-violet backdrop, with glass line icons.
+  - One apparatus carried for half an hour, and a case table whose input changes.
+  - Zooms and the presenter card keyframed in an editor.
+
 ## His subjects, visualized
 
 - **3Blue1Brown**:

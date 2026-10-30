@@ -6,7 +6,7 @@ branch's direction when the current is negative, all driven by one ValueTracker 
 play. The circuit is mesh-matrix's, so the numbers can be checked against that clip.
 """
 
-from amanim import branch_currents, cell, flow_dots, resistor, wire
+from amanim import branch_currents, cell, fader, flow_dots, resistor, wire
 from mn_style import *
 
 CLIP = {
@@ -51,7 +51,7 @@ class Circuit(MnScene):
         self.next_section("the currents")
         # Each path runs bottom -> top along its branch, the edge's own direction, so flow_dots' sign is I's sign.
         paths = [wire(BM, BL, TL, TM), wire(BM, TM), wire(BM, BR, TR, TM)]
-        clock = ValueTracker(0)
+        clock = self.clock()          # current flows on the scene clock: it doesn't stop while a caption fades in
         flows = [flow_dots(p, clock, current=i, color=FLOW) for p, i in zip(paths, I, strict=True)]
         algebra = arrange_rows([
             tex(r"A^TCA\,x=A^TCb"),
@@ -59,7 +59,11 @@ class Circuit(MnScene):
             tex(r"I_{\text{mid}}=", amps(I[1]), r"\ \downarrow" if I[1] < 0 else r"\ \uparrow", color=FLOW),
             tex(r"I_{\text{right}}=", amps(I[2]), r"\ \uparrow", color=FLOW),
         ]).move_to(3.6 * RIGHT + 0.2 * UP)
-        self.play(*(FadeIn(f) for f in flows), FadeIn(algebra),
-                  clock.animate(rate_func=linear).set_value(1.5), run_time=1.5)
+        # The dots flow while they fade in: FadeIn would pause their updaters, then they'd jump (MN-MOTION).
+        show = ValueTracker(0.0)
+        for f in flows:
+            f.add_updater(fader(f, show.get_value))
+        self.add(*flows)
+        self.play(show.animate.set_value(1.0), FadeIn(algebra), run_time=1.5)
         self.note(rf"KCL at the top: ${amps(I[0])}+{amps(I[2])}$ in, ${amps(I[1])}$ down the middle.")
-        self.play(clock.animate.set_value(5), rate_func=linear, run_time=3.5)
+        self.wait(3.5)

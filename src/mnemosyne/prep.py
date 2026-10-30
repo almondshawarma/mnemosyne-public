@@ -33,7 +33,7 @@ from mnemosyne import graded
 from mnemosyne.anki.core_client import Core, reads
 from mnemosyne.extract import Page, pages, parse_title
 from mnemosyne.generate.llm import LLM, Content, image, text
-from mnemosyne.generate.propose import Context, parse
+from mnemosyne.generate.propose import Context, parse, parse_error
 from mnemosyne.learner import count, lecture_query, probes
 from mnemosyne.ledger.db import now
 
@@ -214,7 +214,7 @@ async def read(llm: LLM, ctx: Context, doc: Doc, page_list: list[Page]) -> Mater
     try:
         found, problems = check(parse(raw), doc.kind)
     except (ValueError, TypeError) as e:
-        found, problems = None, [f"unparseable output: {e}"]
+        found, problems = None, [f"unparseable output: {parse_error(e)}"]
     if problems:
         fix = ("Your previous reply had these problems. Reply again with the complete corrected JSON:\n"
                + json.dumps(problems, ensure_ascii=False) + "\n\nPrevious reply:\n" + raw[:60000])
@@ -222,7 +222,7 @@ async def read(llm: LLM, ctx: Context, doc: Doc, page_list: list[Page]) -> Mater
         try:
             found, problems = check(parse(raw), doc.kind)
         except (ValueError, TypeError) as e:
-            found, problems = None, [f"unparseable output after retry: {e}"]
+            found, problems = None, [f"unparseable output after retry: {parse_error(e)}"]
     if found is None or problems:
         raise ValueError(f"prep material unreadable: {problems[:3]}")
     return found

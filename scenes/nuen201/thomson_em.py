@@ -138,6 +138,7 @@ class ThomsonEM(MnScene):
         crosses = VGroup(*[tex(r"\otimes", size=SMALL - 4, color=MUTED).move_to([x, y, 0])
                            for x in np.linspace(X_IN + 0.35, X_IN + ELL - 0.35, 5)
                            for y in (Y0 + 0.45, Y0 - 0.45)])
+        crosses.backdrop = True                  # field markers: symbols filling a region, not text to read
         b_label = tex(r"\vec B", size=SMALL, color=MUTED).next_to(bottom, RIGHT, buff=0.2)   # clear of the ell line
         self.play(FadeOut(path), FadeOut(dot), FadeOut(vx), FadeOut(vx_lbl), FadeOut(vy), FadeOut(vy_lbl),
                   FadeOut(theta), FadeOut(theta_lbl),
@@ -147,7 +148,7 @@ class ThomsonEM(MnScene):
 
         speeds = [(0.6 * V0, r"v_x < E/B", WARM), (V0, r"v_x = E/B", GOOD), (1.7 * V0, r"v_x > E/B", FLOW)]
         paths = [path_mob(beam(v, with_b=True), c, 4) for v, _, c in speeds]
-        tags = VGroup(*[tex(t, size=SMALL - 2, color=c).next_to(p.get_end(), RIGHT, buff=0.15)
+        tags = VGroup(*[tex(t, size=SMALL, color=c).next_to(p.get_end(), RIGHT, buff=0.15)
                         for p, (_, t, c) in zip(paths, speeds, strict=True)])
         self.play(*[Create(p) for p in paths], run_time=2.5, rate_func=linear)
         self.play(FadeIn(tags))

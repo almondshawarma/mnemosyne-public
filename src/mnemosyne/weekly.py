@@ -159,6 +159,33 @@ def leeches(con: sqlite3.Connection, lo: str, hi: str) -> dict[str, Any]:
             "pipeline_cards": sum(1 for c in cases if c["pipeline_card"]), "cases": cases[:SHOW]}
 
 
+def deduped(con: sqlite3.Connection, lo: str, hi: str) -> dict[str, Any]:
+    """What dedupe did this week (dedupe_match, since 2026-10-29): every card it checked, the cards it dropped as
+    duplicates (each with the note it matched and its whole payload, so a wrong drop can be proposed again), and what
+    Aman did with the cards it flagged. The drops are reviewed here instead of one by one as they happen."""
+    rows = con.execute("SELECT m.*, d.status AS draft_status, d.decision_note FROM dedupe_match m"
+                       " LEFT JOIN card_draft d ON d.content_hash = m.content_hash"
+                       " WHERE m.created_at >= ? AND m.created_at < ? ORDER BY m.score DESC", (lo, hi)).fetchall()
+    drops: list[dict[str, Any]] = []
+    for r in rows:
+        if not r["dropped"]:
+            continue
+        payload: dict[str, Any] = json.loads(r["card_json"] or "{}")
+        card: dict[str, Any] = payload.get("card") or {}
+        fields: dict[str, str] = card.get("fields") or {}
+        drops.append({"score": r["score"], "card": plain(next(iter(fields.values()), ""), 200),
+                      "answer": plain((list(fields.values()) + ["", ""])[1], 200), "matched_note": r["note_id"],
+                      "matched": plain(r["matched"] or "", 200), "origin": r["origin"],
+                      "source": payload.get("source"), "payload": card})
+    flagged = [r for r in rows if r["kind"] == "flag" and r["draft_status"] is not None]
+    return {"checked": len(rows), "by_kind": dict(Counter(str(r["kind"]) for r in rows)), "dropped": len(drops),
+            "drops": drops[:SHOW],
+            "flagged_outcomes": dict(Counter(str(r["draft_status"]) for r in flagged)),
+            "flagged_rejected": [{"score": r["score"], "note": r["decision_note"] or "",
+                                  "matched": plain(r["matched"] or "", 160)}
+                                 for r in flagged if r["draft_status"] in ("rejected", "merged")][:SHOW]}
+
+
 def skipped(con: sqlite3.Connection, lo: str, hi: str) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     for r in con.execute("SELECT b.skipped_json, s.course, s.ref FROM card_batch b JOIN card_source s"
@@ -221,7 +248,9 @@ async def week(core: Core | None, con: sqlite3.Connection, tz: str, last: date, 
                        "straight in. fail_share = share of cards first studied this window that he has rated Again "
                        "at least once. A leech's pipeline_card means the pipeline wrote it. upkeep = his minutes "
                        "deciding cards, maps, and leeches. clips = opens of animated clips on /watch, by where "
-                       "they were opened from (a card's link, the page, a session).",
+                       "they were opened from (a card's link, the page, a session). dedupe.drops = cards dropped as "
+                       "duplicates without Aman seeing them: check each against its match; restore a wrong one by "
+                       "proposing its payload again.",
         "load": {"days_studied": sum(m > 0 for m in minutes), "minutes": round(sum(minutes)),
                  "budget_minutes_a_day": budget_minutes, "reviews": sum(int(r["reviews"]) for r in load),
                  "days_within_15pct": sum(abs(m - budget_minutes) <= 0.15 * budget_minutes for m in minutes),
@@ -233,6 +262,7 @@ async def week(core: Core | None, con: sqlite3.Connection, tz: str, last: date, 
         "said": said(con, lo, hi),
         "leeches": leeches(con, lo, hi),
         "skipped": skipped(con, lo, hi),
+        "dedupe": deduped(con, lo, hi),
         "questions": asked(con, first, lo, hi),
         "mistakes": mistakes(con, lo, hi),
         "probes": probe_rows(con, None, lo)[:SHOW],

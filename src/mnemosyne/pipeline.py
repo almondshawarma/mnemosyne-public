@@ -17,7 +17,7 @@ import httpx
 import structlog
 import yaml
 
-from mnemosyne import graded, merge, papers, prep
+from mnemosyne import graded, merge, neighbors, papers, prep
 from mnemosyne import questions as qstore
 from mnemosyne.anki.core_client import AnkiCoreError, Core
 from mnemosyne.cards import CardIn, Payload, Schema, Source, content_hash, payload_hash
@@ -326,26 +326,29 @@ async def check_and_propose(svc: Services, payload: Payload, origin: str, kind: 
     anchors = svc.repo / "data" / "anchors.yaml"
     verdicts = {content_hash(c): verify_card(c.note_type, c.tags, [ch.model_dump() for ch in c.checks], anchors)
                 for c in cards}
-    notes = await dedupe.existing_notes(svc.core)
+    notes = await dedupe.existing_notes(svc.core, svc.con)
     # Drafts waiting for review count too, under negative ids so they never collide with Anki note ids.
-    notes |= {-did: dedupe.normalize(text) for did, text in store.open_draft_prompts(svc.con).items()}
-    first_fields = [next(iter(c.fields.values()), "") for c in cards]
+    notes |= {-did: neighbors.note_text(t, f, tags) for did, (t, f, tags) in store.open_drafts(svc.con).items()}
+    texts = [dedupe.card_text(c) for c in cards]
+    model = dedupe.model_of(svc.embedder) or "unknown"
     try:
         ids, matrix = await dedupe.index(svc.con, notes, svc.embedder)
-        found = await dedupe.classify(first_fields, ids, matrix, notes, svc.embedder)
+        found = await dedupe.classify(texts, ids, matrix, notes, svc.embedder)
     except (httpx.HTTPError, OSError) as e:
         # Ollama down (2026-10-02: a GPU driver update left it unable to start until a reboot): don't lose the
         # cards, hold them with the reason shown.
         log.warning("dedupe_unavailable", error=str(e)[:200])
-        found = dedupe.exact(first_fields, notes)
+        found, model = dedupe.exact(texts, notes), "exact"
     matches = dict(zip((content_hash(c) for c in cards), found, strict=True))
     # Which Anki note each duplicate or flagged card matched, and whether it's the more fundamental framing of it
     # (canon 22): then it isn't dropped but held as a merge-up, so the note can take its wording.
     into = await merge.targets(svc.core, merge.Foundations.load(svc.config), [(c, matches[content_hash(c)]) for c in cards])
     up = {h for h, (_nid, u) in into.items() if u}
     # Held cards keep their suspected duplicates: Aman sees the match and decides (embeddings misfire, e.g. the
-    # field on a ring's axis against the potential on it). Otherwise duplicates are dropped.
+    # field on a ring's axis against the potential on it). Otherwise duplicates are dropped, and recorded with the
+    # whole card so the weekly audit can restore any that weren't repeats (Aman, 2026-10-29).
     kept = cards if hold else [c for c in cards if matches[content_hash(c)].kind != "duplicate" or content_hash(c) in up]
+    record_matches(svc.con, payload, origin, matches, {content_hash(c) for c in kept}, model)
     approval = svc.yaml("approval.yaml")
 
     def decide(_i: int, card: CardIn) -> Verdict:
@@ -379,6 +382,20 @@ async def check_and_propose(svc: Services, payload: Payload, origin: str, kind: 
                     key = reason.split(":")[0].split(" (")[0]
                     out.reasons[key] = out.reasons.get(key, 0) + 1
     return out
+
+
+def record_matches(con: sqlite3.Connection, payload: Payload, origin: str, matches: dict[str, dedupe.Match],
+                   kept: set[str], model: str) -> None:
+    """Every card dedupe checked, with its nearest note and score (dedupe_match); a dropped card keeps its payload."""
+    source = payload.source.model_dump()
+    rows = [(h, origin, m.kind, round(m.score, 4), m.note_id, m.text[:300], int(h not in kept),
+             json.dumps({"source": source, "card": c.model_dump()}, ensure_ascii=False) if h not in kept else None,
+             model, dedupe.REPR, now())
+            for c in payload.cards if (m := matches.get(h := content_hash(c))) is not None]
+    con.execute("BEGIN IMMEDIATE")
+    con.executemany("INSERT OR REPLACE INTO dedupe_match (content_hash, origin, kind, score, note_id, matched, dropped,"
+                    " card_json, model, repr, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", rows)
+    con.execute("COMMIT")
 
 
 async def propose_checked(svc: Services, payload: Payload, origin: str) -> dict[str, object]:
@@ -734,21 +751,7 @@ NOT_RETURNED = re.compile(r"\b(practice|review|key|solutions?|mock)\b", re.IGNOR
 async def debrief(svc: Services, doc: Doc, t: Tags) -> Outcome:
     """Diagnose every point lost, card the misses a card can fix (held for review), keep the mistakes for the tutor,
     and write the debrief into the document's stub."""
-    course = course_for(doc, t.courses, None)
-    if course is None:
-        raise PipelineError(f"can't tell the course of {doc.title!r}")
-    ref = graded.work_ref(doc.title)
-    kind, number = ref if ref else ("homework" if doc.document_type == t.assignment_type else "exam", None)
-    exam = graded.match_exam(svc.con, course, number, doc.added) if kind == "exam" else None
-    lectures: list[int] = sorted(json.loads(exam["lectures"])) if exam and exam.get("lectures") else []
-    existing: dict[str, Any] = {"items": []}
-    if lectures:
-        existing = await svc.core.call("anki_notes_search", {
-            "query": " OR ".join(f"tag:course::{course.lower()}::l{n:02d}*" for n in lectures), "limit": 100})
-    work = graded.Work(doc.id, course, kind, number, doc.title, svc.paperless.link(doc.id), exam,
-                       tuple(graded.lecture_tags(svc.con, course)),
-                       tuple(dedupe.normalize(str(i["first_field"])) for i in existing.get("items", [])),
-                       tuple(await svc.paperless.notes(doc.id)))
+    work = await graded_work(svc, doc, t)
     limits = svc.yaml("llm.yaml").get("limits", {})
     # The grading is handwriting, so the pages go as large as the model reads them (scans come in as huge pages)
     page_list = pages(await svc.paperless.download(doc.id), int(limits.get("max_pages", 60)), 300,
@@ -760,30 +763,84 @@ async def debrief(svc: Services, doc: Doc, t: Tags) -> Outcome:
         raise PipelineError(f"no debrief: {problems[:3]}")
     if problems:
         log.warning("debrief_problems", doc=doc.id, problems=problems[:5])
+    return await land_debrief(svc, work, found, len(problems))
+
+
+class Rejected(PipelineError):
+    """A debrief written in a session that breaks the checks: nothing is written, and the problems go back."""
+
+    def __init__(self, problems: list[dict[str, Any]]) -> None:
+        super().__init__(f"{len(problems)} problems")
+        self.problems = problems
+
+
+async def debrief_written(svc: Services, doc: Doc, t: Tags, written: dict[str, Any]) -> Outcome:
+    """A debrief written in a Claude session, for work the pipeline couldn't debrief (the gateway's allowance ran out,
+    or the reply ran past max_tokens). It is checked exactly like the model's, but strictly: any problem rejects the
+    whole debrief, since the session can fix it and send it again. Then it lands the same way, and the job is done."""
+    work = await graded_work(svc, doc, t)
+    anchors = Context.load(svc.config, svc.repo / "data" / "anchors.yaml").anchors
+    found, problems = graded.check(written, work, svc.schema, anchors)
+    if found is None or problems:
+        raise Rejected(problems)
+    out = await land_debrief(svc, work, found, 0)
+    await finish_graded(svc, doc, t, job_attempts(svc.con, doc.id, "graded")[1])
+    log.info("graded_written", doc=doc.id, title=doc.title, misses=len(found.misses))
+    return out
+
+
+async def graded_work(svc: Services, doc: Doc, t: Tags) -> graded.Work:
+    """The returned work as the debrief sees it: its course, the exam it was, and the cards he holds for it."""
+    course = course_for(doc, t.courses, None)
+    if course is None:
+        raise PipelineError(f"can't tell the course of {doc.title!r}")
+    ref = graded.work_ref(doc.title)
+    kind, number = ref if ref else ("homework" if doc.document_type == t.assignment_type else "exam", None)
+    exam = graded.match_exam(svc.con, course, number, doc.added) if kind == "exam" else None
+    lectures: list[int] = sorted(json.loads(exam["lectures"])) if exam and exam.get("lectures") else []
+    existing: dict[str, Any] = {"items": []}
+    if lectures:
+        existing = await svc.core.call("anki_notes_search", {
+            "query": " OR ".join(f"tag:course::{course.lower()}::l{n:02d}*" for n in lectures), "limit": 100})
+    return graded.Work(doc.id, course, kind, number, doc.title, svc.paperless.link(doc.id), exam,
+                       tuple(graded.lecture_tags(svc.con, course)),
+                       tuple(dedupe.normalize(str(i["first_field"])) for i in existing.get("items", [])),
+                       tuple(await svc.paperless.notes(doc.id)))
+
+
+async def land_debrief(svc: Services, work: graded.Work, found: graded.Debrief, invalid: int) -> Outcome:
+    """Propose the misses' cards (held for review), keep the mistakes in the Ledger, and write the stub's debrief."""
     by_question = {m.question: graded.cards_of(m, work.link) for m in found.misses}
     cards = [c for cs in by_question.values() for c in cs]
-    out = Outcome(doc.id)
+    course, doc_id = work.course, work.doc_id
+    out = Outcome(doc_id)
     carded: dict[str, list[str]] = {}
     if cards:
-        source = Source(kind="homework" if work.kind == "homework" else "exam", course=course, ref=doc.title,
+        source = Source(kind="homework" if work.kind == "homework" else "exam", course=course, ref=work.title,
                         link=work.link)
         out = await check_and_propose(svc, Payload(source=source, cards=cards), "paperless", work.card_kind, False,
-                                      doc.id, hold=True)
+                                      doc_id, hold=True)
         drafts = {next(iter(d.fields.values()), ""): d.mnemosyne_id
                   for d in store.batch_drafts(svc.con, out.batch_id or "")}
         carded = {q: [mid for c in cs if (mid := drafts.get(next(iter(c.fields.values()), "")))]
                   for q, cs in by_question.items()}
-    out.invalid = len(problems)
+    out.invalid = invalid
     graded.save(svc.con, work, found, carded)
     if svc.notes_dir is not None:
         try:
-            obsidian.sync_doc(svc.con, svc.notes_dir, doc.id)
+            obsidian.sync_doc(svc.con, svc.notes_dir, doc_id)
         except OSError as e:
-            log.warning("debrief_note_failed", doc=doc.id, error=str(e)[:200])
-    log.info("graded_processed", doc=doc.id, title=doc.title, earned=found.earned, possible=found.possible,
+            log.warning("debrief_note_failed", doc=doc_id, error=str(e)[:200])
+    log.info("graded_processed", doc=doc_id, title=work.title, earned=found.earned, possible=found.possible,
              misses=len(found.misses), kinds=[m.kind for m in found.misses], cards=len(cards),
              unconfirmed=sum(not m.confirmed for m in found.misses))
     return out
+
+
+async def finish_graded(svc: Services, doc: Doc, t: Tags, attempts: int) -> None:
+    record_job(svc.con, doc.id, "done", attempts + 1, kind="graded")
+    await svc.paperless.add_tag(doc.id, t.done)
+    await svc.paperless.remove_tag(doc.id, t.error)      # an earlier failed try may have tagged it
 
 
 async def run_graded(svc: Services, doc: Doc, t: Tags, again: bool = False) -> Outcome | None:
@@ -801,9 +858,7 @@ async def run_graded(svc: Services, doc: Doc, t: Tags, again: bool = False) -> O
         if charged(e) and tries >= MAX_ATTEMPTS:
             await svc.paperless.add_tag(doc.id, t.error)
         return None
-    record_job(svc.con, doc.id, "done", attempts + 1, kind="graded")
-    await svc.paperless.add_tag(doc.id, t.done)
-    await svc.paperless.remove_tag(doc.id, t.error)      # an earlier failed try may have tagged it
+    await finish_graded(svc, doc, t, attempts)
     return out
 
 

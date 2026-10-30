@@ -24,7 +24,21 @@ from fastapi import BackgroundTasks, Depends, FastAPI, File, Form, Header, HTTPE
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, PlainTextResponse
 from pydantic import BaseModel
 
-from mnemosyne import audio, clips, graded, learner, library, merge, papers, prep, reviews, telegram, videos, weekly
+from mnemosyne import (
+    audio,
+    clips,
+    graded,
+    learner,
+    library,
+    merge,
+    neighbors,
+    papers,
+    prep,
+    reviews,
+    telegram,
+    videos,
+    weekly,
+)
 from mnemosyne import questions as qstore
 from mnemosyne.anki.core_client import AnkiCoreError, Core, CoreClient
 from mnemosyne.cards import TAG, Payload, Schema
@@ -37,10 +51,12 @@ from mnemosyne.ingest.paperless import Doc, Paperless
 from mnemosyne.ledger import db, store
 from mnemosyne.pipeline import (
     PipelineError,
+    Rejected,
     Services,
     ask_hyperion,
     build_map,
     check_and_propose,
+    debrief_written,
     ebook,
     failure_key,
     failure_text,
@@ -220,7 +236,8 @@ class State:
         clip videos whose time is up (media only, never the collection)."""
         steps: list[tuple[str, Callable[[], Awaitable[Any]]]] = [
             ("leech_finish", self.leech_finish), ("leech_doctor", self.leech_doctor), ("metrics", self.metrics),
-            ("learner_snapshot", self.learner_snapshot), ("clip_expiry", self.clip_expiry)]
+            ("learner_snapshot", self.learner_snapshot), ("clip_expiry", self.clip_expiry),
+            ("neighbors_index", self.neighbors_index)]
         if self.today().weekday() == 6:
             steps.append(("weekly_report", self.weekly_report))
         for name, step in steps:
@@ -267,6 +284,16 @@ class State:
     async def clip_expiry(self) -> None:
         cleared = clips.expire(self.con, self.settings.media_roots, clips.default_keep(self.settings.config_dir))
         log.info("clip_expiry", cleared=len(cleared), slugs=cleared)
+
+    def neighbors_config(self) -> neighbors.Config:
+        return neighbors.Config.load(self.settings.config_dir / "llm.yaml")
+
+    async def neighbors_index(self) -> dict[str, int]:
+        """The semantic-neighbours index (docs/embeddings.md): reads the collection, writes only the Ledger."""
+        cfg = self.neighbors_config()
+        if self.core is None or not cfg.enabled:
+            return {"skipped": 1}
+        return await neighbors.refresh(self.con, self.core, self.settings.ollama_url, cfg.model)
 
     async def learner_snapshot(self) -> dict[str, Any]:
         if self.core is None:
@@ -410,7 +437,8 @@ def create_app(settings: Settings, core: Core | None = None, con: sqlite3.Connec
     state = State(settings, con, schema, core)
     if core is not None and (ptoken := read_secret(settings.paperless_token_file)):
         state.pipeline = Services(con, schema, core, Router(settings.config_dir / "llm.yaml"),
-                                  OllamaEmbedder(settings.ollama_url),
+                                  OllamaEmbedder(settings.ollama_url,
+                                                 neighbors.Config.load(settings.config_dir / "llm.yaml").dedupe_model),
                                   Paperless(settings.paperless_url, ptoken, settings.paperless_public_url),
                                   settings.repo, settings.skill_dir, settings.stubs_dir,
                                   HyperionClient(settings.helios_mcp_url) if settings.helios_mcp_url else None,
@@ -1164,6 +1192,30 @@ def create_app(settings: Settings, core: Core | None = None, con: sqlite3.Connec
             raise HTTPException(503, "anki-core isn't configured")
         return await learner.search(state.core, q, max(1, min(limit, 50)))
 
+    @app.get("/learner/neighbors")
+    async def learner_neighbors(_: Proposer, q: str | None = None, card_id: int | None = None,
+                                k: int = 10) -> dict[str, Any]:
+        """Cards that mean the same as `q` (or as card `card_id`), each with Aman's memory of it. Off unless
+        `embeddings.neighbors` is on in llm.yaml."""
+        cfg = state.neighbors_config()
+        if not cfg.enabled:
+            raise HTTPException(404, "semantic neighbours are off (embeddings.neighbors in config/llm.yaml)")
+        if state.core is None:
+            raise HTTPException(503, "anki-core isn't configured")
+        try:
+            return await neighbors.search(state.con, state.core, cfg, settings.ollama_url, q, card_id,
+                                          max(1, min(k, 50)))
+        except (LookupError, ValueError) as e:
+            raise HTTPException(400, str(e)) from e
+
+    @app.post("/neighbors/refresh")
+    async def neighbors_refresh(_: Approver) -> dict[str, int]:
+        """Rebuild the neighbours index now instead of at 04:15."""
+        if state.core is None:
+            raise HTTPException(503, "anki-core isn't configured")
+        cfg = state.neighbors_config()
+        return await neighbors.refresh(state.con, state.core, settings.ollama_url, cfg.model)
+
     @app.get("/learner/exams")
     async def learner_exams(_: Proposer, days: int = 60) -> list[dict[str, Any]]:
         if state.core is None:
@@ -1241,6 +1293,25 @@ def create_app(settings: Settings, core: Core | None = None, con: sqlite3.Connec
 
         background.add_task(run)
         return {"queued": True, "doc_id": doc_id, "title": doc.title}
+
+    @app.post("/graded/{doc_id}/written")
+    async def graded_written(doc_id: int, body: dict[str, Any], _: Approver) -> dict[str, Any]:
+        """A debrief written in a Claude session, in the format the model returns, for work the pipeline couldn't
+        debrief (stuck.md). Checked like the model's; any problem comes back with nothing written."""
+        pipeline = state.pipeline
+        if pipeline is None:
+            raise HTTPException(503, "pipeline not configured")
+        doc = await pipeline.paperless.document(doc_id)
+        async with state.poll_lock:
+            try:
+                out = await debrief_written(pipeline, doc, await tags(pipeline), body)
+            except Rejected as e:
+                raise HTTPException(422, {"problems": e.problems}) from e
+            except PipelineError as e:
+                raise HTTPException(400, str(e)) from e
+        state.sync_notes(doc_id)
+        return {"doc_id": doc_id, "title": doc.title, "batch_id": out.batch_id, "created": out.created,
+                "duplicates": out.duplicates, "mistakes": len(graded.mistakes_for(state.con, doc_id))}
 
     @app.get("/papers")
     async def papers_list(_: Proposer) -> dict[str, Any]:
