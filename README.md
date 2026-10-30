@@ -1,5 +1,7 @@
 # mnemosyne
 
+>(NOTE: This cut is almost entirely AI-maintained and updated)
+
 > **This is the public cut** of a private repo. The code, canon, skills, and docs are all here. Aman's own record
 > is not: the collection's audits and run diffs, his status and exam dates, weekly audit records, and the exam
 > prep (the exam skill's examples and `docs/exam-prep/`), which is built from his courses' material. The design
